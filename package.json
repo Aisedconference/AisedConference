@@ -1,0 +1,12 @@
+{
+  "name": "aised-conference-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static landing page for AiSED International Conference 2026.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 160" role="img" aria-labelledby="title desc">
+  <title id="title">AeU</title>
+  <desc id="desc">Temporary Asia e University partner logo</desc>
+  <rect width="360" height="160" rx="24" fill="#ffffff"/>
+  <circle cx="76" cy="80" r="38" fill="#2563eb"/>
+  <text x="76" y="92" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="900" fill="#ffffff">Ae</text>
+  <text x="188" y="88" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="50" font-weight="900" fill="#1e3a8a">AeU</text>
+  <text x="188" y="120" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800" fill="#5f6b7a">Asia e University</text>
+</svg>

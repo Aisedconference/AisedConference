@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 160" role="img" aria-labelledby="title desc">
+  <title id="title">UCSI</title>
+  <desc id="desc">Temporary UCSI partner logo</desc>
+  <rect width="360" height="160" rx="24" fill="#ffffff"/>
+  <rect x="56" y="42" width="70" height="76" rx="16" fill="#ef4444"/>
+  <text x="91" y="92" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="900" fill="#ffffff">U</text>
+  <text x="212" y="88" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="50" font-weight="900" fill="#991b1b">UCSI</text>
+  <text x="212" y="120" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800" fill="#5f6b7a">University</text>
+</svg>
