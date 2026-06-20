@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registration | AiSED International Conference 2026</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="AiSED home">
+      <img src="assets/aised-logo.png" alt="AiSED">
+      <span>AiSED 2026<small>Conference Portal</small></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="submission.html">Paper Submission</a>
+      <div class="nav-group">
+        <a class="nav-parent" href="programme.html">Programme</a>
+        <div class="nav-dropdown" aria-label="Programme submenu">
+          <a href="speakers.html">Speakers</a>
+        </div>
+      </div>
+      <a href="registration.html">Register</a>
+    </nav>
+  </header>
+
+  <a class="home-return" href="index.html" aria-label="Go back to main page">Back to Main Page</a>
+
+  <main>
+    <section class="page-hero">
+      <p class="eyebrow">Participate</p>
+      <h1>Registration portal.</h1>
+      <p>Start with a registration category, then follow the guided steps to the correct form.</p>
+    </section>
+
+    <section class="section registration-section">
+      <p class="eyebrow">Registration</p>
+      <h2>Choose your registration route.</h2>
+      <p class="section-intro">Pick the option that best matches your role. The next step will guide you to the right details.</p>
+
+      <div class="registration-wizard" id="registration-wizard">
+        <div class="wizard-panel" data-step="category">
+          <h3>How would you like to join?</h3>
+          <div class="wizard-options">
+            <button type="button" data-category="call-papers"><span>01</span><strong>CALL FOR PAPERS</strong><p>For academics and postgraduate students submitting or attending academic paper sessions.</p><em>Choose this for presenter or non-presenter paper registration.</em></button>
+            <button type="button" data-category="participants"><span>02</span><strong>PARTICIPANTS</strong><p>For HRD Corp claimable participants, corporate sector delegates and government agencies.</p><em>Choose this for professional conference participation.</em></button>
+            <button type="button" data-category="invited-guests"><span>03</span><strong>INVITED GUESTS</strong><p>For invited dignitaries, VIPs, special guests and official guests of the conference.</p><em>Choose this for invitation-based registration.</em></button>
+            <button type="button" data-category="partners"><span>04</span><strong>PARTNERS</strong><p>For organisations supporting the conference through strategic, media or ecosystem collaboration.</p><em>Choose this for partnership registration.</em></button>
+          </div>
+        </div>
+
+        <div class="wizard-panel" data-step="subsection" hidden>
+          <button class="text-link wizard-back" type="button" data-back="category">Back</button>
+          <h3>CALL FOR PAPERS</h3>
+          <div class="call-paper-info">
+            <article class="call-paper-block wide">
+              <span>Conference theme</span>
+              <strong>Harnessing AI, Empowering Innovation, Advancing Sustainable Futures Through Entrepreneurship and Diplomacy.</strong>
+              <p>Researchers, academics, postgraduate students, policymakers, industry practitioners and professionals are invited to submit original and unpublished papers related to the conference theme and thematic tracks.</p>
+            </article>
+
+            <article class="call-paper-block wide">
+              <span>Thematic tracks</span>
+              <div class="mini-track-grid">
+                <p>AI for Sustainable Development</p>
+                <p>Sustainable Entrepreneurship and Innovation</p>
+                <p>AI and Digital Transformation in Business</p>
+                <p>Diplomacy in the AI Era</p>
+                <p>Policy, Governance and Ethics of AI</p>
+                <p>Green Economy and Circular Business Models</p>
+                <p>Education, Skills and AI for Future Work</p>
+                <p>Smart Cities and Sustainable Societies</p>
+                <p>AI for Health, Well-being and Human Security</p>
+                <p>Global Collaboration and Future Diplomacy</p>
+              </div>
+            </article>
+
+            <article class="call-paper-block">
+              <span>Paper types</span>
+              <ul>
+                <li>Conceptual papers</li>
+                <li>Empirical research papers</li>
+                <li>Case studies</li>
+                <li>Policy analyses</li>
+                <li>Innovation and industry papers</li>
+                <li>Applied research and best practice papers</li>
+              </ul>
+            </article>
+
+            <article class="call-paper-block">
+              <span>Guidelines</span>
+              <ul>
+                <li>Abstracts: 250 - 300 words</li>
+                <li>Full papers: 4,000 - 6,000 words</li>
+                <li>Language: English</li>
+                <li>Original, unpublished work only</li>
+                <li>Peer-review and editorial evaluation</li>
+                <li>Authors should align papers with the conference thematic tracks</li>
+                <li>Selected papers may be considered for indexed publication opportunities</li>
+                <li>Paper templates, review guidelines and publication updates will be announced through official conference channels</li>
+              </ul>
+            </article>
+          </div>
+
+          <h3>Who is registering?</h3>
+          <div class="wizard-options">
+            <button type="button" data-subsection="Academics"><strong>Academics</strong><em>Faculty, researchers and academic presenters</em></button>
+            <button type="button" data-subsection="Postgraduate Students"><strong>Postgraduate Students</strong><em>Master's and doctoral students</em></button>
+          </div>
+        </div>
+
+        <div class="wizard-panel" data-step="type" hidden>
+          <button class="text-link wizard-back" type="button" data-back="subsection">Back</button>
+          <h3>Will you present a paper?</h3>
+          <div class="wizard-options">
+            <button type="button" data-registration-type="Presenter"><strong>Presenter</strong><em>Submit paper details and attachment</em></button>
+            <button type="button" data-registration-type="Non-Presenter"><strong>Non-Presenter</strong><em>Attend without paper presentation</em></button>
+          </div>
+        </div>
+
+        <div class="wizard-panel" data-step="partner-type" hidden>
+          <button class="text-link wizard-back" type="button" data-back="category">Back</button>
+          <h3>Choose partner category</h3>
+          <div class="wizard-options">
+            <button type="button" data-partner-type="Strategic Partners"><strong>Strategic Partners</strong><em>High-level institutional and programme collaboration</em></button>
+            <button type="button" data-partner-type="Media Partners"><strong>Media Partners</strong><em>Media coverage, visibility and communication support</em></button>
+            <button type="button" data-partner-type="Ecosystem Partners"><strong>Ecosystem Partners</strong><em>Network, community and innovation ecosystem support</em></button>
+          </div>
+        </div>
+
+        <div class="wizard-panel form-panel" data-step="form" hidden>
+          <button class="text-link wizard-back" type="button" data-back="previous">Back</button>
+          <h3>Your details</h3>
+          <p class="wizard-summary" id="registration-summary"></p>
+          <form class="action-form" id="registration-wizard-form">
+            <div class="dynamic-fields" id="registration-fields"></div>
+            <button class="primary-button" type="submit">Submit Registration</button>
+            <p class="form-status" id="registration-status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div><strong>AiSED International Conference 2026</strong><span>For enquiries, please contact info@aisedconference.org</span></div>
+      <div><strong>Conference</strong><a href="programme.html">Programme</a><a href="speakers.html">Speakers</a></div>
+      <div><strong>Participate</strong><a href="registration.html">Registration</a><a href="submission.html">Paper Submission</a></div>
+      <div><strong>Partners</strong><a href="partners.html">Partnership</a><a href="venue.html">Venue</a></div>
+    </div>
+  </footer>
+
+  <script src="config.js?v=20260617-portal"></script>
+  <script src="app.js?v=20260617-portal"></script>
+</body>
+</html>
