@@ -53,6 +53,13 @@ textarea {
   background: var(--panel);
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: #8f9791;
+  font-size: 0.84rem;
+  font-weight: 400;
+}
+
 textarea {
   resize: vertical;
 }
@@ -65,8 +72,8 @@ textarea {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  min-height: 76px;
-  padding: 12px clamp(18px, 5vw, 72px);
+  min-height: 104px;
+  padding: 14px clamp(18px, 5vw, 72px);
   color: var(--blue-dark);
   background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid var(--line);
@@ -87,24 +94,26 @@ nav a,
   display: flex;
   align-items: center;
   gap: 12px;
-  min-width: max-content;
+  min-width: 0;
   color: var(--blue-dark);
 }
 
 .brand img {
-  width: 74px;
-  height: 44px;
+  width: clamp(210px, 24vw, 360px);
+  height: auto;
+  max-height: 86px;
   object-fit: contain;
-  padding: 4px;
-  border-radius: 8px;
-  background: #ffffff;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .brand span {
   display: grid;
   gap: 2px;
+  max-width: 360px;
   font-weight: 900;
-  line-height: 1;
+  line-height: 1.08;
 }
 
 .brand small {
@@ -216,19 +225,30 @@ nav a:focus-visible,
 }
 
 .hero {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(300px, 0.55fr);
   gap: clamp(28px, 5vw, 70px);
   align-items: center;
+  overflow: hidden;
   min-height: calc(100vh - 76px);
   padding: 62px clamp(18px, 6vw, 86px);
   color: var(--ink);
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.96), rgba(255, 250, 241, 0.78)),
-    url("assets/conference-cover.png") center / cover;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.96), rgba(255, 250, 241, 0.84));
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("assets/aised-home-hero-watermark.png") center / min(92vw, 1180px) auto no-repeat;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .hero-copy {
+  position: relative;
+  z-index: 1;
   max-width: 920px;
 }
 
@@ -291,6 +311,10 @@ h2 {
   margin-top: 30px;
 }
 
+.compact-actions {
+  margin-top: 6px;
+}
+
 .primary-button,
 .secondary-button,
 .text-link {
@@ -350,6 +374,8 @@ h2 {
 }
 
 .hero-art {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-height: 72vh;
   object-fit: contain;
@@ -573,6 +599,65 @@ h3 {
   line-height: 1.52;
 }
 
+.publication-panel,
+.fee-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.publication-panel {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.publication-panel article,
+.fee-card {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  box-shadow: 0 8px 26px rgba(39, 49, 44, 0.06);
+}
+
+.publication-panel strong,
+.fee-card strong {
+  color: var(--blue-dark);
+  font-size: 1.22rem;
+  line-height: 1.18;
+}
+
+.publication-panel p,
+.fee-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.48;
+}
+
+.fee-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.fee-card span {
+  color: var(--cyan);
+  font-size: 0.78rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fee-card strong {
+  margin-top: 4px;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+}
+
+.fee-note {
+  margin: 14px 0 0;
+  color: var(--green);
+  font-weight: 900;
+}
+
 .portal-card,
 .date-card,
 .speaker-card,
@@ -678,9 +763,15 @@ h3 {
 }
 
 .royal-avatar {
-  width: 86px;
-  height: 86px;
-  background: linear-gradient(135deg, var(--gold), var(--blue-dark));
+  width: 132px;
+  height: 132px;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  padding: 4px;
+  border: 2px solid rgba(194, 154, 40, 0.72);
+  background: #ffffff;
+  box-shadow: 0 16px 34px rgba(18, 54, 37, 0.18);
 }
 
 .status-pill.light {
@@ -696,6 +787,19 @@ h3 {
   border-radius: 10px;
   background: var(--panel);
   box-shadow: var(--shadow);
+}
+
+.agenda-disclaimer {
+  width: max-content;
+  max-width: 100%;
+  margin: 0 0 16px;
+  padding: 9px 14px;
+  border: 1px solid rgba(244, 182, 63, 0.48);
+  border-radius: 999px;
+  color: var(--blue-dark);
+  background: #fff8df;
+  font-size: 0.86rem;
+  font-weight: 850;
 }
 
 .programme-matrix {
@@ -764,8 +868,8 @@ h3 {
 .registration-section {
   color: var(--ink);
   background:
-    linear-gradient(135deg, rgba(255, 250, 241, 0.96), rgba(244, 237, 218, 0.9)),
-    url("assets/conference-cover.png") center / cover;
+    linear-gradient(135deg, rgba(255, 250, 241, 0.98), rgba(244, 237, 218, 0.94)),
+    url("assets/aised-watermark.png") right clamp(18px, 6vw, 86px) bottom 52px / min(72vw, 760px) auto no-repeat;
 }
 
 .registration-section .section-intro,
@@ -808,7 +912,7 @@ h3 {
 .wizard-options button {
   min-height: 172px;
   display: grid;
-  align-content: center;
+  align-content: start;
   justify-items: start;
   gap: 10px;
   padding: 20px;
@@ -869,6 +973,62 @@ h3 {
   gap: 13px;
 }
 
+.form-divider {
+  display: grid;
+  gap: 4px;
+  margin-top: 6px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.form-divider strong {
+  color: var(--green);
+  font-size: 1.05rem;
+}
+
+.form-divider span {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.portrait-guide,
+.bio-guide {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fffaf1;
+}
+
+.portrait-guide strong,
+.bio-guide strong {
+  color: var(--green);
+  font-size: 1rem;
+  font-weight: 750;
+}
+
+.portrait-guide p,
+.bio-guide p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.bio-guide a {
+  color: var(--green);
+  font-weight: 750;
+}
+
+.portrait-guide img {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
 .field-note {
   margin: 0;
   color: var(--muted);
@@ -882,13 +1042,102 @@ h3 {
   gap: 14px;
 }
 
+.call-paper-audience {
+  grid-template-columns: repeat(2, minmax(220px, 360px));
+  justify-content: start;
+  margin-bottom: 18px;
+}
+
+.call-paper-audience button {
+  min-height: 86px;
+  gap: 6px;
+  padding: 14px 18px;
+  border-radius: 9px;
+}
+
+.call-paper-audience strong {
+  font-size: 1rem;
+}
+
+.call-paper-audience em {
+  font-size: 0.78rem;
+}
+
+.call-paper-detail-zone {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid rgba(22, 89, 57, 0.16);
+  border-radius: 12px;
+  background: #21520f;
+}
+
+.call-paper-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+
+.call-paper-flow div {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-height: 142px;
+  padding: 18px;
+  border: 1px solid rgba(194, 154, 40, 0.34);
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ffffff, #fff9e8);
+  box-shadow: 0 8px 24px rgba(39, 49, 44, 0.06);
+}
+
+.call-paper-flow div:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  width: 16px;
+  height: 16px;
+  border-top: 3px solid var(--gold);
+  border-right: 3px solid var(--gold);
+  background: #fff9e8;
+  transform: translateY(-50%) rotate(45deg);
+  z-index: 1;
+}
+
+.call-paper-flow span {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  color: #ffffff;
+  background: var(--green);
+  font-size: 0.82rem;
+  font-weight: 950;
+}
+
+.call-paper-flow strong {
+  color: var(--blue-dark);
+  font-size: 0.98rem;
+  line-height: 1.35;
+}
+
+.call-paper-flow p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.42;
+}
+
 .call-paper-block {
   display: grid;
   gap: 10px;
   padding: 18px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(194, 154, 40, 0.28);
   border-radius: 10px;
-  background: #fffaf1;
+  background: rgba(255, 255, 255, 0.84);
 }
 
 .call-paper-block.wide {
@@ -1139,8 +1388,8 @@ h3 {
 label {
   display: grid;
   gap: 6px;
-  color: var(--ink);
-  font-weight: 800;
+  color: #53635b;
+  font-weight: 650;
 }
 
 .action-form .primary-button {
@@ -1173,6 +1422,12 @@ label {
 
 .submit-panel .primary-button {
   width: fit-content;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .simple-list,
@@ -1226,10 +1481,24 @@ label {
 }
 
 .page-hero {
+  position: relative;
+  overflow: hidden;
   color: #ffffff;
-  background:
-    linear-gradient(135deg, rgba(31, 52, 40, 0.96), rgba(36, 88, 58, 0.94)),
-    url("assets/conference-cover.png") center / cover;
+  background: linear-gradient(135deg, rgba(31, 52, 40, 0.96), rgba(36, 88, 58, 0.94));
+}
+
+.page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("assets/aised-home-hero-watermark.png") right clamp(18px, 6vw, 86px) center / min(76vw, 920px) auto no-repeat;
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.page-hero > * {
+  position: relative;
+  z-index: 1;
 }
 
 .page-hero h1 {
@@ -1257,7 +1526,7 @@ label {
 
 .logo-wall {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 14px;
 }
 
@@ -1289,7 +1558,7 @@ label {
 
 .logo-card img {
   width: min(100%, 220px);
-  max-height: 96px;
+  max-height: 112px;
   object-fit: contain;
 }
 
@@ -1369,9 +1638,12 @@ label {
   .speaker-grid,
   .pricing-grid,
   .logo-wall,
+  .publication-panel,
+  .fee-grid,
   .wizard-progress,
   .wizard-options,
   .call-paper-info,
+  .call-paper-flow,
   .mini-track-grid,
   .registration-tiers,
   .tier-grid,
@@ -1384,6 +1656,17 @@ label {
   .guest-card {
     grid-column: auto;
     grid-row: auto;
+  }
+
+  .call-paper-flow div {
+    min-height: auto;
+  }
+
+  .call-paper-flow div:not(:last-child)::after {
+    top: auto;
+    right: 50%;
+    bottom: -11px;
+    transform: translateX(50%) rotate(135deg);
   }
 
   .section-head {
@@ -1401,12 +1684,9 @@ label {
   }
 
   .brand img {
-    width: 64px;
-    height: 38px;
-  }
-
-  .brand span {
-    font-size: 0.9rem;
+    width: min(78vw, 340px);
+    height: auto;
+    max-height: 110px;
   }
 
   nav {

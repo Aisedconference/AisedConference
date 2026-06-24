@@ -18,14 +18,22 @@ const registrationState = {
   type: ""
 };
 
+const maxAttachmentSize = 8 * 1024 * 1024;
+
 function getSavedForms() {
   return JSON.parse(localStorage.getItem(storageKey) || "[]");
 }
 
-function saveForm(type, data) {
+function makeReference(type) {
+  const stamp = new Date();
+  const date = stamp.toISOString().slice(2, 10).replaceAll("-", "");
+  const suffix = String(stamp.getTime()).slice(-5);
+  return `${type.slice(0, 3).toUpperCase()}-${date}-${suffix}`;
+}
+
+function saveForm(type, data, reference = makeReference(type), status = "local") {
   const items = getSavedForms();
-  const reference = `${type.slice(0, 3).toUpperCase()}-${String(Date.now()).slice(-6)}`;
-  items.unshift({ reference, type, data, submittedAt: new Date().toISOString() });
+  items.unshift({ reference, type, status, data, submittedAt: new Date().toISOString() });
   localStorage.setItem(storageKey, JSON.stringify(items));
   return reference;
 }
@@ -75,17 +83,58 @@ function buildSelect(name, label, options, required = true) {
   `;
 }
 
+function getFieldLabel(input) {
+  const label = input.closest("label");
+  if (!label) return input.name;
+  const textNode = Array.from(label.childNodes).find((node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim());
+  return textNode?.textContent.trim() || input.name;
+}
+
+function getRegistrationEndpoint() {
+  return window.AISED_CONFIG?.registrationEndpoint || "";
+}
+
+function fileToPayload(file) {
+  return new Promise((resolve, reject) => {
+    if (!file) {
+      resolve(null);
+      return;
+    }
+
+    if (file.size > maxAttachmentSize) {
+      reject(new Error("Attachment must be below 8MB."));
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      resolve({
+        name: file.name,
+        type: file.type || "application/octet-stream",
+        size: file.size,
+        data: String(reader.result).split(",").pop()
+      });
+    });
+    reader.addEventListener("error", () => reject(new Error("Could not read the attachment.")));
+    reader.readAsDataURL(file);
+  });
+}
+
 function getRegistrationLabel() {
   if (registrationState.category === "call-papers") {
     return `Call for Papers / ${registrationState.subsection} / ${registrationState.type}`;
   }
 
   if (registrationState.category === "participants") {
-    return "Participants / HRD Corp Claimable / Corporate Sector / Government Agencies";
+    return `Participants / ${registrationState.type}`;
   }
 
   if (registrationState.category === "partners") {
     return `Partners / ${registrationState.type}`;
+  }
+
+  if (registrationState.category === "invited-guests") {
+    return `Invited Guests / ${registrationState.type}`;
   }
 
   return "Invited Guests";
@@ -98,16 +147,16 @@ function renderRegistrationFields() {
 
   summary.textContent = getRegistrationLabel();
 
-  const commonFields = [
+  let commonFields = [
     `<input type="hidden" name="registration_category" value="${registrationState.category}">`,
     `<input type="hidden" name="registration_subsection" value="${registrationState.subsection}">`,
     `<input type="hidden" name="registration_type" value="${registrationState.type}">`,
     buildSelect("title", "Title", ["Prof.", "Dr.", "Mr.", "Ms.", "Mrs.", "Dato'", "Datin", "Tan Sri", "Other"]),
-    buildField("name", "Full name"),
-    buildField("email", "Email", "email"),
-    buildField("phone", "Contact number"),
-    buildField("organisation", "Organisation"),
-    buildField("position", "Position / Designation", "text", false)
+    buildField("name", "Full name", "text", true, `placeholder="e.g, John Smith"`),
+    buildField("email", "Email", "email", true, `placeholder="e.g, name@example.com"`),
+    buildField("phone", "Contact number", "tel", true, `placeholder="e.g, +60 12-345 6789"`),
+    buildField("organisation", "Organisation", "text", true, `placeholder="e.g, Asia e University"`),
+    buildField("position", "Position / Designation", "text", true, `placeholder="e.g, Director / Lecturer / Manager"`)
   ];
 
   let routeFields = "";
@@ -115,10 +164,9 @@ function renderRegistrationFields() {
   if (registrationState.category === "call-papers") {
     routeFields = `
       ${registrationState.type === "Presenter" ? `
-        ${buildField("paper_title", "Paper title")}
-        <label>Abstract<textarea name="abstract" rows="4" required></textarea></label>
+        ${buildField("paper_title", "Paper title", "text", true, `placeholder="e.g, AI for Sustainable Entrepreneurship in ASEAN"`)}
+        <label>Abstract<textarea name="abstract" rows="4" required placeholder="e.g, 250-300 word abstract summary"></textarea></label>
         <label>Paper attachment<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
-        <p class="field-note">Attachment upload is prepared for Google Drive integration. Final online storage requires a connected Google Form or secure upload endpoint.</p>
       ` : `
         ${buildSelect("attendance_interest", "Attendance interest", ["Academic sessions", "Keynotes and forums", "Networking", "Full conference"])}
       `}
@@ -126,38 +174,157 @@ function renderRegistrationFields() {
   }
 
   if (registrationState.category === "participants") {
+    const selectedParticipantType = registrationState.type || "Non-HRD Corp Claimable";
+    const participantHiddenField = `<input type="hidden" name="participant_sector" value="${selectedParticipantType}">`;
+
+    let participantFields = "";
+
+    if (selectedParticipantType === "HRD Corp Claimable") {
+      commonFields = commonFields.slice(0, 3);
+      participantFields = `
+        ${buildField("organisation", "1. Company Name", "text", true, `placeholder="e.g, ABC Training Sdn Bhd"`)}
+        ${buildField("hrd_employer_id", "2. HRD Corp Employer Code", "text", true, `placeholder="e.g, NA if not registered with HRD Corp"`)}
+        <label>3. HRD Corp Claimable Courses (HRD CC)
+          <textarea name="hrd_claimable_course" rows="4" required placeholder="e.g, Pending for SBL-Khas application or N/A if not applying"></textarea>
+        </label>
+        <div class="form-divider"><strong>4. Participant Information</strong><span>Please provide the details of the participant attending the conference.</span></div>
+        ${buildField("name", "A. Full Name", "text", true, `placeholder="e.g, John Smith"`)}
+        ${buildField("participant_id_number", "B. MyKad / IC Number / Passport Number", "text", true, `placeholder="e.g, 900101-10-1234 or A12345678"`)}
+        ${buildField("email", "C. Email Address", "email", true, `placeholder="e.g, participant@example.com"`)}
+        ${buildField("phone", "D. Contact Number", "tel", true, `placeholder="e.g, 016-XXX"`)}
+        ${buildField("position", "E. Position", "text", true, `placeholder="e.g, HR Manager"`)}
+        <div class="form-divider"><strong>Company Contact Information</strong><span>Please provide contact details to ensure smooth communication, especially for HRD Corp matters.</span></div>
+        ${buildField("billing_contact", "1. Contact Person", "text", true, `placeholder="e.g, Nurul Huda"`)}
+        ${buildField("contact_person_position", "2. Contact Person's Position", "text", true, `placeholder="e.g, Training Coordinator"`)}
+        ${buildField("billing_email", "3. Contact Person's Email Address", "email", true, `placeholder="e.g, hr@example.com"`)}
+        ${buildField("billing_phone", "4. Contact Person's Phone Number", "tel", true, `placeholder="e.g, +60 12-345 6789"`)}
+        <label>5. Company Address<textarea name="company_address" rows="4" required placeholder="e.g, Level 10, Menara ABC, Jalan Example, 50450 Kuala Lumpur"></textarea></label>
+      `;
+    } else if (selectedParticipantType === "Government Agencies") {
+      participantFields = `
+        ${buildField("department", "Department / unit", "text", true, `placeholder="e.g, Policy Planning Division"`)}
+        ${buildField("billing_contact", "Administrative contact person", "text", true, `placeholder="e.g, Ahmad Zaki"`)}
+        ${buildField("billing_email", "Administrative email", "email", true, `placeholder="e.g, admin@agency.gov.my"`)}
+        ${buildField("reference_no", "Purchase order / reference no.", "text", true, `placeholder="e.g, PO-2026-001"`)}
+        <label>Official notes<textarea name="participant_notes" rows="4" required placeholder="e.g, protocol, billing or approval notes"></textarea></label>
+      `;
+    } else {
+      participantFields = `
+        ${buildField("company_registration", "Company registration no.", "text", true, `placeholder="e.g, 202001234567"`)}
+        ${buildField("billing_contact", "Billing contact person", "text", true, `placeholder="e.g, Michelle Tan"`)}
+        ${buildField("billing_email", "Billing email", "email", true, `placeholder="e.g, finance@example.com"`)}
+        ${buildField("reference_no", "Purchase order / reference no.", "text", true, `placeholder="e.g, PO-2026-001"`)}
+        <label>Delegate notes<textarea name="participant_notes" rows="4" required placeholder="e.g, invoice, accessibility or other important notes"></textarea></label>
+      `;
+    }
+
     routeFields = `
-      ${buildSelect("participant_sector", "Participant sector", ["HRD Corp Claimable", "Corporate Sector", "Government Agency"])}
-      ${buildField("billing_contact", "Billing / HR contact", "text", false)}
-      ${buildField("company_registration", "Company / agency registration no.", "text", false)}
+      ${participantHiddenField}
+      ${participantFields}
     `;
   }
 
   if (registrationState.category === "invited-guests") {
     routeFields = `
-      ${buildSelect("guest_type", "Invitation type", ["Royal / VIP Guest", "Speaker Guest", "Institutional Guest", "Media Guest", "Other"])}
-      <label>Invitation note<textarea name="invitation_note" rows="4" placeholder="Protocol notes, dietary needs or assistant contact"></textarea></label>
+      <input type="hidden" name="guest_type" value="${registrationState.type}">
+      ${registrationState.type === "Speakers" ? `
+        <div class="portrait-guide">
+          <strong>Professional Speaker Portrait</strong>
+          <p>Please upload a clear head-and-shoulders photo suitable for the speaker profile.</p>
+          <img src="assets/speaker-portrait-guide.jpg" alt="Speaker portrait photo examples">
+          <input name="speaker_photo" type="file" accept="image/png,image/jpeg,image/jpg,image/webp" required>
+        </div>
+        <div class="bio-guide">
+          <strong>Short Speaker Biography</strong>
+          <p>Please write 80-120 words in third person for the speaker profile, including current role, organisation, expertise, and one or two relevant achievements.</p>
+          <textarea name="speaker_biography" rows="5" required placeholder="e.g, John Smith is a policy strategist at Example University. His work focuses on AI governance, sustainable entrepreneurship and regional innovation..."></textarea>
+        </div>
+      ` : `
+        <label>Is there anything we need to take note<textarea name="invitation_note" rows="4" required placeholder="e.g, protocol notes, assistant contact or arrival details"></textarea></label>
+      `}
     `;
   }
 
   if (registrationState.category === "partners") {
+    commonFields = [
+      `<input type="hidden" name="registration_category" value="${registrationState.category}">`,
+      `<input type="hidden" name="registration_subsection" value="${registrationState.subsection}">`,
+      `<input type="hidden" name="registration_type" value="${registrationState.type}">`,
+      `<input type="hidden" name="title" value="">`,
+      `<div class="form-divider"><strong>Organisation Details</strong><span>Please provide the official organisation information for this partnership registration.</span></div>`,
+      buildField("organisation", "Organisation", "text", true, `placeholder="e.g, Asia e University"`),
+      buildField("website", "Organisation website", "url", true, `placeholder="e.g, https://www.example.org"`),
+      `<div class="form-divider"><strong>Organisation Representative</strong><span>Please provide the person in charge for this partnership registration.</span></div>`,
+      buildField("name", "Representative / PIC name", "text", true, `placeholder="e.g, John Smith"`),
+      buildField("position", "Position / Designation", "text", true, `placeholder="e.g, Director / Manager / Coordinator"`),
+      buildField("email", "Representative / PIC email", "email", true, `placeholder="e.g, name@example.com"`),
+      buildField("phone", "Representative / PIC contact number", "tel", true, `placeholder="e.g, +60 12-345 6789"`)
+    ];
+
     routeFields = `
-      ${buildField("partnership_contact", "Partnership contact person", "text", false)}
-      ${buildField("website", "Organisation website", "url", false)}
-      <label>Partnership interest<textarea name="partnership_interest" rows="4" placeholder="Tell us how your organisation would like to collaborate" required></textarea></label>
+      <label>Partnership interest<textarea name="partnership_interest" rows="4" placeholder="e.g, strategic collaboration, media support or ecosystem partnership" required></textarea></label>
+      <div class="form-divider"><strong>Partner Documents</strong><span>Please upload the files required for partnership confirmation.</span></div>
+      <label>Organisation Logo<input name="organisation_logo" type="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/svg+xml,.svg" required></label>
+      <label>Partner Acceptance Letter<input name="partner_acceptance_letter" type="file" accept=".pdf,.doc,.docx,image/png,image/jpeg,image/jpg" required></label>
     `;
   }
 
   fields.innerHTML = `${commonFields.join("")}${routeFields}`;
 }
 
-function readRegistrationForm(form) {
+async function readRegistrationForm(form) {
   const data = Object.fromEntries(new FormData(form).entries());
-  const fileInput = form.querySelector("input[type='file']");
-  if (fileInput?.files?.[0]) {
-    data.attachmentName = fileInput.files[0].name;
+  const fileInputs = Array.from(form.querySelectorAll("input[type='file']"));
+  const attachments = [];
+
+  for (const fileInput of fileInputs) {
+    delete data[fileInput.name];
+
+    if (fileInput.files?.[0]) {
+      const payload = await fileToPayload(fileInput.files[0]);
+      attachments.push({
+        ...payload,
+        field: fileInput.name,
+        label: getFieldLabel(fileInput)
+      });
+    }
+  }
+
+  if (attachments.length) {
+    data.attachments = attachments;
+    data.attachmentName = attachments.map((attachment) => `${attachment.label}: ${attachment.name}`).join(" | ");
+    data.attachment = attachments[0];
   }
   return data;
+}
+
+async function submitRegistration(data) {
+  const reference = makeReference("registration");
+  const payload = {
+    reference,
+    submittedAt: new Date().toISOString(),
+    source: "AiSED website",
+    registrationLabel: getRegistrationLabel(),
+    ...data
+  };
+  const endpoint = getRegistrationEndpoint();
+
+  if (!endpoint) {
+    saveForm("registration", payload, reference, "local-only");
+    return { reference, online: false };
+  }
+
+  await fetch(endpoint, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  saveForm("registration", payload, reference, "sent");
+  return { reference, online: true };
 }
 
 function initRegistrationWizard() {
@@ -196,6 +363,10 @@ function initRegistrationWizard() {
       button.classList.add("active");
       if (registrationState.category === "call-papers") {
         showStep("subsection");
+      } else if (registrationState.category === "participants") {
+        showStep("participant-type");
+      } else if (registrationState.category === "invited-guests") {
+        showStep("guest-type");
       } else if (registrationState.category === "partners") {
         showStep("partner-type");
       } else {
@@ -228,20 +399,50 @@ function initRegistrationWizard() {
       showStep("form");
     }
 
+    if (button.dataset.participantType) {
+      registrationState.subsection = button.dataset.participantType;
+      registrationState.type = button.dataset.participantType;
+      clearActive("[data-participant-type]");
+      button.classList.add("active");
+      renderRegistrationFields();
+      showStep("form");
+    }
+
+    if (button.dataset.guestType) {
+      registrationState.subsection = button.dataset.guestType;
+      registrationState.type = button.dataset.guestType;
+      clearActive("[data-guest-type]");
+      button.classList.add("active");
+      renderRegistrationFields();
+      showStep("form");
+    }
+
     if (button.dataset.back) {
       if (button.dataset.back === "previous") {
-        showStep(registrationState.category === "call-papers" ? "type" : registrationState.category === "partners" ? "partner-type" : "category");
+        showStep(registrationState.category === "call-papers" ? "type" : registrationState.category === "participants" ? "participant-type" : registrationState.category === "invited-guests" ? "guest-type" : registrationState.category === "partners" ? "partner-type" : "category");
       } else {
         showStep(button.dataset.back);
       }
     }
   });
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    const reference = saveForm("registration", readRegistrationForm(form));
-    status.textContent = `Thank you. Reference: ${reference}`;
-    form.reset();
+    const submitButton = form.querySelector("button[type='submit']");
+    submitButton.disabled = true;
+    status.textContent = "Submitting...";
+
+    try {
+      const result = await submitRegistration(await readRegistrationForm(form));
+      status.textContent = result.online
+        ? `Thank you. Reference: ${result.reference}. Your confirmation email will be sent shortly.`
+        : `Thank you. Reference: ${result.reference}. Submission is saved locally until the Google database endpoint is connected.`;
+      form.reset();
+    } catch (error) {
+      status.textContent = error.message || "Submission could not be completed. Please try again.";
+    } finally {
+      submitButton.disabled = false;
+    }
   });
 
   if (window.location.hash === "#partners") {
