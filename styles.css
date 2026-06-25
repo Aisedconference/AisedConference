@@ -733,6 +733,46 @@ h3 {
   gap: 10px;
 }
 
+.profile-grid {
+  max-width: 960px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.profile-speaker-card {
+  grid-template-columns: 148px minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+  min-height: 220px;
+  padding: 26px;
+  background: linear-gradient(135deg, #ffffff, #fffaf0);
+}
+
+.profile-speaker-card .royal-avatar {
+  width: 148px;
+  height: 148px;
+}
+
+.profile-copy {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.profile-copy h3 {
+  margin: 0;
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
+  line-height: 1.12;
+}
+
+.profile-copy span {
+  width: max-content;
+  padding: 7px 12px;
+  border: 1px solid rgba(194, 154, 40, 0.35);
+  border-radius: 999px;
+  color: var(--green);
+  background: #fff7df;
+}
+
 .speaker-card span {
   color: var(--blue);
   font-size: 0.78rem;
@@ -772,6 +812,10 @@ h3 {
   border: 2px solid rgba(194, 154, 40, 0.72);
   background: #ffffff;
   box-shadow: 0 16px 34px rgba(18, 54, 37, 0.18);
+}
+
+.speaker-profile-photo {
+  object-position: center 24%;
 }
 
 .status-pill.light {
@@ -1676,6 +1720,20 @@ label {
 }
 
 @media (max-width: 680px) {
+  .profile-speaker-card {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .profile-copy {
+    justify-items: center;
+  }
+
+  .profile-copy span {
+    width: auto;
+  }
+
   .site-header {
     display: grid;
     grid-template-columns: 1fr;
