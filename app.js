@@ -21,7 +21,12 @@ const registrationState = {
 const maxAttachmentSize = 8 * 1024 * 1024;
 
 function getSavedForms() {
-  return JSON.parse(localStorage.getItem(storageKey) || "[]");
+  try {
+    return JSON.parse(localStorage.getItem(storageKey) || "[]");
+  } catch (error) {
+    localStorage.removeItem(storageKey);
+    return [];
+  }
 }
 
 function makeReference(type) {
@@ -33,9 +38,37 @@ function makeReference(type) {
 
 function saveForm(type, data, reference = makeReference(type), status = "local") {
   const items = getSavedForms();
-  items.unshift({ reference, type, status, data, submittedAt: new Date().toISOString() });
-  localStorage.setItem(storageKey, JSON.stringify(items));
+  items.unshift({ reference, type, status, data: buildLocalReceipt(data), submittedAt: new Date().toISOString() });
+  const recentItems = items.slice(0, 20);
+
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(recentItems));
+  } catch (error) {
+    localStorage.removeItem(storageKey);
+    localStorage.setItem(storageKey, JSON.stringify(recentItems.slice(0, 1)));
+  }
+
   return reference;
+}
+
+function buildLocalReceipt(data) {
+  const receipt = { ...data };
+
+  if (receipt.attachments) {
+    receipt.attachments = receipt.attachments.map(stripAttachmentData);
+  }
+
+  if (receipt.attachment) {
+    receipt.attachment = stripAttachmentData(receipt.attachment);
+  }
+
+  return receipt;
+}
+
+function stripAttachmentData(attachment) {
+  if (!attachment) return attachment;
+  const { data, ...safeAttachment } = attachment;
+  return safeAttachment;
 }
 
 function readForm(form) {
