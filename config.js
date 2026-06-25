@@ -7,5 +7,5 @@ window.AISED_FORMS = {
 };
 
 window.AISED_CONFIG = {
-  registrationEndpoint: "https://script.google.com/macros/s/AKfycbyaKXC4mCnHH_y4IO23-sZzAV2K1RIgyqzgZoWcC73N_x93rDec9rXuyLs_neY80eEISA/exec"
+  registrationEndpoint: "https://script.google.com/macros/s/AKfycbx7bHHaXkV0tvpEEwtCNsdC8PqMj5huYjVG_-VVqV9gwBQ-A4Xz8HH2cK1-u773So5T/exec"
 };
