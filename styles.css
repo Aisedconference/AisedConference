@@ -934,6 +934,10 @@ h3 {
     url("assets/aised-home-hero-watermark.png") right 8% top 40px / min(58vw, 760px) auto no-repeat;
 }
 
+.patron-tier {
+  margin-bottom: 34px;
+}
+
 .committee-chart,
 .organising-layout,
 .deputy-panel,
@@ -998,6 +1002,28 @@ h3 {
   min-height: 190px;
   border-color: rgba(194, 154, 40, 0.55);
   background: linear-gradient(135deg, #ffffff, #fff7df);
+}
+
+.patron-card {
+  max-width: 880px;
+  min-height: 180px;
+  margin: 0 auto;
+  border-color: rgba(194, 154, 40, 0.68);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 223, 0.92)),
+    radial-gradient(circle at top right, rgba(194, 154, 40, 0.14), transparent 45%);
+  text-align: center;
+  justify-items: center;
+}
+
+.patron-card strong {
+  max-width: 760px;
+  font-size: clamp(1.45rem, 2.7vw, 2.1rem);
+}
+
+.patron-card p {
+  color: var(--blue-dark);
+  font-weight: 850;
 }
 
 .organising-layout {
