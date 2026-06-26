@@ -67,7 +67,8 @@ textarea {
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 20;
+  isolation: isolate;
+  z-index: 2147483000;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -78,10 +79,12 @@ textarea {
   background: rgba(255, 255, 255, 0.96);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(18px);
+  overflow: visible;
 }
 
 .brand,
 nav a,
+.nav-parent,
 .primary-button,
 .secondary-button,
 .text-link,
@@ -125,6 +128,8 @@ nav a,
 }
 
 nav {
+  position: relative;
+  z-index: 2147483001;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -133,6 +138,7 @@ nav {
 
 nav a,
 .nav-parent {
+  border: 0;
   min-height: 38px;
   display: inline-flex;
   align-items: center;
@@ -143,6 +149,11 @@ nav a,
   font-size: 0.96rem;
   font-weight: 850;
   white-space: nowrap;
+  cursor: pointer;
+}
+
+.nav-parent {
+  background: transparent;
 }
 
 nav a:hover,
@@ -155,6 +166,16 @@ nav a:focus-visible,
 
 .nav-group {
   position: relative;
+  z-index: 2147483002;
+}
+
+.nav-group::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 16px;
 }
 
 .nav-parent::after {
@@ -166,9 +187,9 @@ nav a:focus-visible,
 
 .nav-dropdown {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 8px);
   right: 0;
-  z-index: 30;
+  z-index: 2147483003;
   min-width: 240px;
   display: grid;
   gap: 8px;
@@ -179,8 +200,13 @@ nav a:focus-visible,
   box-shadow: var(--shadow);
   opacity: 0;
   pointer-events: none;
-  transform: translateY(-2px);
+  transform: translateY(0);
   transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.nav-group:hover,
+.nav-group:focus-within {
+  z-index: 2147483003;
 }
 
 .nav-group:hover .nav-dropdown,
@@ -395,7 +421,6 @@ h2 {
 }
 
 .quick-panel {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   padding: 18px clamp(18px, 6vw, 86px);
   background: var(--blue-dark);
 }
@@ -429,6 +454,51 @@ h2 {
 
 .quick-panel strong {
   font-size: 1.35rem;
+}
+
+.venue-summary-panel {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+}
+
+.venue-summary-panel img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+}
+
+.venue-summary-panel span {
+  color: #a8c4ff;
+  font-size: 0.78rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.venue-summary-panel strong {
+  display: block;
+  margin-top: 8px;
+  color: #ffffff;
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  line-height: 1.12;
+}
+
+.venue-summary-panel p {
+  margin: 8px 0 0;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.45;
+}
+
+.venue-summary-panel .venue-map-button {
+  margin-top: 14px;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 .announcement-strip {
@@ -702,7 +772,10 @@ h3 {
   line-height: 1.5;
 }
 
-.date-grid,
+.date-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .speaker-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
@@ -712,6 +785,30 @@ h3 {
 .price-card,
 .info-card {
   padding: 20px;
+}
+
+.venue-card-link {
+  display: grid;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.venue-card-link img {
+  width: min(100%, 420px);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 24px rgba(39, 49, 44, 0.12);
+}
+
+.venue-map-button {
+  width: fit-content;
+  min-width: 128px;
+  min-height: 40px;
+  margin-top: 2px;
+  padding: 0 14px;
+  font-size: 0.92rem;
 }
 
 .date-card strong {
@@ -816,6 +913,130 @@ h3 {
 
 .speaker-profile-photo {
   object-position: center 24%;
+}
+
+.venue-feature {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.92fr) minmax(0, 1fr);
+  gap: 34px;
+  align-items: center;
+}
+
+.venue-feature img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+.committee-section {
+  background:
+    linear-gradient(180deg, rgba(255, 250, 241, 0.94), rgba(255, 255, 255, 0.96)),
+    url("assets/aised-home-hero-watermark.png") right 8% top 40px / min(58vw, 760px) auto no-repeat;
+}
+
+.committee-chart,
+.organising-layout,
+.deputy-panel,
+.committee-member-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.committee-tier,
+.deputy-grid,
+.committee-member-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.committee-tier {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.committee-tier-featured {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.committee-card {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-height: 168px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 12px 30px rgba(39, 49, 44, 0.08);
+}
+
+.committee-card span {
+  width: max-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: var(--green);
+  background: #fff7df;
+  border: 1px solid rgba(194, 154, 40, 0.38);
+  font-size: 0.76rem;
+  font-weight: 950;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.committee-card strong {
+  color: var(--blue-dark);
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  line-height: 1.15;
+}
+
+.committee-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.48;
+}
+
+.lead-card {
+  min-height: 190px;
+  border-color: rgba(194, 154, 40, 0.55);
+  background: linear-gradient(135deg, #ffffff, #fff7df);
+}
+
+.organising-layout {
+  grid-template-columns: minmax(260px, 0.48fr) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.organising-chair {
+  min-height: 100%;
+  border-color: rgba(36, 88, 58, 0.36);
+  background: linear-gradient(135deg, #ffffff, #f3f8ef);
+}
+
+.deputy-panel {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 250, 241, 0.78);
+}
+
+.deputy-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.committee-member-panel {
+  margin-top: 20px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.committee-member-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.committee-member-grid .committee-card {
+  min-height: 150px;
+  box-shadow: none;
 }
 
 .status-pill.light {
@@ -1650,6 +1871,7 @@ label {
   .hero,
   .intro-layout,
   .split,
+  .venue-feature,
   .footer-grid {
     grid-template-columns: 1fr;
   }
@@ -1692,7 +1914,12 @@ label {
   .registration-tiers,
   .tier-grid,
   .registration-levels,
-  .subcategory-panel div {
+  .subcategory-panel div,
+  .committee-tier,
+  .committee-tier-featured,
+  .organising-layout,
+  .deputy-grid,
+  .committee-member-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1769,6 +1996,7 @@ label {
 
   .nav-dropdown {
     position: static;
+    z-index: auto;
     min-width: 0;
     display: grid;
     gap: 6px;
