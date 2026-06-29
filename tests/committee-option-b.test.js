@@ -101,7 +101,7 @@ test("uses the annotated portrait background and centered profile text", () => {
   );
 });
 
-test("fills every filename-matched committee portrait and leaves only Noorshella blank", () => {
+test("fills every filename-matched committee portrait", () => {
   const expectedCommitteeAssets = [
     "Dato’ Professor Dr Nik Maheran Nik Muhammad.png",
     "Prof Dato' Dr Ansary Ahmed.png",
@@ -117,6 +117,7 @@ test("fills every filename-matched committee portrait and leaves only Noorshella
     "Nur Zuriayati Binti Mohd Zainun.png",
     "Nurin Shahira Mohd Yunus.png",
     "Assoc Prof Dr Hartini Ahmad .png",
+    "Assoc Prof Dr Noorshella Che Nawi.png",
   ];
 
   for (const filename of expectedCommitteeAssets) {
@@ -132,11 +133,11 @@ test("fills every filename-matched committee portrait and leaves only Noorshella
 
   assert.equal(
     (html.match(/class="committee-portrait committee-initials"/g) || []).length,
-    1
+    0
   );
   assert.match(
     html,
-    /<div class="committee-portrait committee-initials" aria-hidden="true">CN<\/div><div class="committee-profile-copy"><strong>Assoc Prof Dr Noorshella Che Nawi<\/strong>/
+    /<img[^>]+src="assets\/Committee\/Assoc Prof Dr Noorshella Che Nawi\.png"[^>]+alt="Portrait of Assoc Prof Dr Noorshella Che Nawi"/
   );
 });
 
