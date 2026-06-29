@@ -63,18 +63,26 @@ test("preserves the current committee roster", () => {
   }
 });
 
-test("defines desktop and responsive directory columns", () => {
+test("centers committee titles and consistent card rows", () => {
   assert.match(
     css,
-    /\.committee-profile-grid\s*\{[^}]*grid-template-columns:\s*repeat\(4,/s
+    /\.committee-group-title\s*\{[^}]*text-align:\s*center/s
   );
   assert.match(
     css,
-    /@media \(max-width:\s*900px\)[\s\S]*?\.committee-profile-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2,/
+    /\.committee-profile-grid\s*\{[^}]*display:\s*flex;[^}]*flex-wrap:\s*wrap;[^}]*justify-content:\s*center/s
   );
   assert.match(
     css,
-    /@media \(max-width:\s*640px\)[\s\S]*?\.committee-profile-grid\s*\{[^}]*grid-template-columns:\s*1fr/
+    /\.committee-profile-card\s*\{[^}]*flex:\s*0 1 calc\(\(100% - 54px\) \/ 4\);[^}]*max-width:\s*260px/s
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*1100px\)[\s\S]*?\.committee-profile-card\s*\{[^}]*flex-basis:\s*calc\(\(100% - 18px\) \/ 2\)/
+  );
+  assert.match(
+    css,
+    /@media \(max-width:\s*640px\)[\s\S]*?\.committee-profile-card\s*\{[^}]*flex-basis:\s*100%/
   );
 });
 
