@@ -131,4 +131,3 @@ Expected: no new warnings or errors from the layout change.
 git add styles.css tests/committee-option-b.test.js docs/superpowers/plans/2026-06-30-committee-centered-layout.md
 git commit -m "Center committee card rows"
 ```
-

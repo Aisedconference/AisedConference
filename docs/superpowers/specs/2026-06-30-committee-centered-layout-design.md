@@ -28,4 +28,3 @@ Replace the adaptive CSS Grid rule with a wrapping flex layout. Give cards a cal
 - Add an automated style regression test for centered titles, four-column desktop sizing, two-column tablet sizing, one-column mobile sizing, and centered wrapping.
 - Run the full committee and speaker portrait test suites.
 - Inspect the local committee page in the in-app browser and measure that complete and incomplete card rows share the page centerline.
-
