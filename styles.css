@@ -341,6 +341,10 @@ h2 {
   margin-top: 6px;
 }
 
+.partner-action {
+  margin-top: 16px;
+}
+
 .primary-button,
 .secondary-button,
 .text-link {
@@ -1787,12 +1791,20 @@ label {
 
 .partner-groups {
   display: grid;
-  gap: 26px;
+  grid-template-columns: minmax(0, 3fr) minmax(240px, 1fr);
+  gap: 24px;
+  align-items: stretch;
 }
 
 .partner-group {
   display: grid;
-  gap: 14px;
+  gap: 16px;
+  align-content: start;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ffffff, #fffaf1);
+  box-shadow: 0 12px 30px rgba(39, 49, 44, 0.08);
 }
 
 .partner-group h3 {
@@ -1803,12 +1815,14 @@ label {
   text-transform: uppercase;
 }
 
-.partner-groups .logo-wall,
-.partner-group.strategic .logo-wall {
-  grid-template-columns: repeat(5, minmax(120px, 164px));
-  justify-content: start;
+.partner-groups .logo-wall {
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
   align-items: stretch;
   gap: 12px;
+}
+
+.partner-group.strategic .logo-wall {
+  grid-template-columns: 1fr;
 }
 
 .partner-groups .logo-card {
@@ -1970,6 +1984,15 @@ label {
   .section-head {
     display: grid;
     align-items: start;
+  }
+
+  .partner-groups {
+    grid-template-columns: 1fr;
+  }
+
+  .partner-groups .logo-wall,
+  .partner-group.strategic .logo-wall {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 164px));
   }
 }
 
