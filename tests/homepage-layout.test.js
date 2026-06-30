@@ -16,11 +16,11 @@ test("uses centered head-to-chest audience portrait crops", () => {
 
 test("loads the refreshed local audience portraits", () => {
   const portraitVersions = {
-    "audience-academics.png": "20260630",
-    "audience-policy.png": "20260630-2",
-    "audience-business.png": "20260630",
-    "audience-industry.png": "20260630",
-    "audience-students.png": "20260630",
+    "audience-academics.png": "20260630-3",
+    "audience-policy.png": "20260630-3",
+    "audience-business.png": "20260630-3",
+    "audience-industry.png": "20260630-3",
+    "audience-students.png": "20260630-3",
   };
 
   for (const [filename, version] of Object.entries(portraitVersions)) {
