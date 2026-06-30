@@ -77,6 +77,28 @@
         <label>Organisation<input name="organisation" required></label>
         <label>Interest<select name="type" required><option>Strategic Partner</option><option>Ecosystem Partner</option><option>Sponsor</option><option>Media Partner</option></select></label>
         <label>Message<textarea name="goals" rows="4" required></textarea></label>
+        <label class="consent-check" for="pdpa-consent-partner">
+          <input id="pdpa-consent-partner" type="checkbox" name="pdpaConsent" value="agreed" required aria-describedby="pdpa-policy-partner">
+          <span>I have read, understood and agree to the Terms &amp; Conditions and Personal Data Protection Notice below. <strong>(Required)</strong></span>
+        </label>
+        <details class="consent-policy" id="pdpa-policy-partner">
+          <summary>Terms &amp; Conditions and Personal Data Protection Notice (PDPA)</summary>
+          <div class="consent-policy-body">
+            <p>By submitting this registration form, I confirm that the information provided is true and accurate.</p>
+            <p>I hereby consent to the Asia Institute of Sustainability, Entrepreneurship and Diplomacy (AiSED), Asia e University (AeU), Gaine Academy, and the AiSED International Conference 2026 Secretariat collecting, processing, storing and using my personal data in accordance with the Personal Data Protection Act 2010 (PDPA) for purposes related to the organisation and administration of the AiSED International Conference 2026, including but not limited to:</p>
+            <ul>
+              <li>Processing my conference registration and payment;</li>
+              <li>Communicating conference updates and important announcements;</li>
+              <li>Preparing participant lists, name badges and certificates;</li>
+              <li>Managing conference proceedings, publications and presentation schedules;</li>
+              <li>Sharing relevant information with conference organisers, appointed service providers, sponsors or partners where necessary for conference administration; and</li>
+              <li>Providing information on future conferences, professional development programmes and related events organised by AiSED and its partners (unless I opt out).</li>
+            </ul>
+            <p>I understand that photographs, video recordings and audio recordings may be taken during the conference for documentation, reporting, promotional and educational purposes. By attending the conference, I consent to the use of such recordings without compensation.</p>
+            <p>I understand that my personal data will be handled securely and will not be disclosed to unauthorised third parties except where required by law or for the purposes stated above.</p>
+            <p>Should I wish to access, update or withdraw my consent regarding my personal data, I may contact the Conference Secretariat at <a href="mailto:info@aisedconference.org">info@aisedconference.org</a>.</p>
+          </div>
+        </details>
         <button class="primary-button" type="submit">Send Enquiry</button>
         <p class="form-status" id="partner-status" aria-live="polite"></p>
       </form>

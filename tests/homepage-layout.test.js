@@ -15,15 +15,17 @@ test("uses centered head-to-chest audience portrait crops", () => {
 });
 
 test("loads the refreshed local audience portraits", () => {
-  for (const filename of [
-    "audience-academics.png",
-    "audience-policy.png",
-    "audience-business.png",
-    "audience-industry.png",
-    "audience-students.png",
-  ]) {
+  const portraitVersions = {
+    "audience-academics.png": "20260630",
+    "audience-policy.png": "20260630-2",
+    "audience-business.png": "20260630",
+    "audience-industry.png": "20260630",
+    "audience-students.png": "20260630",
+  };
+
+  for (const [filename, version] of Object.entries(portraitVersions)) {
     assert.ok(
-      html.includes(`src="assets/${filename}?v=20260630"`),
+      html.includes(`src="assets/${filename}?v=${version}"`),
       `Missing refreshed portrait reference for ${filename}`
     );
   }
