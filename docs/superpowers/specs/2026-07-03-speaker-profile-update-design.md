@@ -22,18 +22,18 @@ Keep the existing responsive speaker-card design and extend the grid from two to
    - Reuse the matching committee photo at `assets/Committee/Prof Dato' Dr Ansary Ahmed.png`.
 4. Ts. Zehan Teoh
    - Category: `SPEAKER`
-   - Organisation/title: `AiSED`
+   - Organisation/title: `Seating Experts, AiSED`
    - Copy the supplied local photo from `/Users/AdamP/Desktop/Ts.Zehan Teoh.png` into the website assets and reference that copied asset.
 
 Each card uses the same image sizing, badge, name, and organisation/title typography. The existing two-column desktop grid remains in place and naturally forms a two-by-two arrangement; existing responsive rules continue to stack the cards on smaller screens.
 
 ## Committee Organisation Labels
 
-Only the three selected organising committee cards change. Preserve the existing job-title wording and shorten the organisation reference to `(AeU-SPEED)`:
+Only the three selected organising committee cards change. Preserve the existing job-title wording and shorten the organisation reference to plain `AeU-SPEED` without brackets:
 
-- `Marketing and Outreach, (AeU-SPEED)`
-- `Business Operations and Programme Management, (AeU-SPEED)`
-- `Partnerships and Client Engagement, (AeU-SPEED)`
+- `Marketing and Outreach, AeU-SPEED`
+- `Business Operations and Programme Management, AeU-SPEED`
+- `Partnerships and Client Engagement, AeU-SPEED`
 
 No committee headings, names, photos, or other roles change.
 

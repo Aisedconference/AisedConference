@@ -78,21 +78,21 @@ test("uses full Asia e University wording without changing existing role titles"
   );
   assert.match(
     html,
-    /<strong>Nor Shahirah Mohd Noordin<\/strong><p>Marketing and Outreach, \(AeU-SPEED\)<\/p>/
+    /<strong>Nor Shahirah Mohd Noordin<\/strong><p>Marketing and Outreach, AeU-SPEED<\/p>/
   );
   assert.match(
     html,
-    /<strong>Nur Zuriayati Mohd Zainun<\/strong><p>Business Operations and Programme Management, \(AeU-SPEED\)<\/p>/
+    /<strong>Nur Zuriayati Mohd Zainun<\/strong><p>Business Operations and Programme Management, AeU-SPEED<\/p>/
   );
   assert.match(
     html,
-    /<strong>Nurin Shahira Mohd Yunus<\/strong><p>Partnerships and Client Engagement, \(AeU-SPEED\)<\/p>/
+    /<strong>Nurin Shahira Mohd Yunus<\/strong><p>Partnerships and Client Engagement, AeU-SPEED<\/p>/
   );
   assert.match(
     html,
     /<strong>Assoc Prof Dr Hartini Ahmad<\/strong><p>Head of Research Innovation Management Unit, Asia e University<\/p>/
   );
-  assert.doesNotMatch(html, /, AeU(?:-SPEED)?<\/p>/);
+  assert.doesNotMatch(html, /, AeU<\/p>/);
 });
 
 test("adds Swa Lee Lee and Sanura Jaya to the academic committee", () => {

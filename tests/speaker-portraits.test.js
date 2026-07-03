@@ -62,7 +62,7 @@ test("shows the approved speaker categories and organisation titles", () => {
     {
       badge: "Speaker",
       name: "Ts. Zehan Teoh",
-      role: "AiSED",
+      role: "Seating Experts, AiSED",
     },
   ];
 
