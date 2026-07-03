@@ -19,6 +19,14 @@ const portraits = [
     src: "assets/Committee/Dato’ Professor Dr Nik Maheran Nik Muhammad.png",
     alt: "Dato' Prof. Dr. Nik Maheran binti Nik Muhammad",
   },
+  {
+    src: "assets/Committee/Prof Dato' Dr Ansary Ahmed.png",
+    alt: "Prof Dato' Dr Ansary Ahmed",
+  },
+  {
+    src: "assets/ts-zehan-teoh-speaker.png",
+    alt: "Ts. Zehan Teoh",
+  },
 ];
 
 for (const portrait of portraits) {
@@ -33,3 +41,42 @@ for (const portrait of portraits) {
     );
   });
 }
+
+test("shows the approved speaker categories and organisation titles", () => {
+  const profiles = [
+    {
+      badge: "Keynote Speaker",
+      name: "Dato' Steve Cheah",
+      role: "Chairman of AiSED",
+    },
+    {
+      badge: "Keynote Speaker",
+      name: "Dato' Prof. Dr. Nik Maheran binti Nik Muhammad",
+      role: "Executive Co-Chair, AiSED",
+    },
+    {
+      badge: "Keynote Speaker",
+      name: "Prof Dato' Dr Ansary Ahmed",
+      role: "Founder President, Asia e University",
+    },
+    {
+      badge: "Speaker",
+      name: "Ts. Zehan Teoh",
+      role: "AiSED",
+    },
+  ];
+
+  for (const profile of profiles) {
+    assert.ok(
+      html.includes(
+        `<span>${profile.badge}</span>\n            <h3>${profile.name}</h3>\n            <p>${profile.role}</p>`
+      ),
+      `Missing approved profile content for ${profile.name}`
+    );
+  }
+});
+
+test("uses four consistently formatted speaker profile cards", () => {
+  assert.equal((html.match(/class="speaker-card profile-speaker-card"/g) || []).length, 4);
+  assert.equal((html.match(/class="speaker-avatar royal-avatar speaker-profile-photo"/g) || []).length, 4);
+});

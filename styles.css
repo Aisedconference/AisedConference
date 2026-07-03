@@ -1122,6 +1122,86 @@ h3 {
   margin-top: 5px;
 }
 
+.programme-days {
+  display: grid;
+  gap: 34px;
+}
+
+.programme-day {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.programme-day-heading {
+  padding: 22px 24px;
+  color: #ffffff;
+  background: var(--blue-dark);
+}
+
+.programme-day-heading p {
+  margin: 0 0 7px;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.programme-day-heading h2 {
+  color: #ffffff;
+  font-size: clamp(1.55rem, 3vw, 2.35rem);
+  line-height: 1.1;
+}
+
+.day-schedule {
+  display: grid;
+}
+
+.schedule-row {
+  display: grid;
+  grid-template-columns: minmax(190px, 250px) minmax(0, 1fr);
+  border-top: 1px solid var(--line);
+}
+
+.schedule-row:first-child {
+  border-top: 0;
+}
+
+.schedule-row time,
+.schedule-item {
+  padding: 17px 20px;
+}
+
+.schedule-row time {
+  color: var(--blue-dark);
+  background: #fff8df;
+  font-size: 0.9rem;
+  font-weight: 850;
+  line-height: 1.45;
+}
+
+.schedule-item {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.schedule-item strong,
+.schedule-item span {
+  display: block;
+}
+
+.schedule-item strong {
+  margin-bottom: 4px;
+  color: var(--blue-dark);
+}
+
+.schedule-item span + span {
+  margin-top: 5px;
+}
+
 .registration-section {
   color: var(--ink);
   background:
@@ -2209,6 +2289,18 @@ label {
 }
 
 @media (max-width: 640px) {
+  .schedule-row {
+    grid-template-columns: 1fr;
+  }
+
+  .schedule-row time {
+    padding-bottom: 8px;
+  }
+
+  .schedule-item {
+    padding-top: 8px;
+  }
+
   .committee-directory {
     gap: 38px;
   }

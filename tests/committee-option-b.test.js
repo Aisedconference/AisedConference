@@ -49,7 +49,7 @@ test("uses Dato’ Steve Cheah's transparent portrait", () => {
 
 test("uses the Option B uniform directory structure", () => {
   assert.match(html, /class="committee-directory"/);
-  assert.equal((html.match(/class="committee-profile-card"/g) || []).length, 19);
+  assert.equal((html.match(/class="committee-profile-card"/g) || []).length, 21);
   assert.equal((html.match(/class="committee-profile-grid"/g) || []).length, 6);
 });
 
@@ -58,8 +58,67 @@ test("preserves the current committee roster", () => {
     "Dato’ Steve Cheah",
     "Pn Sharliza Dato' Shamsuddin",
     "Assoc Prof Dr Hartini Ahmad",
+    "Priscilla Selvaraju",
+    "Juliana Shaharudin",
+    "Mohd Fadzil Khairuddin",
+    "Nor Shahirah Mohd Noordin",
+    "Nur Zuriayati Mohd Zainun",
+    "Nurin Shahira Mohd Yunus",
   ]) {
     assert.ok(html.includes(name), `Missing ${name}`);
+  }
+});
+
+test("uses full Asia e University wording without changing existing role titles", () => {
+  assert.match(html, /<strong>Prof Dato' Dr Ansary Ahmed<\/strong><p>Founder President, Asia e University<\/p>/);
+  assert.match(html, /<strong>Prof Dr Noor Raihan Ab Hamid<\/strong><p>Vice Chancellor, Asia e University<\/p>/);
+  assert.match(
+    html,
+    /<strong>Philip Lim<\/strong><p>Head, School of Professional and Executive Education Development, Asia e University \(AeU-SPEED\)\.<\/p>/
+  );
+  assert.match(
+    html,
+    /<strong>Nor Shahirah Mohd Noordin<\/strong><p>Marketing and Outreach, \(AeU-SPEED\)<\/p>/
+  );
+  assert.match(
+    html,
+    /<strong>Nur Zuriayati Mohd Zainun<\/strong><p>Business Operations and Programme Management, \(AeU-SPEED\)<\/p>/
+  );
+  assert.match(
+    html,
+    /<strong>Nurin Shahira Mohd Yunus<\/strong><p>Partnerships and Client Engagement, \(AeU-SPEED\)<\/p>/
+  );
+  assert.match(
+    html,
+    /<strong>Assoc Prof Dr Hartini Ahmad<\/strong><p>Head of Research Innovation Management Unit, Asia e University<\/p>/
+  );
+  assert.doesNotMatch(html, /, AeU(?:-SPEED)?<\/p>/);
+});
+
+test("adds Swa Lee Lee and Sanura Jaya to the academic committee", () => {
+  const expectedMembers = [
+    {
+      name: "Assoc Prof Dr Swa Lee Lee",
+      role: "Director, School of Graduate Studies, Asia e University",
+      filename: "Assoc Prof Dr Swa Lee Lee.png",
+    },
+    {
+      name: "Dr Sanura Jaya",
+      role: "Visiting Assoc. Professor, Asia e University",
+      filename: "Dr Sanura Jaya.png",
+    },
+  ];
+
+  for (const member of expectedMembers) {
+    assert.ok(html.includes(`<strong>${member.name}</strong><p>${member.role}</p>`));
+    assert.match(
+      html,
+      new RegExp(`<img[^>]+src="assets/Committee/${member.filename.replace(".", "\\.")}"[^>]+alt="Portrait of ${member.name}"`)
+    );
+    assert.ok(
+      fs.existsSync(path.join(root, "assets", "Committee", member.filename)),
+      `Missing portrait file for ${member.name}`
+    );
   }
 });
 
@@ -118,6 +177,8 @@ test("fills every filename-matched committee portrait", () => {
     "Nurin Shahira Mohd Yunus.png",
     "Assoc Prof Dr Hartini Ahmad .png",
     "Assoc Prof Dr Noorshella Che Nawi.png",
+    "Assoc Prof Dr Swa Lee Lee.png",
+    "Dr Sanura Jaya.png",
   ];
 
   for (const filename of expectedCommitteeAssets) {
