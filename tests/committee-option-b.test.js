@@ -49,8 +49,19 @@ test("uses Dato’ Steve Cheah's transparent portrait", () => {
 
 test("uses the Option B uniform directory structure", () => {
   assert.match(html, /class="committee-directory"/);
-  assert.equal((html.match(/class="committee-profile-card"/g) || []).length, 21);
+  assert.equal((html.match(/class="committee-profile-card"/g) || []).length, 22);
   assert.equal((html.match(/class="committee-profile-grid"/g) || []).length, 6);
+});
+
+test("places Kamarul Hisham Baginda in the third Committee Members card", () => {
+  const group = html.match(/<section class="committee-group" aria-labelledby="committee-members-heading">([\s\S]*?)<\/section>/)?.[1] || "";
+  const cards = [...group.matchAll(/<article class="committee-profile-card">([\s\S]*?)<\/article>/g)].map((match) => match[1]);
+
+  assert.equal(cards.length, 7);
+  assert.match(cards[2], /assets\/Committee\/Kamarul Hisham Baginda\.jpg/);
+  assert.match(cards[2], /<strong>Kamarul Hisham Baginda<\/strong>/);
+  assert.match(cards[2], /<p>Adjunct\. Professor of Asia e University &amp; Senior Postdoctoral Fellow, Chartered Management Institute<\/p>/);
+  assert.ok(fs.existsSync(path.join(root, "assets", "Committee", "Kamarul Hisham Baginda.jpg")));
 });
 
 test("preserves the current committee roster", () => {
