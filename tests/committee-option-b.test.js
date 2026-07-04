@@ -58,10 +58,10 @@ test("places Kamarul Hisham Baginda in the third Committee Members card", () => 
   const cards = [...group.matchAll(/<article class="committee-profile-card">([\s\S]*?)<\/article>/g)].map((match) => match[1]);
 
   assert.equal(cards.length, 7);
-  assert.match(cards[2], /assets\/Committee\/Kamarul Hisham Baginda\.jpg/);
+  assert.match(cards[2], /assets\/Committee\/Kamarul Hisham Baginda\.png/);
   assert.match(cards[2], /<strong>Kamarul Hisham Baginda<\/strong>/);
   assert.match(cards[2], /<p>Adjunct\. Professor of Asia e University &amp; Senior Postdoctoral Fellow, Chartered Management Institute<\/p>/);
-  assert.ok(fs.existsSync(path.join(root, "assets", "Committee", "Kamarul Hisham Baginda.jpg")));
+  assert.ok(fs.existsSync(path.join(root, "assets", "Committee", "Kamarul Hisham Baginda.png")));
 });
 
 test("preserves the current committee roster", () => {

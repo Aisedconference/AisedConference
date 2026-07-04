@@ -23,10 +23,10 @@ test("places Kamarul Hisham Baginda in the third Committee Members card", () => 
   const cards = [...group.matchAll(/<article class="committee-profile-card">([\s\S]*?)<\/article>/g)].map((match) => match[1]);
 
   assert.equal(cards.length, 7);
-  assert.match(cards[2], /assets\/Committee\/Kamarul Hisham Baginda\.jpg/);
+  assert.match(cards[2], /assets\/Committee\/Kamarul Hisham Baginda\.png/);
   assert.match(cards[2], /<strong>Kamarul Hisham Baginda<\/strong>/);
   assert.match(cards[2], /<p>Adjunct\. Professor of Asia e University &amp; Senior Postdoctoral Fellow, Chartered Management Institute<\/p>/);
-  assert.ok(fs.existsSync(path.join(root, "assets", "Committee", "Kamarul Hisham Baginda.jpg")));
+  assert.ok(fs.existsSync(path.join(root, "assets", "Committee", "Kamarul Hisham Baginda.png")));
 });
 ```
 
@@ -41,18 +41,18 @@ Expected: FAIL because the new third card and asset do not yet exist.
 ### Task 2: Add the portrait and third card
 
 **Files:**
-- Create: `assets/Committee/Kamarul Hisham Baginda.jpg`
+- Create: `assets/Committee/Kamarul Hisham Baginda.png`
 - Modify: `committee.html:83-93`
 - Test: `tests/committee-option-b.test.js`
 
 - [ ] **Step 1: Copy the supplied portrait**
 
-Copy `/Users/AdamP/Downloads/⁠Kamarul Hisham Baginda.jpg` to `assets/Committee/Kamarul Hisham Baginda.jpg` without image transformation.
+Use the prepared transparent portrait as `assets/Committee/Kamarul Hisham Baginda.png`.
 
 - [ ] **Step 2: Insert the new third card**
 
 ```html
-<article class="committee-profile-card"><div class="committee-portrait"><img src="assets/Committee/Kamarul Hisham Baginda.jpg" alt="Portrait of Kamarul Hisham Baginda"></div><div class="committee-profile-copy"><strong>Kamarul Hisham Baginda</strong><p>Adjunct. Professor of Asia e University &amp; Senior Postdoctoral Fellow, Chartered Management Institute</p></div></article>
+<article class="committee-profile-card"><div class="committee-portrait"><img src="assets/Committee/Kamarul Hisham Baginda.png" alt="Portrait of Kamarul Hisham Baginda"></div><div class="committee-profile-copy"><strong>Kamarul Hisham Baginda</strong><p>Adjunct. Professor of Asia e University &amp; Senior Postdoctoral Fellow, Chartered Management Institute</p></div></article>
 ```
 
 Insert it after Juliana Shaharudin and before Mohd Fadzil Khairuddin.
@@ -70,6 +70,6 @@ Expected: all site tests pass with zero failures.
 - [ ] **Step 4: Commit the change**
 
 ```bash
-git add committee.html tests/committee-option-b.test.js "assets/Committee/Kamarul Hisham Baginda.jpg"
+git add committee.html tests/committee-option-b.test.js "assets/Committee/Kamarul Hisham Baginda.png"
 git commit -m "feat: add Kamarul Hisham committee profile"
 ```
