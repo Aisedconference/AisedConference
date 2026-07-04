@@ -24,9 +24,9 @@ test("labels every registration navigation link consistently", () => {
   }
 });
 
-test("uses the shared lighter green inner-page hero gradient", () => {
+test("retains the shared original dark-green inner-page hero gradient", () => {
   assert.match(
     css,
-    /\.page-hero\s*\{[^}]*background:\s*linear-gradient\(135deg,\s*rgba\(49, 91, 70, 0\.96\),\s*rgba\(58, 118, 82, 0\.94\)\);/s
+    /\.page-hero\s*\{[^}]*background:\s*linear-gradient\(135deg,\s*rgba\(31, 52, 40, 0\.96\),\s*rgba\(36, 88, 58, 0\.94\)\);/s
   );
 });
