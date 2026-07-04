@@ -43,6 +43,11 @@ test("adds a committee members hero action", () => {
   );
 });
 
+test("uses the concise registration hero action label", () => {
+  assert.match(html, /<a class="primary-button" href="registration\.html">Registration<\/a>/);
+  assert.doesNotMatch(html, />Registration Portal<\/a>/);
+});
+
 test("removes excess full-viewport hero height", () => {
   assert.match(
     css,
