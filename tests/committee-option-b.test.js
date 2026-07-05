@@ -4,7 +4,9 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
-const html = fs.readFileSync(path.join(root, "committee.html"), "utf8");
+const htmlPath = path.join(root, "committee.html");
+assert.ok(fs.existsSync(htmlPath), "committee.html must exist");
+const html = fs.readFileSync(htmlPath, "utf8");
 const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 
 test("uses Tengku Amir Shah's supplied portrait", () => {
@@ -60,7 +62,7 @@ test("places Kamarul Hisham Baginda in the third Committee Members card", () => 
   assert.equal(cards.length, 7);
   assert.match(cards[2], /assets\/Committee\/Kamarul Hisham Baginda\.png/);
   assert.match(cards[2], /<strong>Kamarul Hisham Baginda<\/strong>/);
-  assert.match(cards[2], /<p>Adjunct\. Professor of Asia e University &amp; Senior Postdoctoral Fellow, Chartered Management Institute<\/p>/);
+  assert.match(cards[2], /<p>Adjunct\. Professor of Asia e University &amp; Fellow of Chartered Management Institute, UK<\/p>/);
   assert.ok(fs.existsSync(path.join(root, "assets", "Committee", "Kamarul Hisham Baginda.png")));
 });
 
