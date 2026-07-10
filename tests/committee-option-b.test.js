@@ -51,19 +51,30 @@ test("uses Dato’ Steve Cheah's transparent portrait", () => {
 
 test("uses the Option B uniform directory structure", () => {
   assert.match(html, /class="committee-directory"/);
-  assert.equal((html.match(/class="committee-profile-card"/g) || []).length, 22);
-  assert.equal((html.match(/class="committee-profile-grid"/g) || []).length, 6);
+  assert.equal((html.match(/class="committee-profile-card"/g) || []).length, 27);
+  assert.equal((html.match(/class="committee-profile-grid"/g) || []).length, 7);
 });
 
 test("places Kamarul Hisham Baginda in the third Committee Members card", () => {
   const group = html.match(/<section class="committee-group" aria-labelledby="committee-members-heading">([\s\S]*?)<\/section>/)?.[1] || "";
   const cards = [...group.matchAll(/<article class="committee-profile-card">([\s\S]*?)<\/article>/g)].map((match) => match[1]);
 
-  assert.equal(cards.length, 7);
+  assert.equal(cards.length, 8);
   assert.match(cards[2], /assets\/Committee\/Kamarul Hisham Baginda\.png/);
   assert.match(cards[2], /<strong>Kamarul Hisham Baginda<\/strong>/);
   assert.match(cards[2], /<p>Adjunct\. Professor of Asia e University &amp; Fellow of Chartered Management Institute, UK<\/p>/);
   assert.ok(fs.existsSync(path.join(root, "assets", "Committee", "Kamarul Hisham Baginda.png")));
+});
+
+test("adds Beh XiaoQing to the Committee Members section with matched portrait", () => {
+  const group = html.match(/<section class="committee-group" aria-labelledby="committee-members-heading">([\s\S]*?)<\/section>/)?.[1] || "";
+
+  assert.ok(group.includes("<strong>Beh XiaoQing</strong><p>Project Officer &amp; Action Team, AiSED</p>"));
+  assert.match(
+    group,
+    /<img[^>]+src="assets\/Committee\/Beh_XiaoQing\.png"[^>]+alt="Portrait of Beh XiaoQing"/
+  );
+  assert.ok(fs.existsSync(path.join(root, "assets", "Committee", "Beh_XiaoQing.png")));
 });
 
 test("preserves the current committee roster", () => {
@@ -77,6 +88,7 @@ test("preserves the current committee roster", () => {
     "Nor Shahirah Mohd Noordin",
     "Nur Zuriayati Mohd Zainun",
     "Nurin Shahira Mohd Yunus",
+    "Beh XiaoQing",
   ]) {
     assert.ok(html.includes(name), `Missing ${name}`);
   }
@@ -127,6 +139,47 @@ test("adds Swa Lee Lee and Sanura Jaya to the academic committee", () => {
     assert.match(
       html,
       new RegExp(`<img[^>]+src="assets/Committee/${member.filename.replace(".", "\\.")}"[^>]+alt="Portrait of ${member.name}"`)
+    );
+    assert.ok(
+      fs.existsSync(path.join(root, "assets", "Committee", member.filename)),
+      `Missing portrait file for ${member.name}`
+    );
+  }
+});
+
+test("adds the International Academic Advisory Committee members with matched portraits", () => {
+  const group = html.match(/<section class="committee-group" aria-labelledby="international-academic-heading">([\s\S]*?)<\/section>/)?.[1] || "";
+  assert.ok(group, "Missing International Academic Advisory Committee section");
+  assert.match(group, /<h2 class="committee-group-title" id="international-academic-heading">International Academic Advisory Committee<\/h2>/);
+
+  const expectedMembers = [
+    {
+      name: "Professor Dr Benny Lim Kok Wai",
+      role: "Professor of Practice in Cultural Management, Chinese University of Hong Kong",
+      filename: "Professor Dr Benny Lim Kok Wai.png",
+    },
+    {
+      name: "Dr Janeth Emanuel Kigobe",
+      role: "Dean, Faculty of Education &amp; Co-Chair, UNESCO Chair on Teacher &amp; Curriculum, The Open University Tanzania",
+      filename: "Dr Janeth Emanuel Kigobe.png",
+    },
+    {
+      name: "Prof. Dr Paisal Halim, M.Hum",
+      role: "Universitas Nasional, Jakarta, Indonesia &amp; International Director, GAINE Academy Indonesia",
+      filename: "Prof. Dr Paisal Halim, M.Hum .png",
+    },
+    {
+      name: "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM",
+      role: "Group Director (Provost), Sambhram Group of Institutions, Bengaluru, India &amp; Uzbekistan",
+      filename: "Prof.Ts.Dr. Visweswara Rao Pasupuleti.png",
+    },
+  ];
+
+  for (const member of expectedMembers) {
+    assert.ok(group.includes(`<strong>${member.name}</strong><p>${member.role}</p>`));
+    assert.match(
+      group,
+      new RegExp(`<img[^>]+src="assets/Committee/${member.filename.replaceAll(".", "\\.")}"[^>]+alt="Portrait of ${member.name.replaceAll(".", "\\.")}"`)
     );
     assert.ok(
       fs.existsSync(path.join(root, "assets", "Committee", member.filename)),
@@ -188,6 +241,7 @@ test("fills every filename-matched committee portrait", () => {
     "Nor Shahirah Mohd Noordin.png",
     "Nur Zuriayati Binti Mohd Zainun.png",
     "Nurin Shahira Mohd Yunus.png",
+    "Beh_XiaoQing.png",
     "Assoc Prof Dr Hartini Ahmad .png",
     "Assoc Prof Dr Noorshella Che Nawi.png",
     "Assoc Prof Dr Swa Lee Lee.png",

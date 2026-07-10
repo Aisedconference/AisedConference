@@ -68,9 +68,9 @@ test("renders keynote and forum labels without bullets", () => {
     "Keynote Session 1": "AI for Humanity: Shaping Sustainable and Inclusive Futures in the Age of Intelligent Transformation",
     "Keynote Session 2": "The New Global Leadership Imperative: Entrepreneurship, Diplomacy and Collaboration in an AI-Driven Era",
     "Keynote Session 3": "From Disruption to Transformation: Building Resilient Innovation Ecosystems in the AI Economy",
-    "Forum 1": "The New Global Order: AI, Geopolitical Competition and Economic Stability",
-    "Forum 2": "Beyond Automation: AI as a Catalyst for Sustainable Development and Human Advancement",
-    "Forum 3": "Entrepreneurship 5.0: Building Future-Ready Ventures in the AI Economy",
+    "Forum 1": "Diplomacy: The New Global Order: AI, Geopolitical Competition and Economic Stability",
+    "Forum 2": "Artificial Intelligence: Beyond Automation: AI as a Catalyst for Sustainable Development and Human Advancement",
+    "Forum 3": "Entrepreneurship: Entrepreneurship 5.0: Building Future-Ready Ventures in the AI Economy",
     "Forum 4": "Sustainable Entrepreneurship for a Resilient Future: Innovating Solutions to Global Challenges",
   };
 
