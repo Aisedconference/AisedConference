@@ -10,6 +10,10 @@ const presenterRedirectHtml = fs.readFileSync(
   path.join(root, "registration", "presenter", "index.html"),
   "utf8"
 );
+const callForPapersRedirectHtml = fs.readFileSync(
+  path.join(root, "registration", "call-for-papers", "index.html"),
+  "utf8"
+);
 const appJs = fs.readFileSync(path.join(root, "app.js"), "utf8");
 const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 const registrationWebapp = fs.readFileSync(
@@ -35,6 +39,13 @@ test("supports a direct academic presenter registration link", () => {
   assert.match(appJs, /params\.get\("type"\)/);
   assert.match(appJs, /renderRegistrationFields\(\);\s*showStep\("form"\);\s*return;/);
   assert.match(appJs, /registrationState\.type = requestedType/);
+});
+
+test("supports a simple call for papers registration link", () => {
+  assert.match(
+    callForPapersRedirectHtml,
+    /registration\.html\?category=call-papers/
+  );
 });
 
 test("call for papers route uses one submit button and form dropdowns", () => {
@@ -82,12 +93,19 @@ test("presenter forms collect SCOPUS preference and abstract or full paper uploa
 
 test("call for papers backend stores SCOPUS choice and sends papers auto reply", () => {
   assert.match(registrationWebapp, /papersEmailFrom:\s*'papers@aisedconference\.org'/);
+  assert.match(registrationWebapp, /spreadsheetId:\s*'1Nnu1zFcpzDcnWTtUGtDWQhxIxZlbxhsuBHpLuHVL1Ro'/);
+  assert.match(registrationWebapp, /const REGISTRATION_SHEET_HEADERS = \{/);
+  assert.match(registrationWebapp, /'SCOPUS Presentation Mode'/);
+  assert.match(registrationWebapp, /'Estimated Payable Amount'/);
+  assert.match(registrationWebapp, /'Estimated Fee Breakdown'/);
+  assert.match(registrationWebapp, /function ensureSheetHeaders\(sheet, headers\)/);
+  assert.match(registrationWebapp, /function setupRegistrationSheetHeaders\(\)/);
   assert.match(registrationWebapp, /submitToScopus:\s*payload\.submit_to_scopus/);
   assert.match(registrationWebapp, /scopusPresentationMode:\s*payload\.scopus_presentation_mode/);
   assert.match(registrationWebapp, /estimatedPayableAmount:\s*payload\.estimated_payable_amount/);
   assert.match(registrationWebapp, /estimatedFeeBreakdown:\s*payload\.estimated_fee_breakdown/);
   assert.match(registrationWebapp, /record\.submitToScopus/);
-  assert.match(registrationWebapp, /function appendCallForPapers[\s\S]*record\.submitToScopus[\s\S]*record\.scopusPresentationMode[\s\S]*record\.estimatedPayableAmount[\s\S]*record\.estimatedFeeBreakdown[\s\S]*attachmentUrlByField\(record, 'paper_attachment'\)/);
+  assert.match(registrationWebapp, /function appendCallForPapers[\s\S]*record\.submitToScopus[\s\S]*attachmentUrlByField\(record, 'paper_attachment'\)[\s\S]*folderUrl\(getFolderId\(record\)\)[\s\S]*record\.scopusPresentationMode[\s\S]*record\.estimatedPayableAmount[\s\S]*record\.estimatedFeeBreakdown/);
   assert.match(registrationWebapp, /route === 'Call for Papers'[\s\S]*AISED\.papersEmailFrom/);
   assert.match(registrationWebapp, /Submit to SCOPUS:\s*\$\{record\.submitToScopus \|\| '-'\}/);
   assert.match(registrationWebapp, /SCOPUS presentation mode:\s*\$\{record\.scopusPresentationMode \|\| '-'\}/);
