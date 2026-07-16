@@ -78,6 +78,10 @@ test("uses balanced organiser and strategic partner panels", () => {
   );
   assert.match(
     css,
+    /\.partner-group\.strategic h3\s*\{[^}]*text-align:\s*center/s
+  );
+  assert.match(
+    css,
     /@media \(max-width:\s*980px\)[\s\S]*?\.partner-groups\s*\{[^}]*grid-template-columns:\s*1fr/s
   );
 });

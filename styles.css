@@ -2256,6 +2256,10 @@ label {
   text-transform: uppercase;
 }
 
+.partner-group.strategic h3 {
+  text-align: center;
+}
+
 .partner-groups .logo-wall {
   grid-template-columns: repeat(3, minmax(120px, 1fr));
   align-items: stretch;
