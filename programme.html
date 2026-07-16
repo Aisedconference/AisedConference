@@ -34,65 +34,77 @@
       <h1>Conference schedule.</h1>
     </section>
 
-    <section class="section alt">
+    <section class="section alt programme-tab-section">
       <p class="agenda-disclaimer">Agenda subject to change.</p>
-      <div class="programme-days">
-        <section class="programme-day" aria-labelledby="day-1-heading">
+      <div class="programme-tabset">
+        <input class="programme-tab-input" type="radio" name="programme-tab" id="programme-day-1-tab" checked>
+        <input class="programme-tab-input" type="radio" name="programme-tab" id="programme-day-2-tab">
+        <input class="programme-tab-input" type="radio" name="programme-tab" id="programme-day-3-tab">
+
+        <div class="programme-tab-buttons" aria-label="Programme agenda days">
+          <label class="programme-tab-button" for="programme-day-1-tab">Day 1</label>
+          <label class="programme-tab-button" for="programme-day-2-tab">Day 2</label>
+          <label class="programme-tab-button" for="programme-day-3-tab">Day 3</label>
+        </div>
+
+        <section class="programme-tab-panel day-1-panel" aria-labelledby="day-1-heading">
           <header class="programme-day-heading">
-            <p>Day 1</p>
-            <h2 id="day-1-heading">2 Dec 2026 (Wed)</h2>
+            <p>Day 1 — Wednesday, 2 December 2026</p>
+            <h2 id="day-1-heading">Opening Ceremony, Keynote Addresses and High-Level Forums</h2>
           </header>
-          <div class="day-schedule">
-            <div class="schedule-row"><time>08.00 a.m. – 09.00 a.m.</time><div class="schedule-item"><span>Registration &amp; Networking Breakfast</span><span>Arrival of VIPs and Guests</span></div></div>
-            <div class="schedule-row"><time>09.00 a.m. – 09.10 a.m.</time><div class="schedule-item">Welcome Address by Conference Chair</div></div>
-            <div class="schedule-row"><time>09.10 a.m. – 09.30 a.m.</time><div class="schedule-item">Opening Address by Joint Organisers</div></div>
-            <div class="schedule-row"><time>09.30 a.m. – 09.40 a.m.</time><div class="schedule-item">Opening Ceremony Officiated by Conference Patron, DYTM Raja Muda Selangor</div></div>
-            <div class="schedule-row"><time>09.40 a.m. – 10.00 a.m.</time><div class="schedule-item">Group Photograph and Media Session</div></div>
-            <div class="schedule-row"><time>10.00 a.m. – 10.30 a.m.</time><div class="schedule-item">Networking Coffee Break</div></div>
-            <div class="schedule-row"><time>10.30 a.m. – 11.15 a.m.</time><div class="schedule-item"><strong>Keynote Session 1:</strong><span>AI for Humanity: Shaping Sustainable and Inclusive Futures in the Age of Intelligent Transformation</span></div></div>
-            <div class="schedule-row"><time>11.15 a.m. – 12.00 p.m.</time><div class="schedule-item"><strong>Keynote Session 2:</strong><span>The New Global Leadership Imperative: Entrepreneurship, Diplomacy and Collaboration in an AI-Driven Era</span></div></div>
-            <div class="schedule-row"><time>12.00 p.m. – 14.00 p.m.</time><div class="schedule-item">Lunch &amp; Networking</div></div>
-            <div class="schedule-row"><time>14.00 p.m. – 15.15 p.m.</time><div class="schedule-item"><strong>Forum 1:</strong><span>Diplomacy: The New Global Order: AI, Geopolitical Competition and Economic Stability</span></div></div>
-            <div class="schedule-row"><time>15.15 p.m. – 15.45 p.m.</time><div class="schedule-item">Coffee Break</div></div>
-            <div class="schedule-row"><time>15.45 p.m. – 17.00 p.m.</time><div class="schedule-item"><strong>Forum 2:</strong><span>Artificial Intelligence: Beyond Automation: AI as a Catalyst for Sustainable Development and Human Advancement</span></div></div>
-            <div class="schedule-row"><time>17.00 p.m. – 17.30 p.m.</time><div class="schedule-item">Summary &amp; Closing Remarks for Day 1</div></div>
+          <div class="agenda-table">
+            <div class="agenda-row agenda-head"><span>Time</span><span>Programme</span></div>
+            <div class="agenda-row no-speakers"><time>8.00 a.m.–9.00 a.m.</time><div><strong>Registration and Networking Breakfast</strong><span>Arrival of VIPs and Guests</span><span>Registration, hospitality and protocol teams</span></div></div>
+            <div class="agenda-row no-speakers"><time>9.00 a.m.–9.10 a.m.</time><div><strong>Welcome Address by the Conference Chair</strong><span>Prof. Dato’ Dr Nik Maheran Nik Muhammad, Conference Chair</span></div></div>
+            <div class="agenda-row no-speakers"><time>9.10 a.m.–9.30 a.m.</time><div><strong>Opening Address by the Joint Organisers</strong><span>Representatives of AiSED, Asia e University and Gaine Academy</span></div></div>
+            <div class="agenda-row no-speakers"><time>9.30 a.m.–9.40 a.m.</time><div><strong>Official Opening Ceremony</strong><span>Officiated by the Royal Patron of AiSED, His Highness The Raja Muda of Selangor Tengku Amir Shah ibni Sultan Sharafuddin Idris Shah Alhaj.</span></div></div>
+            <div class="agenda-row no-speakers"><time>9.40 a.m.–10.00 a.m.</time><div><strong>Group Photograph and Media Session</strong><span>Royal Guest, VIPs, conference leadership, joint organisers and invited speakers</span></div></div>
+            <div class="agenda-row no-speakers"><time>10.00 a.m.–10.30 a.m.</time><div><strong>Networking Coffee Break</strong></div></div>
+            <div class="agenda-row no-speakers"><time>10.30 a.m.–11.15 a.m.</time><div><strong>Keynote Session 1</strong><em>AI for Humanity: Shaping Sustainable and Inclusive Futures in the Age of Intelligent Transformation</em></div></div>
+            <div class="agenda-row no-speakers"><time>11.15 a.m.–12.30 p.m.</time><div><strong>Forum 1: Diplomacy and Global Affairs</strong><em>The New Global Order: AI, Geopolitical Competition and Economic Stability</em></div></div>
+            <div class="agenda-row no-speakers"><time>12.30 p.m.–2.00 p.m.</time><div><strong>Lunch and Networking</strong></div></div>
+            <div class="agenda-row no-speakers"><time>2.00 p.m.–3.15 p.m.</time><div><strong>Keynote Session 2</strong><em>The New Global Leadership Imperative: Entrepreneurship, Diplomacy and Collaboration in an AI-Driven Era</em></div></div>
+            <div class="agenda-row no-speakers"><time>3.15 p.m.–3.45 p.m.</time><div><strong>Coffee Break</strong></div></div>
+            <div class="agenda-row no-speakers"><time>3.45 p.m.–5.00 p.m.</time><div><strong>Forum 2: Artificial Intelligence</strong><em>Beyond Automation: AI as a Catalyst for Sustainable Development and Human Advancement</em></div></div>
+            <div class="agenda-row no-speakers"><time>5.00 p.m.–5.30 p.m.</time><div><strong>Summary and Closing Remarks</strong><span>Conference Chair or appointed session rapporteur</span></div></div>
           </div>
         </section>
 
-        <section class="programme-day" aria-labelledby="day-2-heading">
+        <section class="programme-tab-panel day-2-panel" aria-labelledby="day-2-heading">
           <header class="programme-day-heading">
-            <p>Day 2</p>
-            <h2 id="day-2-heading">3 Dec 2026 (Thurs)</h2>
+            <p>Day 2 — Thursday, 3 December 2026</p>
+            <h2 id="day-2-heading">Entrepreneurship Forum and Academic Parallel Sessions</h2>
           </header>
-          <div class="day-schedule">
-            <div class="schedule-row"><time>08.30 a.m. – 09.00 a.m.</time><div class="schedule-item">Registration and Morning Coffee</div></div>
-            <div class="schedule-row"><time>09. 00 a.m. – 09.45 a.m.</time><div class="schedule-item"><strong>Keynote Session 3:</strong><span>From Disruption to Transformation: Building Resilient Innovation Ecosystems in the AI Economy</span></div></div>
-            <div class="schedule-row"><time>09.45 a.m. – 11.00 a.m.</time><div class="schedule-item"><strong>Forum 3:</strong><span>Entrepreneurship: Entrepreneurship 5.0: Building Future-Ready Ventures in the AI Economy</span></div></div>
-            <div class="schedule-row"><time>11.00 a.m. – 11.15 a.m.</time><div class="schedule-item">Coffee Break</div></div>
-            <div class="schedule-row"><time>11.15 a.m. – 12.45 p.m.</time><div class="schedule-item">Academic Parallel Session 1</div></div>
-            <div class="schedule-row"><time>12.45 p.m. – 14.00 p.m.</time><div class="schedule-item">Lunch</div></div>
-            <div class="schedule-row"><time>14.00 p.m. – 15.30 p.m.</time><div class="schedule-item">Academic Parallel Session 2</div></div>
-            <div class="schedule-row"><time>15.30 p.m. – 15.45 p.m.</time><div class="schedule-item">Coffee Break</div></div>
-            <div class="schedule-row"><time>15.45 p.m. – 17.15 p.m.</time><div class="schedule-item">Academic Parallel Session 3</div></div>
-            <div class="schedule-row"><time>17.15 p.m. – 17.30 p.m.</time><div class="schedule-item">Summary &amp; Closing Remarks for Day 2</div></div>
+          <div class="agenda-table">
+            <div class="agenda-row agenda-head"><span>Time</span><span>Programme</span></div>
+            <div class="agenda-row no-speakers"><time>8.30 a.m.–9.00 a.m.</time><div><strong>Registration and Morning Coffee</strong><span>Registration and hospitality teams</span></div></div>
+            <div class="agenda-row no-speakers"><time>9.00 a.m.–9.45 a.m.</time><div><strong>Keynote Session 3</strong><em>From Disruption to Transformation: Building Resilient Innovation Ecosystems in the AI Economy</em></div></div>
+            <div class="agenda-row no-speakers"><time>9.45 a.m.–11.00 a.m.</time><div><strong>Forum 3: Entrepreneurship</strong><em>Entrepreneurship 5.0: Building Future-Ready Ventures in the AI Economy</em></div></div>
+            <div class="agenda-row no-speakers"><time>11.00 a.m.–11.15 a.m.</time><div><strong>Coffee Break</strong></div></div>
+            <div class="agenda-row no-speakers"><time>11.15 a.m.–12.45 p.m.</time><div><strong>Academic Parallel Session 1</strong><span>Paper presenters, session chairs and assessors to be confirmed</span></div></div>
+            <div class="agenda-row no-speakers"><time>12.45 p.m.–2.00 p.m.</time><div><strong>Lunch Break</strong></div></div>
+            <div class="agenda-row no-speakers"><time>2.00 p.m.–3.30 p.m.</time><div><strong>Academic Parallel Session 2</strong><span>Paper presenters, session chairs and assessors to be confirmed</span></div></div>
+            <div class="agenda-row no-speakers"><time>3.30 p.m.–3.45 p.m.</time><div><strong>Coffee Break</strong></div></div>
+            <div class="agenda-row no-speakers"><time>3.45 p.m.–5.15 p.m.</time><div><strong>Academic Parallel Session 3</strong><span>Paper presenters, session chairs and assessors to be confirmed</span></div></div>
+            <div class="agenda-row no-speakers"><time>5.15 p.m.–5.30 p.m.</time><div><strong>Summary and Closing Remarks</strong><span>Academic Committee Chair or appointed session rapporteur</span></div></div>
           </div>
         </section>
 
-        <section class="programme-day" aria-labelledby="day-3-heading">
+        <section class="programme-tab-panel day-3-panel" aria-labelledby="day-3-heading">
           <header class="programme-day-heading">
-            <p>Day 3</p>
-            <h2 id="day-3-heading">4 Dec 2026 (Fri)</h2>
+            <p>Day 3 — Friday, 4 December 2026</p>
+            <h2 id="day-3-heading">Sustainable Entrepreneurship, Strategic Collaboration and Conference Closing</h2>
           </header>
-          <div class="day-schedule">
-            <div class="schedule-row"><time>08:30 a.m. – 09.00 a.m.</time><div class="schedule-item">Registration and Morning Coffee</div></div>
-            <div class="schedule-row"><time>09:00 a.m. – 10:15 a.m.</time><div class="schedule-item"><strong>Forum 4:</strong><span>Sustainable Entrepreneurship for a Resilient Future: Innovating Solutions to Global Challenges</span></div></div>
-            <div class="schedule-row"><time>10:15 a.m. – 10:45 a.m.</time><div class="schedule-item">Coffee Break</div></div>
-            <div class="schedule-row"><time>10:45 a.m. – 12:00 p.m.</time><div class="schedule-item">Roundtable Discussion &amp; Strategic Collaboration Meeting</div></div>
-            <div class="schedule-row"><time>12:00 p.m. – 12:45 p.m.</time><div class="schedule-item">Memorandum of Understanding (MoU) Signing Ceremonies</div></div>
-            <div class="schedule-row"><time>12:45 p.m. – 14:00 p.m.</time><div class="schedule-item">Lunch Break</div></div>
-            <div class="schedule-row"><time>14:00 p.m. – 16:00 p.m.</time><div class="schedule-item">Strategic Networking Meetings &amp; Project Matching Sessions</div></div>
-            <div class="schedule-row"><time>16:00 p.m. – 17:00 p.m.</time><div class="schedule-item">Closing Session &amp; Conference Resolutions</div></div>
-            <div class="schedule-row"><time>19:00 p.m. – 22:00 p.m.</time><div class="schedule-item">Gala Dinner &amp; Awards Presentation Ceremony</div></div>
+          <div class="agenda-table">
+            <div class="agenda-row agenda-head"><span>Time</span><span>Programme</span></div>
+            <div class="agenda-row no-speakers"><time>8.30 a.m.–9.00 a.m.</time><div><strong>Registration and Morning Coffee</strong><span>Registration and hospitality teams</span></div></div>
+            <div class="agenda-row no-speakers"><time>9.00 a.m.–9.45 a.m.</time><div><strong>Keynote Session 4</strong><em>Future-Ready Malaysia: Developing Human Capital, Entrepreneurship and Innovation for the AI Era</em></div></div>
+            <div class="agenda-row no-speakers"><time>9.45 a.m.–11.00 a.m.</time><div><strong>Forum 4: Sustainable Entrepreneurship</strong><em>Sustainable Entrepreneurship for a Resilient Future: Innovating Solutions to Global Challenges</em></div></div>
+            <div class="agenda-row no-speakers"><time>11.00 a.m.–11.15 a.m.</time><div><strong>Coffee Break</strong></div></div>
+            <div class="agenda-row no-speakers"><time>11.15 a.m.–12.45 p.m.</time><div><strong>Roundtable Discussion and Strategic Collaboration Meeting</strong><span>Memorandum of Understanding Signing Ceremonies</span><span>Participating institutions, strategic partners, signatories and witnesses to be confirmed</span></div></div>
+            <div class="agenda-row no-speakers"><time>12.45 p.m.–2.00 p.m.</time><div><strong>Lunch Break</strong></div></div>
+            <div class="agenda-row no-speakers"><time>2.00 p.m.–4.00 p.m.</time><div><strong>Strategic Networking Meetings and Project-Matching Sessions</strong><span>Government agencies, universities, industry representatives, investors, entrepreneurs and strategic partners</span></div></div>
+            <div class="agenda-row no-speakers"><time>4.00 p.m.–5.00 p.m.</time><div><strong>Closing Session and Conference Resolutions</strong><span>Conference Chair, joint organisers, session rapporteurs and Conference Resolution Committee</span></div></div>
           </div>
         </section>
       </div>

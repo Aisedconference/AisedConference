@@ -74,14 +74,33 @@ Shah Alam Convention Centre, Malaysia
     - Short answer
     - Optional
 
-11. Dietary / Accessibility Notes
+11. Submit to SCOPUS
+    - Multiple choice
+    - Show for Call for Papers presenter submissions
+    - Required for presenters
+    - Options:
+      - Yes
+      - No
+
+12. Abstract / Full paper submission
+    - File upload
+    - Show for Call for Papers presenter submissions
+    - Required for presenters
+
+13. Dietary / Accessibility Notes
     - Paragraph
     - Optional
 
-12. Consent
+14. Consent
     - Checkbox
     - Required
     - Text: I confirm that the information provided is accurate and may be used by the AiSED Conference 2026 Secretariat for registration and event communication.
+
+## Call for Papers auto-reply
+
+- Sender / reply-to mailbox: papers@aisedconference.org
+- Trigger: Call for Papers registration submission
+- Message: acknowledge receipt, include the registration reference, paper title, and Submit to SCOPUS answer, and state that the paper will be reviewed by the committee with the next step communicated by 29th August 2026.
 
 ## Recommended Google Form settings
 

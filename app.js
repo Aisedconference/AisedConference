@@ -116,6 +116,22 @@ function buildSelect(name, label, options, required = true) {
   `;
 }
 
+function buildRadioGroup(name, legend, options, required = true) {
+  return `
+    <fieldset class="radio-group">
+      <legend>${legend}</legend>
+      <div>
+        ${options.map((option, index) => `
+          <label>
+            <input name="${name}" type="radio" value="${option}" ${required && index === 0 ? "required" : ""}>
+            <span>${option}</span>
+          </label>
+        `).join("")}
+      </div>
+    </fieldset>
+  `;
+}
+
 function getFieldLabel(input) {
   const label = input.closest("label");
   if (!label) return input.name;
@@ -199,7 +215,8 @@ function renderRegistrationFields() {
       ${registrationState.type === "Presenter" ? `
         ${buildField("paper_title", "Paper title", "text", true, `placeholder="e.g, AI for Sustainable Entrepreneurship in ASEAN"`)}
         <label>Abstract<textarea name="abstract" rows="4" required placeholder="e.g, 250-300 word abstract summary"></textarea></label>
-        <label>Paper attachment<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
+        ${buildRadioGroup("submit_to_scopus", "Submit to SCOPUS", ["Yes", "No"])}
+        <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
       ` : `
         ${buildSelect("attendance_interest", "Attendance interest", ["Academic sessions", "Keynotes and forums", "Networking", "Full conference"])}
       `}
@@ -483,6 +500,41 @@ function initRegistrationWizard() {
     const partnerButton = wizard.querySelector('[data-category="partners"]');
     partnerButton?.classList.add("active");
     showStep("partner-type");
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("category") === "call-papers") {
+    registrationState.category = "call-papers";
+    const callPapersButton = wizard.querySelector('[data-category="call-papers"]');
+    callPapersButton?.classList.add("active");
+
+    const requestedSubsection = params.get("subsection");
+    const requestedType = params.get("type");
+
+    if (requestedSubsection) {
+      registrationState.subsection = requestedSubsection;
+      const subsectionButton = wizard.querySelector(`[data-subsection="${CSS.escape(requestedSubsection)}"]`);
+      subsectionButton?.classList.add("active");
+    }
+
+    if (requestedType) {
+      registrationState.type = requestedType;
+      const typeButton = wizard.querySelector(`[data-registration-type="${CSS.escape(requestedType)}"]`);
+      typeButton?.classList.add("active");
+    }
+
+    if (registrationState.subsection && registrationState.type) {
+      renderRegistrationFields();
+      showStep("form");
+      return;
+    }
+
+    if (registrationState.subsection) {
+      showStep("type");
+      return;
+    }
+
+    showStep("subsection");
   }
 }
 

@@ -5,11 +5,12 @@ const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
 const html = fs.readFileSync(path.join(root, "speakers.html"), "utf8");
+const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 
 const portraits = [
   {
     src: "assets/tengku-amir-shah-profile.jpg",
-    alt: "Duli Yang Teramat Mulia Tengku Amir Shah ibni Sultan Sharafuddin Idris Shah",
+    alt: "His Highness The Raja Muda of Selangor Tengku Amir Shah ibni Sultan Sharafuddin Idris Shah Alhaj",
   },
   {
     src: "assets/steve-cheah-speaker.png",
@@ -26,6 +27,18 @@ const portraits = [
   {
     src: "assets/ts-zehan-teoh-speaker.png",
     alt: "Ts. Zehan Teoh",
+  },
+  {
+    src: "assets/Committee/Kamarul Hisham Baginda.png",
+    alt: "Kamarul Hisham Baginda FCMI",
+  },
+  {
+    src: "assets/sam-majid-speaker.jpg",
+    alt: "Sam Majid",
+  },
+  {
+    src: "assets/Committee/Dr Janeth Emanuel Kigobe.png",
+    alt: "Dr. Janeth Emanuel Kigobe",
   },
 ];
 
@@ -64,6 +77,21 @@ test("shows the approved speaker categories and organisation titles", () => {
       name: "Ts. Zehan Teoh",
       role: "Seating Experts, AiSED",
     },
+    {
+      badge: "Moderator",
+      name: "Kamarul Hisham Baginda FCMI",
+      role: "Adjunct. Professor of Asia e University &amp; Fellow of Chartered Management Institute, UK",
+    },
+    {
+      badge: "Speaker",
+      name: "Sam Majid",
+      role: "Former CEO of National AI Office",
+    },
+    {
+      badge: "Moderator",
+      name: "Dr. Janeth Emanuel Kigobe",
+      role: "Dean of Faculty of Education &amp; Co-Chair, UNESCO Chair on Teacher &amp; Curriculum, Open University Tanzania",
+    },
   ];
 
   for (const profile of profiles) {
@@ -76,7 +104,35 @@ test("shows the approved speaker categories and organisation titles", () => {
   }
 });
 
-test("uses four consistently formatted speaker profile cards", () => {
-  assert.equal((html.match(/class="speaker-card profile-speaker-card"/g) || []).length, 4);
-  assert.equal((html.match(/class="speaker-avatar royal-avatar speaker-profile-photo"/g) || []).length, 4);
+test("uses seven consistently formatted speaker profile cards", () => {
+  assert.equal((html.match(/class="speaker-card profile-speaker-card"/g) || []).length, 7);
+  assert.equal((html.match(/class="speaker-avatar royal-avatar speaker-profile-photo"/g) || []).length, 7);
+});
+
+test("shows the added forum assignments for moderators and speaker", () => {
+  for (const session of [
+    "Opening Ceremony and High-Level Forums",
+    "Conference Chair and Keynote Addresses",
+    "Entrepreneurship Forum and Academic Parallel Sessions",
+    "Forum 2: Artificial Intelligence",
+    "Forum 3: Entrepreneurship",
+    "Forum 4: Sustainable Entrepreneurship",
+  ]) {
+    assert.ok(html.includes(session), `Missing speaker session label: ${session}`);
+  }
+});
+
+test("lays out speaker profiles as a left-aligned three-column grid", () => {
+  assert.match(
+    css,
+    /\.profile-grid\s*\{[^}]*max-width:\s*none;[^}]*grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\);[^}]*justify-items:\s*stretch/s
+  );
+  assert.match(
+    css,
+    /\.profile-speaker-card\s*\{[^}]*grid-template-columns:\s*112px minmax\(0,\s*1fr\);[^}]*align-items:\s*start/s
+  );
+  assert.match(
+    css,
+    /\.profile-copy\s*\{[^}]*justify-items:\s*start;[^}]*text-align:\s*left/s
+  );
 });

@@ -25,6 +25,10 @@ test("uses Tengku Amir Shah's supplied portrait", () => {
     ),
     "Missing the updated Royal Patron portrait asset"
   );
+  assert.ok(
+    html.includes("His Highness The Raja Muda of Selangor Tengku Amir Shah ibni Sultan Sharafuddin Idris Shah Alhaj"),
+    "Royal Patron display name must use the latest approved wording"
+  );
 });
 
 test("uses Adam Phung GK's supplied portrait", () => {
@@ -80,7 +84,7 @@ test("adds Beh XiaoQing to the Committee Members section with matched portrait",
 test("preserves the current committee roster", () => {
   for (const name of [
     "Dato’ Steve Cheah",
-    "Pn Sharliza Dato' Shamsuddin",
+    "Pn Sharliza Shamsuddin",
     "Assoc Prof Dr Hartini Ahmad",
     "Priscilla Selvaraju",
     "Juliana Shaharudin",
@@ -92,6 +96,14 @@ test("preserves the current committee roster", () => {
   ]) {
     assert.ok(html.includes(name), `Missing ${name}`);
   }
+});
+
+test("uses singular Deputy Chairperson heading", () => {
+  assert.match(
+    html,
+    /<h2 class="committee-group-title" id="deputy-chairpersons-heading">Deputy Chairperson<\/h2>/
+  );
+  assert.doesNotMatch(html, />Deputy Chairpersons<\/h2>/);
 });
 
 test("uses full Asia e University wording without changing existing role titles", () => {

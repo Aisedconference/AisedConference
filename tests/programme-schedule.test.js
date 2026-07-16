@@ -7,55 +7,62 @@ const root = path.resolve(__dirname, "..");
 const html = fs.readFileSync(path.join(root, "programme.html"), "utf8");
 const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 
-test("uses three chronological day schedules instead of the coarse matrix", () => {
-  assert.equal((html.match(/class="programme-day"/g) || []).length, 3);
-  assert.equal((html.match(/class="day-schedule"/g) || []).length, 3);
-  assert.doesNotMatch(html, /<table class="programme-matrix"/);
-  assert.doesNotMatch(html, /<ul>|<li>/);
+test("uses three agenda buttons for Day 1, Day 2 and Day 3", () => {
+  assert.equal((html.match(/class="programme-tab-input"/g) || []).length, 3);
+  assert.equal((html.match(/class="programme-tab-button"/g) || []).length, 3);
+  assert.equal((html.match(/class="programme-tab-panel/g) || []).length, 3);
+  assert.doesNotMatch(html, /class="programme-days"/);
+  assert.doesNotMatch(html, /class="day-schedule"/);
 
-  for (const date of [
-    "2 Dec 2026 (Wed)",
-    "3 Dec 2026 (Thurs)",
-    "4 Dec 2026 (Fri)",
-  ]) {
-    assert.ok(html.includes(date), `Missing programme date: ${date}`);
+  for (const label of ["Day 1", "Day 2", "Day 3"]) {
+    assert.ok(html.includes(`>${label}</label>`), `Missing agenda button: ${label}`);
   }
+  assert.doesNotMatch(html, />Gala Dinner<\/label>/);
+  assert.doesNotMatch(html, /programme-gala-tab/);
 });
 
-test("preserves every supplied programme time", () => {
+test("renders the supplied day headings", () => {
+  for (const heading of [
+    "Day 1 — Wednesday, 2 December 2026",
+    "Opening Ceremony, Keynote Addresses and High-Level Forums",
+    "Day 2 — Thursday, 3 December 2026",
+    "Entrepreneurship Forum and Academic Parallel Sessions",
+    "Day 3 — Friday, 4 December 2026",
+    "Sustainable Entrepreneurship, Strategic Collaboration and Conference Closing",
+  ]) {
+    assert.ok(html.includes(heading), `Missing heading/detail: ${heading}`);
+  }
+  assert.doesNotMatch(html, /Charity Gala Dinner and Awards Presentation Ceremony/);
+  assert.doesNotMatch(html, /Dress Code: Black Tie \/ Formal/);
+});
+
+test("preserves the updated agenda times", () => {
   const times = [
-    "08.00 a.m. – 09.00 a.m.",
-    "09.00 a.m. – 09.10 a.m.",
-    "09.10 a.m. – 09.30 a.m.",
-    "09.30 a.m. – 09.40 a.m.",
-    "09.40 a.m. – 10.00 a.m.",
-    "10.00 a.m. – 10.30 a.m.",
-    "10.30 a.m. – 11.15 a.m.",
-    "11.15 a.m. – 12.00 p.m.",
-    "12.00 p.m. – 14.00 p.m.",
-    "14.00 p.m. – 15.15 p.m.",
-    "15.15 p.m. – 15.45 p.m.",
-    "15.45 p.m. – 17.00 p.m.",
-    "17.00 p.m. – 17.30 p.m.",
-    "08.30 a.m. – 09.00 a.m.",
-    "09. 00 a.m. – 09.45 a.m.",
-    "09.45 a.m. – 11.00 a.m.",
-    "11.00 a.m. – 11.15 a.m.",
-    "11.15 a.m. – 12.45 p.m.",
-    "12.45 p.m. – 14.00 p.m.",
-    "14.00 p.m. – 15.30 p.m.",
-    "15.30 p.m. – 15.45 p.m.",
-    "15.45 p.m. – 17.15 p.m.",
-    "17.15 p.m. – 17.30 p.m.",
-    "08:30 a.m. – 09.00 a.m.",
-    "09:00 a.m. – 10:15 a.m.",
-    "10:15 a.m. – 10:45 a.m.",
-    "10:45 a.m. – 12:00 p.m.",
-    "12:00 p.m. – 12:45 p.m.",
-    "12:45 p.m. – 14:00 p.m.",
-    "14:00 p.m. – 16:00 p.m.",
-    "16:00 p.m. – 17:00 p.m.",
-    "19:00 p.m. – 22:00 p.m.",
+    "8.00 a.m.–9.00 a.m.",
+    "9.00 a.m.–9.10 a.m.",
+    "9.10 a.m.–9.30 a.m.",
+    "9.30 a.m.–9.40 a.m.",
+    "9.40 a.m.–10.00 a.m.",
+    "10.00 a.m.–10.30 a.m.",
+    "10.30 a.m.–11.15 a.m.",
+    "11.15 a.m.–12.30 p.m.",
+    "12.30 p.m.–2.00 p.m.",
+    "2.00 p.m.–3.15 p.m.",
+    "3.15 p.m.–3.45 p.m.",
+    "3.45 p.m.–5.00 p.m.",
+    "5.00 p.m.–5.30 p.m.",
+    "8.30 a.m.–9.00 a.m.",
+    "9.00 a.m.–9.45 a.m.",
+    "9.45 a.m.–11.00 a.m.",
+    "11.00 a.m.–11.15 a.m.",
+    "11.15 a.m.–12.45 p.m.",
+    "12.45 p.m.–2.00 p.m.",
+    "2.00 p.m.–3.30 p.m.",
+    "3.30 p.m.–3.45 p.m.",
+    "3.45 p.m.–5.15 p.m.",
+    "5.15 p.m.–5.30 p.m.",
+    "2.00 p.m.–4.00 p.m.",
+    "4.00 p.m.–5.00 p.m.",
   ];
 
   for (const time of times) {
@@ -63,26 +70,67 @@ test("preserves every supplied programme time", () => {
   }
 });
 
-test("renders keynote and forum labels without bullets", () => {
-  const sessions = {
-    "Keynote Session 1": "AI for Humanity: Shaping Sustainable and Inclusive Futures in the Age of Intelligent Transformation",
-    "Keynote Session 2": "The New Global Leadership Imperative: Entrepreneurship, Diplomacy and Collaboration in an AI-Driven Era",
-    "Keynote Session 3": "From Disruption to Transformation: Building Resilient Innovation Ecosystems in the AI Economy",
-    "Forum 1": "Diplomacy: The New Global Order: AI, Geopolitical Competition and Economic Stability",
-    "Forum 2": "Artificial Intelligence: Beyond Automation: AI as a Catalyst for Sustainable Development and Human Advancement",
-    "Forum 3": "Entrepreneurship: Entrepreneurship 5.0: Building Future-Ready Ventures in the AI Economy",
-    "Forum 4": "Sustainable Entrepreneurship for a Resilient Future: Innovating Solutions to Global Challenges",
-  };
+test("includes the supplied forum, keynote and moderator content", () => {
+  const content = [
+    "Keynote Session 1",
+    "Officiated by the Royal Patron of AiSED, His Highness The Raja Muda of Selangor Tengku Amir Shah ibni Sultan Sharafuddin Idris Shah Alhaj.",
+    "AI for Humanity: Shaping Sustainable and Inclusive Futures in the Age of Intelligent Transformation",
+    "Forum 1: Diplomacy and Global Affairs",
+    "Keynote Session 2",
+    "Forum 2: Artificial Intelligence",
+    "Keynote Session 3",
+    "Forum 3: Entrepreneurship",
+    "Keynote Session 4",
+    "Forum 4: Sustainable Entrepreneurship",
+  ];
 
-  for (const [label, title] of Object.entries(sessions)) {
-    assert.ok(html.includes(`<strong>${label}:</strong>`), `Missing ${label}`);
-    assert.ok(html.includes(`<span>${title}</span>`), `Missing title for ${label}`);
+  for (const item of content) {
+    assert.ok(html.includes(item), `Missing programme content: ${item}`);
   }
 });
 
-test("styles the new schedule for desktop and mobile", () => {
-  assert.match(css, /\.programme-days\s*\{[^}]*display:\s*grid/s);
-  assert.match(css, /\.schedule-row\s*\{[^}]*grid-template-columns:\s*minmax\(190px,\s*250px\) minmax\(0,\s*1fr\)/s);
-  assert.match(css, /\.schedule-item strong,[\s\S]*?\.schedule-item span\s*\{[^}]*display:\s*block/s);
-  assert.match(css, /@media \(max-width:\s*640px\)[\s\S]*?\.schedule-row\s*\{[^}]*grid-template-columns:\s*1fr/s);
+test("removes speaker columns and person lists from the programme timetable", () => {
+  assert.doesNotMatch(html, /<span>Speakers<\/span>/);
+  assert.doesNotMatch(html, /class="agenda-row has-speakers"/);
+  assert.doesNotMatch(html, /class="agenda-speakers/);
+  assert.doesNotMatch(html, /<strong>Keynote Speaker:/);
+  assert.doesNotMatch(html, /<strong>Panellists:/);
+  assert.doesNotMatch(html, /<strong>Moderator:/);
+  assert.doesNotMatch(html, /Sam Majid, Former CEO, National AI Office/);
+  assert.doesNotMatch(html, /Kamarul Hisham Baginda FCMI/);
+  assert.doesNotMatch(html, /Dr Janeth Emanuel Kigobe/);
+  assert.doesNotMatch(html, />Speakers \/ Remarks</);
+  assert.doesNotMatch(html, />Remarks</);
+  assert.doesNotMatch(html, /Proposed/);
+  assert.doesNotMatch(html, /\bPICs?:/);
+  assert.doesNotMatch(html, /Proposed Award and Recognition Categories/);
+  assert.doesNotMatch(html, /Best Paper Award/);
+  assert.doesNotMatch(html, /Summary and Closing Remarks for Day/);
+  assert.ok(html.includes("<strong>Summary and Closing Remarks</strong>"));
+  assert.doesNotMatch(html, />Speakers \/ Panellists \/ Moderator</);
+});
+
+test("removes Gala Dinner from the visible schedule", () => {
+  assert.doesNotMatch(html, /gala-panel/);
+  assert.doesNotMatch(html, /AiSED Charity Gala Dinner 2026/);
+  assert.doesNotMatch(html, /Guest Registration and Welcome Reception/);
+  assert.doesNotMatch(html, /AiSED Charity Impact Presentation and Fundraising Video/);
+});
+
+test("styles the tabbed agenda layout for desktop and mobile", () => {
+  assert.match(css, /\.programme-tab-buttons\s*\{[^}]*display:\s*flex/s);
+  assert.match(css, /\.programme-tab-button\s*\{[^}]*border-radius:\s*999px/s);
+  assert.match(css, /#programme-day-1-tab:checked ~ \.programme-tab-buttons label\[for="programme-day-1-tab"\]/s);
+  assert.match(css, /\.programme-tab-panel\s*\{[^}]*display:\s*none/s);
+  assert.match(css, /#programme-day-1-tab:checked ~ \.day-1-panel,[\s\S]*?#programme-day-3-tab:checked ~ \.day-3-panel\s*\{[^}]*display:\s*block/s);
+  assert.doesNotMatch(css, /programme-gala-tab/);
+  assert.match(css, /\.agenda-row\s*\{[^}]*grid-template-columns:\s*minmax\(150px,\s*230px\) minmax\(0,\s*1fr\)/s);
+  assert.match(css, /\.agenda-row\.no-speakers\s*\{[^}]*grid-template-columns:\s*minmax\(150px,\s*210px\) minmax\(0,\s*1fr\)/s);
+  assert.match(css, /\.agenda-row > :nth-child\(2\)\s*\{[^}]*border-left:/s);
+  assert.doesNotMatch(css, /\.agenda-row > \* \+ \*/);
+  assert.match(css, /\.agenda-speakers \.person::before\s*\{[^}]*content:\s*"•"/s);
+  assert.match(css, /\.agenda-row:not\(\.agenda-head\):nth-child\(odd\)\s*\{[^}]*background:\s*rgba\(255,\s*250,\s*241,\s*0\.72\)/s);
+  assert.doesNotMatch(css, /\.agenda-row time\s*\{[^}]*background:/s);
+  assert.doesNotMatch(css, /\.agenda-speakers\s*\{[^}]*background:/s);
+  assert.match(css, /@media \(max-width:\s*640px\)[\s\S]*?\.agenda-row,[\s\S]*?\.agenda-head,[\s\S]*?\.agenda-row\.has-speakers,[\s\S]*?\.agenda-row\.no-speakers\s*\{[^}]*grid-template-columns:\s*1fr/s);
 });
