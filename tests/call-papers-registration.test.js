@@ -34,19 +34,23 @@ test("supports a direct academic presenter registration link", () => {
   assert.match(appJs, /params\.get\("subsection"\)/);
   assert.match(appJs, /params\.get\("type"\)/);
   assert.match(appJs, /renderRegistrationFields\(\);\s*showStep\("form"\);\s*return;/);
-  assert.match(appJs, /data-subsection="\$\{CSS\.escape\(requestedSubsection\)\}"/);
   assert.match(appJs, /registrationState\.type = requestedType/);
 });
 
-test("call for papers route uses the requested audience buttons and milestone copy", () => {
+test("call for papers route uses one submit button and form dropdowns", () => {
   assert.doesNotMatch(registrationHtml, /data-step="type"/);
+  assert.doesNotMatch(registrationHtml, />Who is registering\?<\/h3>/);
+  assert.match(registrationHtml, /data-open-call-paper-form><strong>Submit Paper Now<\/strong>/);
+  assert.match(appJs, /id="call-paper-audience"/);
+  assert.match(appJs, /name="registration_subsection"/);
+  assert.match(appJs, /<option value="Academics \/ Entrepreneurs \/ Others"/);
+  assert.match(appJs, /<option value="Postgraduate Students"/);
   assert.match(appJs, /id="call-paper-registration-type"/);
   assert.match(appJs, /name="registration_type"/);
   assert.match(appJs, /<option value="Presenter"/);
   assert.match(appJs, /<option value="Non-Presenter"/);
+  assert.match(appJs, /event\.target\.name === "registration_subsection"/);
   assert.match(appJs, /event\.target\.name === "registration_type"/);
-  assert.match(registrationHtml, /data-subsection="Academics \/ Entrepreneurs \/ Others"><strong>Academics \/ Entrepreneurs \/ Others<\/strong>/);
-  assert.match(registrationHtml, /data-subsection="Postgraduate Students"><strong>Postgraduate Students<\/strong>/);
   assert.match(appJs, /registrationState\.category === "call-papers"[\s\S]*showStep\("subsection"\)/);
   assert.match(registrationHtml, /<div class="flow-step-head"><span>01<\/span><strong>15th August 2026<\/strong><\/div><p><b>Submit Abstract<\/b>/);
   assert.match(registrationHtml, /Papers Council Reviewer/);
@@ -56,6 +60,8 @@ test("call for papers route uses the requested audience buttons and milestone co
 });
 
 test("presenter forms collect SCOPUS preference and abstract or full paper upload", () => {
+  assert.match(appJs, /registrationState\.type === "Presenter" \|\| registrationState\.type === "Non-Presenter"/);
+  assert.doesNotMatch(appJs, /attendance_interest/);
   assert.match(appJs, /buildRadioGroup\("submit_to_scopus", "Submit to SCOPUS", \["Yes", "No"\]\)/);
   assert.match(appJs, /Abstract \/ Full paper submission<input name="paper_attachment"/);
   assert.doesNotMatch(appJs, />Paper attachment<input name="paper_attachment"/);

@@ -206,9 +206,19 @@ function renderRegistrationFields() {
       </label>`
     : `<input type="hidden" name="registration_type" value="${registrationState.type}">`;
 
+  const registrationSubsectionField = registrationState.category === "call-papers"
+    ? `<label>Who is registering?
+        <select id="call-paper-audience" name="registration_subsection" required>
+          <option value="">Please select</option>
+          <option value="Academics / Entrepreneurs / Others"${registrationState.subsection === "Academics / Entrepreneurs / Others" ? " selected" : ""}>Academics / Entrepreneurs / Others</option>
+          <option value="Postgraduate Students"${registrationState.subsection === "Postgraduate Students" ? " selected" : ""}>Postgraduate Students</option>
+        </select>
+      </label>`
+    : `<input type="hidden" name="registration_subsection" value="${registrationState.subsection}">`;
+
   let commonFields = [
     `<input type="hidden" name="registration_category" value="${registrationState.category}">`,
-    `<input type="hidden" name="registration_subsection" value="${registrationState.subsection}">`,
+    registrationSubsectionField,
     registrationTypeField,
     buildSelect("title", "Title", ["Prof.", "Dr.", "Mr.", "Ms.", "Mrs.", "Dato'", "Datin", "Tan Sri", "Other"]),
     buildField("name", "Full name", "text", true, `placeholder="e.g, John Smith"`),
@@ -221,16 +231,12 @@ function renderRegistrationFields() {
   let routeFields = "";
 
   if (registrationState.category === "call-papers") {
-    if (registrationState.type === "Presenter") {
+    if (registrationState.type === "Presenter" || registrationState.type === "Non-Presenter") {
       routeFields = `
         ${buildField("paper_title", "Paper title", "text", true, `placeholder="e.g, AI for Sustainable Entrepreneurship in ASEAN"`)}
         <label>Abstract<textarea name="abstract" rows="4" required placeholder="e.g, 250-300 word abstract summary"></textarea></label>
         ${buildRadioGroup("submit_to_scopus", "Submit to SCOPUS", ["Yes", "No"])}
         <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
-      `;
-    } else if (registrationState.type === "Non-Presenter") {
-      routeFields = `
-        ${buildSelect("attendance_interest", "Attendance interest", ["Academic sessions", "Keynotes and forums", "Networking", "Full conference"])}
       `;
     } else {
       routeFields = `
@@ -449,6 +455,11 @@ function initRegistrationWizard() {
       showStep("form");
     }
 
+    if (button.dataset.openCallPaperForm !== undefined) {
+      renderRegistrationFields();
+      showStep("form");
+    }
+
     if (button.dataset.registrationType) {
       registrationState.type = button.dataset.registrationType;
       clearActive("[data-registration-type]");
@@ -495,7 +506,12 @@ function initRegistrationWizard() {
   });
 
   form.addEventListener("change", (event) => {
-    if (event.target.name === "registration_type" && registrationState.category === "call-papers") {
+    if (registrationState.category === "call-papers" && event.target.name === "registration_subsection") {
+      registrationState.subsection = event.target.value;
+      renderRegistrationFields();
+    }
+
+    if (registrationState.category === "call-papers" && event.target.name === "registration_type") {
       registrationState.type = event.target.value;
       renderRegistrationFields();
     }
@@ -538,15 +554,13 @@ function initRegistrationWizard() {
 
     if (requestedSubsection) {
       registrationState.subsection = requestedSubsection;
-      const subsectionButton = wizard.querySelector(`[data-subsection="${CSS.escape(requestedSubsection)}"]`);
-      subsectionButton?.classList.add("active");
     }
 
     if (requestedType) {
       registrationState.type = requestedType;
     }
 
-    if (registrationState.subsection) {
+    if (registrationState.subsection || registrationState.type) {
       renderRegistrationFields();
       showStep("form");
       return;
