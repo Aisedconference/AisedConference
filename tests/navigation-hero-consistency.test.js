@@ -15,6 +15,8 @@ const pages = [
   "venue.html",
 ];
 const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
+const registrationHtml = fs.readFileSync(path.join(root, "registration.html"), "utf8");
+const appJs = fs.readFileSync(path.join(root, "app.js"), "utf8");
 
 test("labels every registration navigation link consistently", () => {
   for (const page of pages) {
@@ -29,4 +31,13 @@ test("retains the shared original dark-green inner-page hero gradient", () => {
     css,
     /\.page-hero\s*\{[^}]*background:\s*linear-gradient\(135deg,\s*rgba\(31, 52, 40, 0\.96\),\s*rgba\(36, 88, 58, 0\.94\)\);/s
   );
+});
+
+test("uses the updated participant and invited guest registration wording", () => {
+  assert.match(registrationHtml, /data-participant-type="General Admission"><strong>General Admission<\/strong>/);
+  assert.match(registrationHtml, /HRD Corp Claimable, General Admission and Government Agencies delegates/);
+  assert.doesNotMatch(registrationHtml, /Non-HRD Corp Claimable/);
+  assert.match(registrationHtml, /embassy guests, guests of honour and protocol guests/);
+  assert.match(registrationHtml, /partner universities, agencies, NGOs or institutions/);
+  assert.match(appJs, /selectedParticipantType = registrationState\.type \|\| "General Admission"/);
 });

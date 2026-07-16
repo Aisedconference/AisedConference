@@ -331,7 +331,7 @@ function renderRegistrationFields() {
   }
 
   if (registrationState.category === "participants") {
-    const selectedParticipantType = registrationState.type || "Non-HRD Corp Claimable";
+    const selectedParticipantType = registrationState.type || "General Admission";
     const participantHiddenField = `<input type="hidden" name="participant_sector" value="${selectedParticipantType}">`;
 
     let participantFields = "";
