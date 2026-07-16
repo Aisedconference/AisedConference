@@ -77,18 +77,25 @@ test("presenter forms collect SCOPUS preference and abstract or full paper uploa
   assert.match(appJs, /name="scopus_presentation_mode"/);
   assert.match(appJs, /Physical Presentation">\s*Physical Presentation \(\+ RM200\)/);
   assert.match(appJs, /Online Presentation">\s*Online Presentation \(\+ RM150\)/);
-  assert.match(appJs, /name="estimated_payable_amount"/);
-  assert.match(appJs, /name="estimated_fee_breakdown"/);
+  assert.match(registrationHtml, /name="estimated_payable_amount"/);
+  assert.match(registrationHtml, /name="estimated_fee_breakdown"/);
+  assert.match(registrationHtml, /class="registration-submit-row"/);
+  assert.match(registrationHtml, /data-payable-estimate hidden/);
+  assert.match(registrationHtml, /Payment to be made after acceptance/);
+  assert.match(registrationHtml, /<button class="primary-button registration-submit-button" type="submit">Submit<\/button>/);
   assert.match(appJs, /const callPaperFees = \{/);
   assert.match(appJs, /"Academics \/ Entrepreneurs \/ Others"[\s\S]*Presenter:\s*1000[\s\S]*"Non-Presenter":\s*700/);
   assert.match(appJs, /"Postgraduate Students"[\s\S]*Presenter:\s*850[\s\S]*"Non-Presenter":\s*350/);
   assert.match(appJs, /const scopusPublicationFees = \{[\s\S]*"Physical Presentation":\s*200[\s\S]*"Online Presentation":\s*150/);
   assert.match(appJs, /function updateCallPaperEstimate\(form\)/);
   assert.match(appJs, /scopusModeSelect\.required = needsScopusMode/);
+  assert.match(appJs, /submitToScopus === "Yes" && !scopusMode/);
   assert.match(appJs, /Abstract \/ Full paper submission<input name="paper_attachment"/);
   assert.doesNotMatch(appJs, />Paper attachment<input name="paper_attachment"/);
   assert.match(css, /\.radio-group\s*\{/);
   assert.match(css, /\.payable-estimate\s*\{/);
+  assert.match(css, /\.registration-submit-row\s*\{/);
+  assert.match(css, /\.action-form \.registration-submit-button\s*\{/);
 });
 
 test("call for papers backend stores SCOPUS choice and sends papers auto reply", () => {

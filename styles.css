@@ -1526,6 +1526,26 @@ h3 {
   line-height: 1.45;
 }
 
+.registration-submit-row {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.registration-submit-row .payable-estimate {
+  flex: 1 1 auto;
+  margin: 0;
+}
+
+.registration-submit-button {
+  align-self: stretch;
+  width: auto;
+  min-width: 150px;
+  padding-inline: 28px;
+  white-space: nowrap;
+}
+
 .form-divider {
   display: grid;
   gap: 4px;
@@ -2066,6 +2086,11 @@ label {
 .action-form .primary-button {
   width: 100%;
   margin-top: 6px;
+}
+
+.action-form .registration-submit-button {
+  width: auto;
+  margin-top: 0;
 }
 
 .submit-panel {

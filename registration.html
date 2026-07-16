@@ -177,7 +177,16 @@
                 <p>Should I wish to access, update or withdraw my consent regarding my personal data, I may contact the Conference Secretariat at <a href="mailto:info@aisedconference.org">info@aisedconference.org</a>.</p>
               </div>
             </details>
-            <button class="primary-button" type="submit">Submit Registration</button>
+            <input type="hidden" name="estimated_payable_amount" value="">
+            <input type="hidden" name="estimated_fee_breakdown" value="">
+            <div class="registration-submit-row">
+              <div class="payable-estimate" data-payable-estimate hidden>
+                <strong>Payment to be made after acceptance</strong>
+                <span data-estimate-amount>RM0</span>
+                <small data-estimate-breakdown></small>
+              </div>
+              <button class="primary-button registration-submit-button" type="submit">Submit</button>
+            </div>
             <p class="form-status" id="registration-status" aria-live="polite"></p>
           </form>
         </div>

@@ -161,15 +161,26 @@ function getCallPaperFeeBreakdown(form) {
 }
 
 function updateCallPaperEstimate(form) {
-  if (!form || registrationState.category !== "call-papers") return;
+  if (!form) return;
 
+  const estimateContainer = form.querySelector("[data-payable-estimate]");
   const scopusChoice = form.querySelector(".scopus-presentation-choice");
   const scopusModeSelect = form.querySelector("[name='scopus_presentation_mode']");
   const amountInput = form.querySelector("[name='estimated_payable_amount']");
   const breakdownInput = form.querySelector("[name='estimated_fee_breakdown']");
   const estimateAmount = form.querySelector("[data-estimate-amount]");
   const estimateBreakdown = form.querySelector("[data-estimate-breakdown]");
+
+  if (registrationState.category !== "call-papers") {
+    if (estimateContainer) estimateContainer.hidden = true;
+    if (amountInput) amountInput.value = "";
+    if (breakdownInput) breakdownInput.value = "";
+    return;
+  }
+
   const { subsection, type, submitToScopus, scopusMode, baseFee, scopusFee, total } = getCallPaperFeeBreakdown(form);
+
+  if (estimateContainer) estimateContainer.hidden = false;
 
   if (scopusChoice && scopusModeSelect) {
     const needsScopusMode = submitToScopus === "Yes";
@@ -184,10 +195,12 @@ function updateCallPaperEstimate(form) {
   const scopusText = submitToScopus === "Yes"
     ? scopusMode
       ? `SCOPUS indexed publication (${scopusMode}): RM${scopusFee.toLocaleString("en-MY")}`
-      : "SCOPUS indexed publication: please choose Physical or Online Presentation."
+      : ""
     : "SCOPUS indexed publication: RM0";
   const totalText = total ? `RM${total.toLocaleString("en-MY")}` : "RM0";
-  const breakdownText = `${baseText}${baseFee ? ` + ${scopusText}` : ""}`;
+  const breakdownText = submitToScopus === "Yes" && !scopusMode
+    ? ""
+    : `${baseText}${baseFee && scopusText ? ` + ${scopusText}` : ""}`;
 
   if (estimateAmount) estimateAmount.textContent = totalText;
   if (estimateBreakdown) estimateBreakdown.textContent = breakdownText;
@@ -309,13 +322,6 @@ function renderRegistrationFields() {
           </label>
         </div>
         <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
-        <div class="payable-estimate">
-          <strong>Estimated payable amount</strong>
-          <span data-estimate-amount>RM0</span>
-          <small data-estimate-breakdown>Please choose who is registering and Presenter / Non-Presenter.</small>
-        </div>
-        <input type="hidden" name="estimated_payable_amount" value="">
-        <input type="hidden" name="estimated_fee_breakdown" value="">
       `;
     } else {
       routeFields = `
