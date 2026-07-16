@@ -14,7 +14,10 @@ const registrationWebapp = fs.readFileSync(
 );
 
 test("paper submission button opens the call for papers registration route", () => {
-  assert.match(submissionHtml, /href="registration\.html\?category=call-papers">Submit Now<\/a>/);
+  assert.match(
+    submissionHtml,
+    /href="https:\/\/aisedconference\.org\/registration\.html\?category=call-papers&amp;subsection=Academics%20%2F%20Others&amp;type=Presenter">Submit Now<\/a>/
+  );
   assert.match(appJs, /params\.get\("category"\) === "call-papers"/);
   assert.match(appJs, /showStep\("subsection"\)/);
 });
@@ -47,6 +50,7 @@ test("call for papers backend stores SCOPUS choice and sends papers auto reply",
   assert.match(registrationWebapp, /papersEmailFrom:\s*'papers@aisedconference\.org'/);
   assert.match(registrationWebapp, /submitToScopus:\s*payload\.submit_to_scopus/);
   assert.match(registrationWebapp, /record\.submitToScopus/);
+  assert.match(registrationWebapp, /function appendCallForPapers[\s\S]*record\.submitToScopus[\s\S]*attachmentUrlByField\(record, 'paper_attachment'\)/);
   assert.match(registrationWebapp, /route === 'Call for Papers'[\s\S]*AISED\.papersEmailFrom/);
   assert.match(registrationWebapp, /Submit to SCOPUS:\s*\$\{record\.submitToScopus \|\| '-'\}/);
   assert.match(registrationWebapp, /reviewed by the committee, and we will inform you by 29th August 2026/);
