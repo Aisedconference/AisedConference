@@ -29,7 +29,7 @@ test("paper submission button opens the call for papers registration route", () 
 test("supports a direct academic presenter registration link", () => {
   assert.match(
     presenterRedirectHtml,
-    /registration\.html\?category=call-papers&subsection=Academics%20%2F%20Others&type=Presenter/
+    /registration\.html\?category=call-papers&subsection=Academics%20%2F%20Entrepreneurs%20%2F%20Others&type=Presenter/
   );
   assert.match(appJs, /params\.get\("subsection"\)/);
   assert.match(appJs, /params\.get\("type"\)/);
@@ -45,7 +45,7 @@ test("call for papers route uses the requested audience buttons and milestone co
   assert.match(appJs, /<option value="Presenter"/);
   assert.match(appJs, /<option value="Non-Presenter"/);
   assert.match(appJs, /event\.target\.name === "registration_type"/);
-  assert.match(registrationHtml, /data-subsection="Academics \/ Others"><strong>Academics \/ Others<\/strong>/);
+  assert.match(registrationHtml, /data-subsection="Academics \/ Entrepreneurs \/ Others"><strong>Academics \/ Entrepreneurs \/ Others<\/strong>/);
   assert.match(registrationHtml, /data-subsection="Postgraduate Students"><strong>Postgraduate Students<\/strong>/);
   assert.match(appJs, /registrationState\.category === "call-papers"[\s\S]*showStep\("subsection"\)/);
   assert.match(registrationHtml, /<div class="flow-step-head"><span>01<\/span><strong>15th August 2026<\/strong><\/div><p><b>Submit Abstract<\/b>/);
