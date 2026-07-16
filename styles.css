@@ -695,18 +695,40 @@ h3 {
   box-shadow: 0 8px 26px rgba(39, 49, 44, 0.06);
 }
 
+.publication-panel article {
+  gap: 12px;
+  padding: 20px 22px;
+}
+
+.publication-logo {
+  display: flex;
+  align-items: center;
+  min-height: 54px;
+}
+
+.publication-logo img {
+  width: auto;
+  max-width: 150px;
+  max-height: 46px;
+  object-fit: contain;
+}
+
 .publication-panel strong,
 .fee-card strong {
   color: var(--blue-dark);
-  font-size: 1.22rem;
-  line-height: 1.18;
+  font-size: 1.12rem;
+  line-height: 1.22;
 }
 
 .publication-panel p,
 .fee-card p {
   margin: 0;
   color: var(--muted);
-  line-height: 1.48;
+  line-height: 1.42;
+}
+
+.publication-panel p {
+  font-size: 0.96rem;
 }
 
 .fee-grid {
