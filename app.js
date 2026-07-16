@@ -18,6 +18,22 @@ const registrationState = {
   type: ""
 };
 
+const callPaperFees = {
+  "Academics / Entrepreneurs / Others": {
+    Presenter: 1000,
+    "Non-Presenter": 700
+  },
+  "Postgraduate Students": {
+    Presenter: 850,
+    "Non-Presenter": 350
+  }
+};
+
+const scopusPublicationFees = {
+  "Physical Presentation": 200,
+  "Online Presentation": 150
+};
+
 const maxAttachmentSize = 8 * 1024 * 1024;
 
 function getSavedForms() {
@@ -132,6 +148,53 @@ function buildRadioGroup(name, legend, options, required = true) {
   `;
 }
 
+function getCallPaperFeeBreakdown(form) {
+  const subsection = form.querySelector("[name='registration_subsection']")?.value || registrationState.subsection;
+  const type = form.querySelector("[name='registration_type']")?.value || registrationState.type;
+  const submitToScopus = form.querySelector("[name='submit_to_scopus']:checked")?.value || "";
+  const scopusMode = form.querySelector("[name='scopus_presentation_mode']")?.value || "";
+  const baseFee = callPaperFees[subsection]?.[type] || 0;
+  const scopusFee = submitToScopus === "Yes" ? (scopusPublicationFees[scopusMode] || 0) : 0;
+  const total = baseFee + scopusFee;
+
+  return { subsection, type, submitToScopus, scopusMode, baseFee, scopusFee, total };
+}
+
+function updateCallPaperEstimate(form) {
+  if (!form || registrationState.category !== "call-papers") return;
+
+  const scopusChoice = form.querySelector(".scopus-presentation-choice");
+  const scopusModeSelect = form.querySelector("[name='scopus_presentation_mode']");
+  const amountInput = form.querySelector("[name='estimated_payable_amount']");
+  const breakdownInput = form.querySelector("[name='estimated_fee_breakdown']");
+  const estimateAmount = form.querySelector("[data-estimate-amount]");
+  const estimateBreakdown = form.querySelector("[data-estimate-breakdown]");
+  const { subsection, type, submitToScopus, scopusMode, baseFee, scopusFee, total } = getCallPaperFeeBreakdown(form);
+
+  if (scopusChoice && scopusModeSelect) {
+    const needsScopusMode = submitToScopus === "Yes";
+    scopusChoice.hidden = !needsScopusMode;
+    scopusModeSelect.required = needsScopusMode;
+    if (!needsScopusMode) scopusModeSelect.value = "";
+  }
+
+  const baseText = baseFee
+    ? `${subsection} ${type}: RM${baseFee.toLocaleString("en-MY")}`
+    : "Please choose who is registering and Presenter / Non-Presenter.";
+  const scopusText = submitToScopus === "Yes"
+    ? scopusMode
+      ? `SCOPUS indexed publication (${scopusMode}): RM${scopusFee.toLocaleString("en-MY")}`
+      : "SCOPUS indexed publication: please choose Physical or Online Presentation."
+    : "SCOPUS indexed publication: RM0";
+  const totalText = total ? `RM${total.toLocaleString("en-MY")}` : "RM0";
+  const breakdownText = `${baseText}${baseFee ? ` + ${scopusText}` : ""}`;
+
+  if (estimateAmount) estimateAmount.textContent = totalText;
+  if (estimateBreakdown) estimateBreakdown.textContent = breakdownText;
+  if (amountInput) amountInput.value = total ? String(total) : "";
+  if (breakdownInput) breakdownInput.value = breakdownText;
+}
+
 function getFieldLabel(input) {
   const label = input.closest("label");
   if (!label) return input.name;
@@ -236,7 +299,23 @@ function renderRegistrationFields() {
         ${buildField("paper_title", "Paper title", "text", true, `placeholder="e.g, AI for Sustainable Entrepreneurship in ASEAN"`)}
         <label>Abstract<textarea name="abstract" rows="4" required placeholder="e.g, 250-300 word abstract summary"></textarea></label>
         ${buildRadioGroup("submit_to_scopus", "Submit to SCOPUS", ["Yes", "No"])}
+        <div class="scopus-presentation-choice" hidden>
+          <label>SCOPUS publication presentation mode
+            <select name="scopus_presentation_mode">
+              <option value="">Please select</option>
+              <option value="Physical Presentation">Physical Presentation (+ RM200)</option>
+              <option value="Online Presentation">Online Presentation (+ RM150)</option>
+            </select>
+          </label>
+        </div>
         <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
+        <div class="payable-estimate">
+          <strong>Estimated payable amount</strong>
+          <span data-estimate-amount>RM0</span>
+          <small data-estimate-breakdown>Please choose who is registering and Presenter / Non-Presenter.</small>
+        </div>
+        <input type="hidden" name="estimated_payable_amount" value="">
+        <input type="hidden" name="estimated_fee_breakdown" value="">
       `;
     } else {
       routeFields = `
@@ -342,9 +421,11 @@ function renderRegistrationFields() {
   }
 
   fields.innerHTML = `${commonFields.join("")}${routeFields}`;
+  updateCallPaperEstimate(fields.closest("form"));
 }
 
 async function readRegistrationForm(form) {
+  updateCallPaperEstimate(form);
   const data = Object.fromEntries(new FormData(form).entries());
   const fileInputs = Array.from(form.querySelectorAll("input[type='file']"));
   const attachments = [];
@@ -509,11 +590,20 @@ function initRegistrationWizard() {
     if (registrationState.category === "call-papers" && event.target.name === "registration_subsection") {
       registrationState.subsection = event.target.value;
       renderRegistrationFields();
+      return;
     }
 
     if (registrationState.category === "call-papers" && event.target.name === "registration_type") {
       registrationState.type = event.target.value;
       renderRegistrationFields();
+      return;
+    }
+
+    if (
+      registrationState.category === "call-papers" &&
+      (event.target.name === "submit_to_scopus" || event.target.name === "scopus_presentation_mode")
+    ) {
+      updateCallPaperEstimate(form);
     }
   });
 

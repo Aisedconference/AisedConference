@@ -63,17 +63,34 @@ test("presenter forms collect SCOPUS preference and abstract or full paper uploa
   assert.match(appJs, /registrationState\.type === "Presenter" \|\| registrationState\.type === "Non-Presenter"/);
   assert.doesNotMatch(appJs, /attendance_interest/);
   assert.match(appJs, /buildRadioGroup\("submit_to_scopus", "Submit to SCOPUS", \["Yes", "No"\]\)/);
+  assert.match(appJs, /name="scopus_presentation_mode"/);
+  assert.match(appJs, /Physical Presentation">\s*Physical Presentation \(\+ RM200\)/);
+  assert.match(appJs, /Online Presentation">\s*Online Presentation \(\+ RM150\)/);
+  assert.match(appJs, /name="estimated_payable_amount"/);
+  assert.match(appJs, /name="estimated_fee_breakdown"/);
+  assert.match(appJs, /const callPaperFees = \{/);
+  assert.match(appJs, /"Academics \/ Entrepreneurs \/ Others"[\s\S]*Presenter:\s*1000[\s\S]*"Non-Presenter":\s*700/);
+  assert.match(appJs, /"Postgraduate Students"[\s\S]*Presenter:\s*850[\s\S]*"Non-Presenter":\s*350/);
+  assert.match(appJs, /const scopusPublicationFees = \{[\s\S]*"Physical Presentation":\s*200[\s\S]*"Online Presentation":\s*150/);
+  assert.match(appJs, /function updateCallPaperEstimate\(form\)/);
+  assert.match(appJs, /scopusModeSelect\.required = needsScopusMode/);
   assert.match(appJs, /Abstract \/ Full paper submission<input name="paper_attachment"/);
   assert.doesNotMatch(appJs, />Paper attachment<input name="paper_attachment"/);
   assert.match(css, /\.radio-group\s*\{/);
+  assert.match(css, /\.payable-estimate\s*\{/);
 });
 
 test("call for papers backend stores SCOPUS choice and sends papers auto reply", () => {
   assert.match(registrationWebapp, /papersEmailFrom:\s*'papers@aisedconference\.org'/);
   assert.match(registrationWebapp, /submitToScopus:\s*payload\.submit_to_scopus/);
+  assert.match(registrationWebapp, /scopusPresentationMode:\s*payload\.scopus_presentation_mode/);
+  assert.match(registrationWebapp, /estimatedPayableAmount:\s*payload\.estimated_payable_amount/);
+  assert.match(registrationWebapp, /estimatedFeeBreakdown:\s*payload\.estimated_fee_breakdown/);
   assert.match(registrationWebapp, /record\.submitToScopus/);
-  assert.match(registrationWebapp, /function appendCallForPapers[\s\S]*record\.submitToScopus[\s\S]*attachmentUrlByField\(record, 'paper_attachment'\)/);
+  assert.match(registrationWebapp, /function appendCallForPapers[\s\S]*record\.submitToScopus[\s\S]*record\.scopusPresentationMode[\s\S]*record\.estimatedPayableAmount[\s\S]*record\.estimatedFeeBreakdown[\s\S]*attachmentUrlByField\(record, 'paper_attachment'\)/);
   assert.match(registrationWebapp, /route === 'Call for Papers'[\s\S]*AISED\.papersEmailFrom/);
   assert.match(registrationWebapp, /Submit to SCOPUS:\s*\$\{record\.submitToScopus \|\| '-'\}/);
+  assert.match(registrationWebapp, /SCOPUS presentation mode:\s*\$\{record\.scopusPresentationMode \|\| '-'\}/);
+  assert.match(registrationWebapp, /Estimated payable amount:\s*\$\{record\.estimatedPayableAmount \? `RM\$\{record\.estimatedPayableAmount\}` : '-'\}/);
   assert.match(registrationWebapp, /reviewed by the committee, and we will inform you by 29th August 2026/);
 });

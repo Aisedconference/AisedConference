@@ -1497,6 +1497,35 @@ h3 {
   accent-color: var(--green);
 }
 
+.scopus-presentation-choice[hidden] {
+  display: none;
+}
+
+.payable-estimate {
+  display: grid;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid rgba(211, 168, 43, 0.55);
+  border-radius: 10px;
+  background: #fff8df;
+}
+
+.payable-estimate strong {
+  color: var(--green);
+  font-size: 1.02rem;
+}
+
+.payable-estimate span {
+  color: var(--green);
+  font-size: 1.65rem;
+  font-weight: 900;
+}
+
+.payable-estimate small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 .form-divider {
   display: grid;
   gap: 4px;

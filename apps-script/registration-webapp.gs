@@ -90,6 +90,9 @@ function normaliseRecord(payload) {
     paperTitle: payload.paper_title || '',
     abstract: payload.abstract || '',
     submitToScopus: payload.submit_to_scopus || '',
+    scopusPresentationMode: payload.scopus_presentation_mode || '',
+    estimatedPayableAmount: payload.estimated_payable_amount || '',
+    estimatedFeeBreakdown: payload.estimated_fee_breakdown || '',
     attachments: Array.isArray(payload.attachments) ? payload.attachments : [],
     attachmentName: payload.attachmentName || '',
     attachment: payload.attachment || null,
@@ -169,6 +172,9 @@ function appendRegistrationRows(record) {
     record.paperTitle,
     record.abstract,
     record.submitToScopus,
+    record.scopusPresentationMode,
+    record.estimatedPayableAmount,
+    record.estimatedFeeBreakdown,
     attachmentUrlByField(record, 'paper_attachment'),
     record.attendanceInterest,
     record.hrdEmployerId,
@@ -218,6 +224,9 @@ function appendCallForPapers(ss, record) {
     record.abstract,
     record.attendanceInterest,
     record.submitToScopus,
+    record.scopusPresentationMode,
+    record.estimatedPayableAmount,
+    record.estimatedFeeBreakdown,
     attachmentUrlByField(record, 'paper_attachment'),
     folderUrl(getFolderId(record))
   ]);
@@ -324,6 +333,8 @@ function createConfirmationPdf(record) {
   if (record.route === 'Call for Papers') {
     rows.splice(8, 0, ['Paper title', record.paperTitle || '-']);
     rows.splice(9, 0, ['Submit to SCOPUS', record.submitToScopus || '-']);
+    rows.splice(10, 0, ['SCOPUS presentation mode', record.scopusPresentationMode || '-']);
+    rows.splice(11, 0, ['Estimated payable amount', record.estimatedPayableAmount ? `RM${record.estimatedPayableAmount}` : '-']);
   }
 
   const htmlRows = rows.map(([label, value]) => `
@@ -574,6 +585,8 @@ function getEmailBody(record) {
       `Type: ${record.type || '-'}`,
       `Paper title: ${record.paperTitle || '-'}`,
       `Submit to SCOPUS: ${record.submitToScopus || '-'}`,
+      `SCOPUS presentation mode: ${record.scopusPresentationMode || '-'}`,
+      `Estimated payable amount: ${record.estimatedPayableAmount ? `RM${record.estimatedPayableAmount}` : '-'}`,
       '',
       'We have received your paper registration and submission details. Your paper will be reviewed by the committee, and we will inform you by 29th August 2026 for the next step.',
       '',
