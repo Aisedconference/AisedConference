@@ -385,7 +385,7 @@ function initRegistrationWizard() {
 
   const panels = [...wizard.querySelectorAll(".wizard-panel")];
   const progressItems = [...wizard.querySelectorAll(".wizard-progress span")];
-  const steps = ["category", "subsection", "type", "form"];
+  const steps = ["category", "type", "subsection", "form"];
 
   function showStep(step) {
     panels.forEach((panel) => {
@@ -412,7 +412,7 @@ function initRegistrationWizard() {
       clearActive("[data-category]");
       button.classList.add("active");
       if (registrationState.category === "call-papers") {
-        showStep("subsection");
+        showStep("type");
       } else if (registrationState.category === "participants") {
         showStep("participant-type");
       } else if (registrationState.category === "invited-guests") {
@@ -427,18 +427,28 @@ function initRegistrationWizard() {
 
     if (button.dataset.subsection) {
       registrationState.subsection = button.dataset.subsection;
-      registrationState.type = "";
       clearActive("[data-subsection]");
       button.classList.add("active");
-      showStep("type");
+      if (registrationState.category === "call-papers" && registrationState.type) {
+        renderRegistrationFields();
+        showStep("form");
+      } else {
+        showStep("type");
+      }
     }
 
     if (button.dataset.registrationType) {
       registrationState.type = button.dataset.registrationType;
       clearActive("[data-registration-type]");
       button.classList.add("active");
-      renderRegistrationFields();
-      showStep("form");
+      if (registrationState.category === "call-papers") {
+        registrationState.subsection = "";
+        clearActive("[data-subsection]");
+        showStep("subsection");
+      } else {
+        renderRegistrationFields();
+        showStep("form");
+      }
     }
 
     if (button.dataset.partnerType) {
@@ -469,7 +479,7 @@ function initRegistrationWizard() {
 
     if (button.dataset.back) {
       if (button.dataset.back === "previous") {
-        showStep(registrationState.category === "call-papers" ? "type" : registrationState.category === "participants" ? "participant-type" : registrationState.category === "invited-guests" ? "guest-type" : registrationState.category === "partners" ? "partner-type" : "category");
+        showStep(registrationState.category === "call-papers" ? "subsection" : registrationState.category === "participants" ? "participant-type" : registrationState.category === "invited-guests" ? "guest-type" : registrationState.category === "partners" ? "partner-type" : "category");
       } else {
         showStep(button.dataset.back);
       }
@@ -529,12 +539,12 @@ function initRegistrationWizard() {
       return;
     }
 
-    if (registrationState.subsection) {
-      showStep("type");
+    if (registrationState.type) {
+      showStep("subsection");
       return;
     }
 
-    showStep("subsection");
+    showStep("type");
   }
 }
 

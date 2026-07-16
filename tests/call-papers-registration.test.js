@@ -6,6 +6,10 @@ const path = require("node:path");
 const root = path.resolve(__dirname, "..");
 const submissionHtml = fs.readFileSync(path.join(root, "submission.html"), "utf8");
 const registrationHtml = fs.readFileSync(path.join(root, "registration.html"), "utf8");
+const presenterRedirectHtml = fs.readFileSync(
+  path.join(root, "registration", "presenter", "index.html"),
+  "utf8"
+);
 const appJs = fs.readFileSync(path.join(root, "app.js"), "utf8");
 const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 const registrationWebapp = fs.readFileSync(
@@ -16,13 +20,17 @@ const registrationWebapp = fs.readFileSync(
 test("paper submission button opens the call for papers registration route", () => {
   assert.match(
     submissionHtml,
-    /href="https:\/\/aisedconference\.org\/registration\.html\?category=call-papers&amp;subsection=Academics%20%2F%20Others&amp;type=Presenter">Submit Now<\/a>/
+    /href="https:\/\/aisedconference\.org\/registration\/presenter">Submit Now<\/a>/
   );
   assert.match(appJs, /params\.get\("category"\) === "call-papers"/);
-  assert.match(appJs, /showStep\("subsection"\)/);
+  assert.match(appJs, /showStep\("type"\)/);
 });
 
 test("supports a direct academic presenter registration link", () => {
+  assert.match(
+    presenterRedirectHtml,
+    /registration\.html\?category=call-papers&subsection=Academics%20%2F%20Others&type=Presenter/
+  );
   assert.match(appJs, /params\.get\("subsection"\)/);
   assert.match(appJs, /params\.get\("type"\)/);
   assert.match(appJs, /renderRegistrationFields\(\);\s*showStep\("form"\);\s*return;/);
@@ -31,12 +39,16 @@ test("supports a direct academic presenter registration link", () => {
 });
 
 test("call for papers route uses the requested audience buttons and milestone copy", () => {
+  assert.match(registrationHtml, /data-registration-type="Presenter"><strong>Presenter<\/strong>/);
+  assert.match(registrationHtml, /data-registration-type="Non-Presenter"><strong>Non-Presenter<\/strong>/);
   assert.match(registrationHtml, /data-subsection="Academics \/ Others"><strong>Academics \/ Others<\/strong>/);
   assert.match(registrationHtml, /data-subsection="Postgraduate Students"><strong>Postgraduate Students<\/strong>/);
-  assert.match(registrationHtml, /Submit Abstract by 15th August 2026/);
+  assert.match(appJs, /registrationState\.category === "call-papers"[\s\S]*showStep\("subsection"\)/);
+  assert.match(registrationHtml, /<div class="flow-step-head"><span>01<\/span><strong>15th August 2026<\/strong><\/div><p><b>Submit Abstract<\/b>/);
   assert.match(registrationHtml, /Papers Council Reviewer/);
-  assert.match(registrationHtml, /29th August 2026/);
-  assert.match(registrationHtml, /Full paper submission, 31st October 2026/);
+  assert.match(registrationHtml, /<div class="flow-step-head"><span>03<\/span><strong>29th August 2026<\/strong><\/div>/);
+  assert.match(registrationHtml, /<div class="flow-step-head"><span>04<\/span><strong>31st October 2026<\/strong><\/div><p><b>Full paper submission<\/b>/);
+  assert.match(css, /\.call-paper-flow \.flow-step-head\s*\{/);
 });
 
 test("presenter forms collect SCOPUS preference and abstract or full paper upload", () => {
