@@ -9,6 +9,10 @@ assert.ok(fs.existsSync(htmlPath), "committee.html must exist");
 const html = fs.readFileSync(htmlPath, "utf8");
 const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 
+function escapeRegExp(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 test("uses Tengku Amir Shah's supplied portrait", () => {
   assert.match(
     html,
@@ -55,7 +59,7 @@ test("uses Dato’ Steve Cheah's transparent portrait", () => {
 
 test("uses the Option B uniform directory structure", () => {
   assert.match(html, /class="committee-directory"/);
-  assert.equal((html.match(/class="committee-profile-card"/g) || []).length, 27);
+  assert.equal((html.match(/class="committee-profile-card"/g) || []).length, 28);
   assert.equal((html.match(/class="committee-profile-grid"/g) || []).length, 7);
 });
 
@@ -185,13 +189,18 @@ test("adds the International Academic Advisory Committee members with matched po
       role: "Group Director (Provost), Sambhram Group of Institutions, Bengaluru, India &amp; Uzbekistan",
       filename: "Prof.Ts.Dr. Visweswara Rao Pasupuleti.png",
     },
+    {
+      name: "Adj. Prof. Dr. Behrang (Hani) Parhizkar",
+      role: "CEO of ChamRun Academy",
+      filename: "Adj. Prof. Dr. Behrang (Hani) Parhizkar.png",
+    },
   ];
 
   for (const member of expectedMembers) {
     assert.ok(group.includes(`<strong>${member.name}</strong><p>${member.role}</p>`));
     assert.match(
       group,
-      new RegExp(`<img[^>]+src="assets/Committee/${member.filename.replaceAll(".", "\\.")}"[^>]+alt="Portrait of ${member.name.replaceAll(".", "\\.")}"`)
+      new RegExp(`<img[^>]+src="assets/Committee/${escapeRegExp(member.filename)}"[^>]+alt="Portrait of ${escapeRegExp(member.name)}"`)
     );
     assert.ok(
       fs.existsSync(path.join(root, "assets", "Committee", member.filename)),

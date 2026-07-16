@@ -22,7 +22,8 @@ for (const page of pages) {
 
 test("styles the expandable policy and mandatory consent control", () => {
   assert.match(css, /\.consent-policy\s*\{/);
-  assert.match(css, /\.consent-check\s*\{/);
+  assert.match(css, /\.consent-policy summary\s*\{[^}]*font-size:\s*0\.94rem/s);
+  assert.match(css, /\.consent-check\s*\{[^}]*font-size:\s*0\.94rem/s);
   assert.match(css, /\.consent-check input\[type="checkbox"\]\s*\{/);
   assert.match(css, /\.consent-policy-body\s*\{/);
 });

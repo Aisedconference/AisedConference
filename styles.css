@@ -1999,6 +1999,7 @@ label {
   position: relative;
   padding: 16px 46px 16px 16px;
   color: var(--blue-dark);
+  font-size: 0.94rem;
   font-weight: 850;
   line-height: 1.35;
   cursor: pointer;
@@ -2065,6 +2066,7 @@ label {
   border: 1px solid var(--gold);
   border-radius: 10px;
   color: var(--blue-dark);
+  font-size: 0.94rem;
   background: #fff8df;
   line-height: 1.45;
   cursor: pointer;
