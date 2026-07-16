@@ -171,7 +171,7 @@ function fileToPayload(file) {
 
 function getRegistrationLabel() {
   if (registrationState.category === "call-papers") {
-    return `Call for Papers / ${registrationState.subsection} / ${registrationState.type}`;
+    return `Call for Papers / ${registrationState.subsection}${registrationState.type ? ` / ${registrationState.type}` : ""}`;
   }
 
   if (registrationState.category === "participants") {
@@ -196,10 +196,20 @@ function renderRegistrationFields() {
 
   summary.textContent = getRegistrationLabel();
 
+  const registrationTypeField = registrationState.category === "call-papers"
+    ? `<label>Presenter / Non-Presenter
+        <select id="call-paper-registration-type" name="registration_type" required>
+          <option value="">Please select</option>
+          <option value="Presenter"${registrationState.type === "Presenter" ? " selected" : ""}>Presenter</option>
+          <option value="Non-Presenter"${registrationState.type === "Non-Presenter" ? " selected" : ""}>Non-Presenter</option>
+        </select>
+      </label>`
+    : `<input type="hidden" name="registration_type" value="${registrationState.type}">`;
+
   let commonFields = [
     `<input type="hidden" name="registration_category" value="${registrationState.category}">`,
     `<input type="hidden" name="registration_subsection" value="${registrationState.subsection}">`,
-    `<input type="hidden" name="registration_type" value="${registrationState.type}">`,
+    registrationTypeField,
     buildSelect("title", "Title", ["Prof.", "Dr.", "Mr.", "Ms.", "Mrs.", "Dato'", "Datin", "Tan Sri", "Other"]),
     buildField("name", "Full name", "text", true, `placeholder="e.g, John Smith"`),
     buildField("email", "Email", "email", true, `placeholder="e.g, name@example.com"`),
@@ -211,16 +221,22 @@ function renderRegistrationFields() {
   let routeFields = "";
 
   if (registrationState.category === "call-papers") {
-    routeFields = `
-      ${registrationState.type === "Presenter" ? `
+    if (registrationState.type === "Presenter") {
+      routeFields = `
         ${buildField("paper_title", "Paper title", "text", true, `placeholder="e.g, AI for Sustainable Entrepreneurship in ASEAN"`)}
         <label>Abstract<textarea name="abstract" rows="4" required placeholder="e.g, 250-300 word abstract summary"></textarea></label>
         ${buildRadioGroup("submit_to_scopus", "Submit to SCOPUS", ["Yes", "No"])}
         <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
-      ` : `
+      `;
+    } else if (registrationState.type === "Non-Presenter") {
+      routeFields = `
         ${buildSelect("attendance_interest", "Attendance interest", ["Academic sessions", "Keynotes and forums", "Networking", "Full conference"])}
-      `}
-    `;
+      `;
+    } else {
+      routeFields = `
+        <div class="form-divider"><strong>Presenter status</strong><span>Please choose Presenter or Non-Presenter above to continue.</span></div>
+      `;
+    }
   }
 
   if (registrationState.category === "participants") {
@@ -385,7 +401,7 @@ function initRegistrationWizard() {
 
   const panels = [...wizard.querySelectorAll(".wizard-panel")];
   const progressItems = [...wizard.querySelectorAll(".wizard-progress span")];
-  const steps = ["category", "type", "subsection", "form"];
+  const steps = ["category", "subsection", "form"];
 
   function showStep(step) {
     panels.forEach((panel) => {
@@ -412,7 +428,7 @@ function initRegistrationWizard() {
       clearActive("[data-category]");
       button.classList.add("active");
       if (registrationState.category === "call-papers") {
-        showStep("type");
+        showStep("subsection");
       } else if (registrationState.category === "participants") {
         showStep("participant-type");
       } else if (registrationState.category === "invited-guests") {
@@ -429,12 +445,8 @@ function initRegistrationWizard() {
       registrationState.subsection = button.dataset.subsection;
       clearActive("[data-subsection]");
       button.classList.add("active");
-      if (registrationState.category === "call-papers" && registrationState.type) {
-        renderRegistrationFields();
-        showStep("form");
-      } else {
-        showStep("type");
-      }
+      renderRegistrationFields();
+      showStep("form");
     }
 
     if (button.dataset.registrationType) {
@@ -442,10 +454,6 @@ function initRegistrationWizard() {
       clearActive("[data-registration-type]");
       button.classList.add("active");
       if (registrationState.category === "call-papers") {
-        registrationState.subsection = "";
-        clearActive("[data-subsection]");
-        showStep("subsection");
-      } else {
         renderRegistrationFields();
         showStep("form");
       }
@@ -483,6 +491,13 @@ function initRegistrationWizard() {
       } else {
         showStep(button.dataset.back);
       }
+    }
+  });
+
+  form.addEventListener("change", (event) => {
+    if (event.target.name === "registration_type" && registrationState.category === "call-papers") {
+      registrationState.type = event.target.value;
+      renderRegistrationFields();
     }
   });
 
@@ -529,22 +544,15 @@ function initRegistrationWizard() {
 
     if (requestedType) {
       registrationState.type = requestedType;
-      const typeButton = wizard.querySelector(`[data-registration-type="${CSS.escape(requestedType)}"]`);
-      typeButton?.classList.add("active");
     }
 
-    if (registrationState.subsection && registrationState.type) {
+    if (registrationState.subsection) {
       renderRegistrationFields();
       showStep("form");
       return;
     }
 
-    if (registrationState.type) {
-      showStep("subsection");
-      return;
-    }
-
-    showStep("type");
+    showStep("subsection");
   }
 }
 

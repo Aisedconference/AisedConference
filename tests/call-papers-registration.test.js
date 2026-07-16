@@ -23,7 +23,7 @@ test("paper submission button opens the call for papers registration route", () 
     /href="https:\/\/aisedconference\.org\/registration\/presenter">Submit Now<\/a>/
   );
   assert.match(appJs, /params\.get\("category"\) === "call-papers"/);
-  assert.match(appJs, /showStep\("type"\)/);
+  assert.match(appJs, /showStep\("subsection"\)/);
 });
 
 test("supports a direct academic presenter registration link", () => {
@@ -35,12 +35,16 @@ test("supports a direct academic presenter registration link", () => {
   assert.match(appJs, /params\.get\("type"\)/);
   assert.match(appJs, /renderRegistrationFields\(\);\s*showStep\("form"\);\s*return;/);
   assert.match(appJs, /data-subsection="\$\{CSS\.escape\(requestedSubsection\)\}"/);
-  assert.match(appJs, /data-registration-type="\$\{CSS\.escape\(requestedType\)\}"/);
+  assert.match(appJs, /registrationState\.type = requestedType/);
 });
 
 test("call for papers route uses the requested audience buttons and milestone copy", () => {
-  assert.match(registrationHtml, /data-registration-type="Presenter"><strong>Presenter<\/strong>/);
-  assert.match(registrationHtml, /data-registration-type="Non-Presenter"><strong>Non-Presenter<\/strong>/);
+  assert.doesNotMatch(registrationHtml, /data-step="type"/);
+  assert.match(appJs, /id="call-paper-registration-type"/);
+  assert.match(appJs, /name="registration_type"/);
+  assert.match(appJs, /<option value="Presenter"/);
+  assert.match(appJs, /<option value="Non-Presenter"/);
+  assert.match(appJs, /event\.target\.name === "registration_type"/);
   assert.match(registrationHtml, /data-subsection="Academics \/ Others"><strong>Academics \/ Others<\/strong>/);
   assert.match(registrationHtml, /data-subsection="Postgraduate Students"><strong>Postgraduate Students<\/strong>/);
   assert.match(appJs, /registrationState\.category === "call-papers"[\s\S]*showStep\("subsection"\)/);
