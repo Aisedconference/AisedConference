@@ -75,7 +75,7 @@ test("shows the approved speaker categories and organisation titles", () => {
     {
       badge: "Speaker",
       name: "Ts. Zehan Teoh",
-      role: "Seating Experts, AiSED",
+      role: " Chief Transformation Officer, The MUI Group and Seating Expert of AiSED",
     },
     {
       badge: "Moderator",

@@ -98,6 +98,7 @@ test("presenter forms collect SCOPUS preference and abstract or full paper uploa
   assert.doesNotMatch(appJs, />Paper attachment<input name="paper_attachment"/);
   assert.match(css, /\.radio-group\s*\{/);
   assert.match(css, /\.payable-estimate\s*\{/);
+  assert.match(css, /\.payable-estimate\[hidden\]\s*\{\s*display:\s*none;/);
   assert.match(css, /\.registration-submit-row\s*\{/);
   assert.match(css, /\.action-form \.registration-submit-button\s*\{/);
 });

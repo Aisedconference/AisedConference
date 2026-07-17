@@ -1532,6 +1532,10 @@ h3 {
   background: #fff8df;
 }
 
+.payable-estimate[hidden] {
+  display: none;
+}
+
 .payable-estimate strong {
   color: var(--green);
   font-size: 1.02rem;
