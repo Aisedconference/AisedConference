@@ -604,6 +604,22 @@ h3 {
   margin-top: 26px;
 }
 
+.submission-timeline {
+  position: relative;
+  align-items: stretch;
+}
+
+.submission-timeline::before {
+  content: "";
+  position: absolute;
+  top: 44px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(27, 92, 61, 0.16), rgba(203, 163, 47, 0.6), rgba(27, 92, 61, 0.16));
+  z-index: 0;
+}
+
 .highlight-card,
 .track-card,
 .contact-card,
@@ -615,6 +631,29 @@ h3 {
   background: var(--panel);
   padding: 20px;
   box-shadow: 0 8px 26px rgba(39, 49, 44, 0.06);
+}
+
+.timeline-card {
+  position: relative;
+  z-index: 1;
+  gap: 8px;
+  padding-top: 24px;
+}
+
+.timeline-date {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(203, 163, 47, 0.7);
+  background: #fff8dc;
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 12px;
 }
 
 .highlight-card strong,
@@ -2450,6 +2489,10 @@ label {
     right: 50%;
     bottom: -11px;
     transform: translateX(50%) rotate(135deg);
+  }
+
+  .submission-timeline::before {
+    display: none;
   }
 
   .section-head {

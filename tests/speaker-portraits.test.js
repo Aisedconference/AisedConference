@@ -88,6 +88,11 @@ test("shows the approved speaker categories and organisation titles", () => {
       role: "Former CEO of National AI Office",
     },
     {
+      badge: "Speaker",
+      name: "Adj. Prof. Dr. Behrang (Hani) Parhizkar",
+      role: "CEO of ChamRun Academy",
+    },
+    {
       badge: "Moderator",
       name: "Dr. Janeth Emanuel Kigobe",
       role: "Dean of Faculty of Education &amp; Co-Chair, UNESCO Chair on Teacher &amp; Curriculum, Open University Tanzania",
@@ -104,9 +109,9 @@ test("shows the approved speaker categories and organisation titles", () => {
   }
 });
 
-test("uses seven consistently formatted speaker profile cards", () => {
-  assert.equal((html.match(/class="speaker-card profile-speaker-card"/g) || []).length, 7);
-  assert.equal((html.match(/class="speaker-avatar royal-avatar speaker-profile-photo"/g) || []).length, 7);
+test("uses eight consistently formatted speaker profile cards", () => {
+  assert.equal((html.match(/class="speaker-card profile-speaker-card"/g) || []).length, 8);
+  assert.equal((html.match(/class="speaker-avatar royal-avatar speaker-profile-photo"/g) || []).length, 8);
 });
 
 test("shows the added forum assignments for moderators and speaker", () => {

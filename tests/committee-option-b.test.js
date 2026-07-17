@@ -59,7 +59,7 @@ test("uses Dato’ Steve Cheah's transparent portrait", () => {
 
 test("uses the Option B uniform directory structure", () => {
   assert.match(html, /class="committee-directory"/);
-  assert.equal((html.match(/class="committee-profile-card"/g) || []).length, 28);
+  assert.equal((html.match(/class="committee-profile-card"/g) || []).length, 27);
   assert.equal((html.match(/class="committee-profile-grid"/g) || []).length, 7);
 });
 
@@ -188,11 +188,6 @@ test("adds the International Academic Advisory Committee members with matched po
       name: "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM",
       role: "Group Director (Provost), Sambhram Group of Institutions, Bengaluru, India &amp; Uzbekistan",
       filename: "Prof.Ts.Dr. Visweswara Rao Pasupuleti.png",
-    },
-    {
-      name: "Adj. Prof. Dr. Behrang (Hani) Parhizkar",
-      role: "CEO of ChamRun Academy",
-      filename: "Adj. Prof. Dr. Behrang (Hani) Parhizkar.png",
     },
   ];
 

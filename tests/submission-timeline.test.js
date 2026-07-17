@@ -8,18 +8,29 @@ const html = fs.readFileSync(path.join(root, "submission.html"), "utf8");
 const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 
 test("shows the updated submission deadline timeline", () => {
-  assert.match(html, /15 July 2026/);
-  assert.match(html, /Abstract Submission Deadline/);
   assert.match(html, /15 August 2026/);
+  assert.match(html, /Abstract Submission Deadline/);
+  assert.match(html, /29 August 2026/);
   assert.match(html, /Notification of Acceptance/);
-  assert.match(html, /15 September 2026/);
+  assert.match(html, /30 October 2026/);
   assert.match(html, /Full Paper Submission Deadline/);
+  assert.match(html, /Committee Reviewer notification before 29 August 2026\./);
 });
 
 test("does not show the old submission timeline wording", () => {
   assert.doesNotMatch(html, /Abstract Submission Opens/);
   assert.doesNotMatch(html, /Within 2 weeks after submission/);
-  assert.doesNotMatch(html, /30 October 2026/);
+  assert.doesNotMatch(html, /15 September 2026/);
+  assert.doesNotMatch(html, /Authors will be notified within two weeks after abstract submission/);
+});
+
+test("shows the submission guidelines as a timeline chart", () => {
+  assert.match(html, /<div class="highlight-grid submission-timeline">/);
+  assert.match(html, /<span class="timeline-date">15 August 2026<\/span><strong>Abstract submission deadline<\/strong>/);
+  assert.match(html, /<span class="timeline-date">29 August 2026<\/span><strong>Acceptance notification<\/strong>/);
+  assert.match(html, /<span class="timeline-date">30 October 2026<\/span><strong>Full paper deadline<\/strong>/);
+  assert.match(css, /\.submission-timeline::before\s*\{/);
+  assert.match(css, /\.timeline-date\s*\{/);
 });
 
 test("shows publication logos and refined publication card wording", () => {
