@@ -34,6 +34,15 @@ const scopusPublicationFees = {
   "Online Presentation": 150
 };
 
+const participantFees = {
+  "HRD Corp Claimable": 1800,
+  "General Admission": 1800,
+  "Government Agencies": 1800
+};
+
+const payableEstimateCategories = ["call-papers", "participants"];
+const hiddenEstimateCategories = ["invited-guests", "partners"];
+
 const maxAttachmentSize = 8 * 1024 * 1024;
 
 function getSavedForms() {
@@ -160,6 +169,24 @@ function getCallPaperFeeBreakdown(form) {
   return { subsection, type, submitToScopus, scopusMode, baseFee, scopusFee, total };
 }
 
+function hidePaymentEstimate({ estimateContainer, amountInput, breakdownInput }) {
+  if (estimateContainer) estimateContainer.hidden = true;
+  if (amountInput) amountInput.value = "";
+  if (breakdownInput) breakdownInput.value = "";
+}
+
+function updateParticipantEstimate(form, estimateContainer, amountInput, breakdownInput, estimateAmount, estimateBreakdown) {
+  const type = form.querySelector("[name='participant_sector']")?.value || registrationState.type;
+  const total = participantFees[type] || 0;
+  const breakdownText = total ? `${type}: RM${total.toLocaleString("en-MY")}` : "";
+
+  if (estimateContainer) estimateContainer.hidden = false;
+  if (estimateAmount) estimateAmount.textContent = total ? `RM${total.toLocaleString("en-MY")}` : "RM0";
+  if (estimateBreakdown) estimateBreakdown.textContent = breakdownText;
+  if (amountInput) amountInput.value = total ? String(total) : "";
+  if (breakdownInput) breakdownInput.value = breakdownText;
+}
+
 function updateCallPaperEstimate(form) {
   if (!form) return;
 
@@ -171,10 +198,16 @@ function updateCallPaperEstimate(form) {
   const estimateAmount = form.querySelector("[data-estimate-amount]");
   const estimateBreakdown = form.querySelector("[data-estimate-breakdown]");
 
-  if (registrationState.category !== "call-papers") {
-    if (estimateContainer) estimateContainer.hidden = true;
-    if (amountInput) amountInput.value = "";
-    if (breakdownInput) breakdownInput.value = "";
+  if (
+    hiddenEstimateCategories.includes(registrationState.category) ||
+    !payableEstimateCategories.includes(registrationState.category)
+  ) {
+    hidePaymentEstimate({ estimateContainer, amountInput, breakdownInput });
+    return;
+  }
+
+  if (registrationState.category === "participants") {
+    updateParticipantEstimate(form, estimateContainer, amountInput, breakdownInput, estimateAmount, estimateBreakdown);
     return;
   }
 

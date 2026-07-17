@@ -81,13 +81,17 @@ test("presenter forms collect SCOPUS preference and abstract or full paper uploa
   assert.match(registrationHtml, /name="estimated_fee_breakdown"/);
   assert.match(registrationHtml, /class="registration-submit-row"/);
   assert.match(registrationHtml, /data-payable-estimate hidden/);
-  assert.match(registrationHtml, /Payment to be made after acceptance/);
+  assert.match(registrationHtml, /Payment to be made after paper acceptance/);
   assert.match(registrationHtml, /<button class="primary-button registration-submit-button" type="submit">Submit<\/button>/);
   assert.match(appJs, /const callPaperFees = \{/);
   assert.match(appJs, /"Academics \/ Entrepreneurs \/ Others"[\s\S]*Presenter:\s*1000[\s\S]*"Non-Presenter":\s*700/);
   assert.match(appJs, /"Postgraduate Students"[\s\S]*Presenter:\s*850[\s\S]*"Non-Presenter":\s*350/);
   assert.match(appJs, /const scopusPublicationFees = \{[\s\S]*"Physical Presentation":\s*200[\s\S]*"Online Presentation":\s*150/);
+  assert.match(appJs, /const participantFees = \{[\s\S]*"HRD Corp Claimable":\s*1800[\s\S]*"General Admission":\s*1800[\s\S]*"Government Agencies":\s*1800/);
+  assert.match(appJs, /const payableEstimateCategories = \["call-papers", "participants"\]/);
+  assert.match(appJs, /const hiddenEstimateCategories = \["invited-guests", "partners"\]/);
   assert.match(appJs, /function updateCallPaperEstimate\(form\)/);
+  assert.match(appJs, /registrationState\.category === "participants"[\s\S]*updateParticipantEstimate/);
   assert.match(appJs, /scopusModeSelect\.required = needsScopusMode/);
   assert.match(appJs, /submitToScopus === "Yes" && !scopusMode/);
   assert.match(appJs, /Abstract \/ Full paper submission<input name="paper_attachment"/);
