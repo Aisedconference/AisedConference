@@ -333,7 +333,7 @@ function renderRegistrationFields() {
     buildField("name", "Full name", "text", true, `placeholder="e.g, John Smith"`),
     buildField("email", "Email", "email", true, `placeholder="e.g, name@example.com"`),
     buildField("phone", "Contact number", "tel", true, `placeholder="e.g, +60 12-345 6789"`),
-    buildField("organisation", "Organisation", "text", true, `placeholder="e.g, Asia e University"`),
+    buildField("organisation", "Organisation / University / Institution", "text", true, `placeholder="e.g, Asia e University"`),
     buildField("position", "Position / Designation", "text", true, `placeholder="e.g, Director / Lecturer / Manager"`)
   ];
 
