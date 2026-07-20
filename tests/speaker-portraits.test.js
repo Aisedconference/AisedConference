@@ -37,6 +37,10 @@ const portraits = [
     alt: "Sam Majid",
   },
   {
+    src: "assets/Committee/Adj. Prof. Dr. Behrang (Hani) Parhizkar.png",
+    alt: "Adj. Prof. Dr. Behrang (Hani) Parhizkar",
+  },
+  {
     src: "assets/Committee/Dr Janeth Emanuel Kigobe.png",
     alt: "Dr. Janeth Emanuel Kigobe",
   },
@@ -73,9 +77,14 @@ test("shows the approved speaker categories and organisation titles", () => {
       role: "Founder President, Asia e University",
     },
     {
-      badge: "Speaker",
-      name: "Ts. Zehan Teoh",
-      role: " Chief Transformation Officer, The MUI Group and Seating Expert of AiSED",
+      badge: "Panelist",
+      name: "Sam Majid",
+      role: "Former CEO of National AI Office",
+    },
+    {
+      badge: "Panelist",
+      name: "Adj. Prof. Dr. Behrang (Hani) Parhizkar",
+      role: "CEO of ChamRun Academy",
     },
     {
       badge: "Moderator",
@@ -83,14 +92,9 @@ test("shows the approved speaker categories and organisation titles", () => {
       role: "Adjunct. Professor of Asia e University &amp; Fellow of Chartered Management Institute, UK",
     },
     {
-      badge: "Speaker",
-      name: "Sam Majid",
-      role: "Former CEO of National AI Office",
-    },
-    {
-      badge: "Speaker",
-      name: "Adj. Prof. Dr. Behrang (Hani) Parhizkar",
-      role: "CEO of ChamRun Academy",
+      badge: "Panelist",
+      name: "Ts. Zehan Teoh",
+      role: "Chief Transformation Officer, The MUI Group and Seating Expert of AiSED",
     },
     {
       badge: "Moderator",
@@ -118,12 +122,32 @@ test("shows the added forum assignments for moderators and speaker", () => {
   for (const session of [
     "Opening Ceremony and High-Level Forums",
     "Conference Chair and Keynote Addresses",
-    "Entrepreneurship Forum and Academic Parallel Sessions",
+    "Keynote Session 3",
     "Forum 2: Artificial Intelligence",
     "Forum 3: Entrepreneurship",
     "Forum 4: Sustainable Entrepreneurship",
   ]) {
     assert.ok(html.includes(session), `Missing speaker session label: ${session}`);
+  }
+});
+
+test("orders speaker profiles by conference programme sequence", () => {
+  const orderedNames = [
+    "Dato' Steve Cheah",
+    "Dato' Prof. Dr. Nik Maheran binti Nik Muhammad",
+    "Prof Dato' Dr Ansary Ahmed",
+    "Sam Majid",
+    "Adj. Prof. Dr. Behrang (Hani) Parhizkar",
+    "Kamarul Hisham Baginda FCMI",
+    "Ts. Zehan Teoh",
+    "Dr. Janeth Emanuel Kigobe",
+  ];
+
+  let previousIndex = -1;
+  for (const name of orderedNames) {
+    const currentIndex = html.indexOf(`<h3>${name}</h3>`);
+    assert.ok(currentIndex > previousIndex, `Expected ${name} to appear after the prior speaker`);
+    previousIndex = currentIndex;
   }
 });
 

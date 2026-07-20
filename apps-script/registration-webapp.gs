@@ -106,7 +106,9 @@ const REGISTRATION_SHEET_HEADERS = {
     'Company Address',
     'Purchase Order / Reference No.',
     'Participant Notes',
-    'Attachment Folder Link'
+    'Attachment Folder Link',
+    'Estimated Payable Amount',
+    'Estimated Fee Breakdown'
   ],
   invitedGuests: [
     'Timestamp',
@@ -176,6 +178,7 @@ function normaliseRecord(payload) {
   const subsection = payload.registration_subsection || '';
   const type = payload.registration_type || '';
   const route = getRoute(category);
+  const capturesPayableAmount = category === 'call-papers' || category === 'participants';
 
   return {
     reference: payload.reference || makeReference(),
@@ -216,8 +219,8 @@ function normaliseRecord(payload) {
     abstract: payload.abstract || '',
     submitToScopus: payload.submit_to_scopus || '',
     scopusPresentationMode: payload.scopus_presentation_mode || '',
-    estimatedPayableAmount: payload.estimated_payable_amount || '',
-    estimatedFeeBreakdown: payload.estimated_fee_breakdown || '',
+    estimatedPayableAmount: capturesPayableAmount ? (payload.estimated_payable_amount || '') : '',
+    estimatedFeeBreakdown: capturesPayableAmount ? (payload.estimated_fee_breakdown || '') : '',
     attachments: Array.isArray(payload.attachments) ? payload.attachments : [],
     attachmentName: payload.attachmentName || '',
     attachment: payload.attachment || null,
@@ -385,7 +388,9 @@ function appendParticipants(ss, record) {
     record.companyAddress,
     record.referenceNo,
     record.participantNotes,
-    folderUrl(getFolderId(record))
+    folderUrl(getFolderId(record)),
+    record.estimatedPayableAmount,
+    record.estimatedFeeBreakdown
   ]);
 }
 
@@ -491,27 +496,9 @@ function attachmentUrlByField(record, fieldName) {
 }
 
 function createConfirmationPdf(record) {
-  const nameLabel = record.route === 'Partners' ? 'Representative / PIC' : 'Name';
   const pdfMessage = getPdfMessage(record);
   const recipientName = `${record.title} ${record.name}`.trim() || 'Participant';
-  const rows = [
-    ['Reference', record.reference],
-    ['Registration route', record.route],
-    ['Subsection', record.subsection || '-'],
-    ['Type', record.type || '-'],
-    [nameLabel, recipientName],
-    ['Organisation', record.organisation || '-'],
-    ['Email', record.email || '-'],
-    ['Phone', record.phone || '-'],
-    ['Submitted at', record.submittedAt]
-  ];
-
-  if (record.route === 'Call for Papers') {
-    rows.splice(8, 0, ['Paper title', record.paperTitle || '-']);
-    rows.splice(9, 0, ['Submit to SCOPUS', record.submitToScopus || '-']);
-    rows.splice(10, 0, ['SCOPUS presentation mode', record.scopusPresentationMode || '-']);
-    rows.splice(11, 0, ['Estimated payable amount', record.estimatedPayableAmount ? `RM${record.estimatedPayableAmount}` : '-']);
-  }
+  const rows = buildConfirmationRows(record, recipientName);
 
   const htmlRows = rows.map(([label, value]) => `
     <tr>
@@ -552,11 +539,11 @@ function createConfirmationPdf(record) {
             z-index: 1;
             left: 58pt;
             right: 58pt;
-            top: 185pt;
-            bottom: 104pt;
+            top: 158pt;
+            bottom: 70pt;
           }
           .date {
-            margin: 0 0 18pt;
+            margin: 0 0 12pt;
             text-align: right;
             color: #526158;
             font-size: 10pt;
@@ -564,11 +551,11 @@ function createConfirmationPdf(record) {
           h1 {
             margin: 0 0 8pt;
             color: #174d34;
-            font-size: 20pt;
+            font-size: 18pt;
             line-height: 1.15;
           }
           .reference {
-            margin: 0 0 20pt;
+            margin: 0 0 12pt;
             color: #6a746d;
             font-size: 10pt;
             font-weight: 700;
@@ -579,18 +566,18 @@ function createConfirmationPdf(record) {
           .closing {
             margin: 0 0 12pt;
             color: #34463b;
-            font-size: 10.5pt;
-            line-height: 1.55;
+            font-size: 9.5pt;
+            line-height: 1.42;
           }
           .message {
-            padding: 12pt 14pt;
+            padding: 9pt 12pt;
             border-left: 4pt solid #c8a633;
             background: rgba(255, 250, 239, 0.92);
           }
           .details-title {
-            margin: 18pt 0 8pt;
+            margin: 12pt 0 7pt;
             color: #174d34;
-            font-size: 11pt;
+            font-size: 10pt;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.08em;
@@ -599,12 +586,12 @@ function createConfirmationPdf(record) {
             width: 100%;
             border-collapse: collapse;
             background: rgba(255, 255, 255, 0.95);
-            font-size: 9.5pt;
+            font-size: 8.4pt;
           }
           th,
           td {
             border: 0.8pt solid #d8d0bd;
-            padding: 7pt 8pt;
+            padding: 3.8pt 5pt;
             text-align: left;
             vertical-align: top;
           }
@@ -656,6 +643,77 @@ function createConfirmationPdf(record) {
     .setName(`${record.reference} - AiSED Registration Confirmation.pdf`);
 }
 
+function buildConfirmationRows(record, recipientName) {
+  const nameLabel = record.route === 'Partners' ? 'Representative / PIC' : 'Name';
+  const rows = [
+    ['Reference', record.reference],
+    ['Registration route', record.route],
+    ['Subsection', record.subsection || '-'],
+    ['Type', record.type || record.guestType || record.partnerType || record.participantSector || '-'],
+    [nameLabel, recipientName],
+    ['Organisation', record.organisation || '-'],
+    ['Position / Designation', record.position || '-'],
+    ['Email', record.email || '-'],
+    ['Phone', record.phone || '-']
+  ];
+
+  if (record.route === 'Call for Papers') {
+    rows.push(
+      ['Paper title', record.paperTitle || '-'],
+      ['Abstract', record.abstract || '-'],
+      ['Submit to SCOPUS', record.submitToScopus || '-'],
+      ['SCOPUS presentation mode', record.scopusPresentationMode || '-'],
+      ['Estimated payable amount', record.estimatedPayableAmount ? `RM${record.estimatedPayableAmount}` : '-'],
+      ['Estimated fee breakdown', record.estimatedFeeBreakdown || '-'],
+      ['Paper attachment link', attachmentUrlByField(record, 'paper_attachment') || '-']
+    );
+  }
+
+  if (record.route === 'Participants') {
+    rows.push(
+      ['Participant sector', record.participantSector || '-'],
+      ['MyKad / IC / Passport number', record.participantIdNumber || '-'],
+      ['HRD Corp Employer Code', record.hrdEmployerId || '-'],
+      ['HRD Corp Claimable Courses (HRD CC)', record.hrdClaimableCourse || '-'],
+      ['Department / Unit', record.department || '-'],
+      ['Company Registration No.', record.companyRegistration || '-'],
+      ['Contact person', record.billingContact || '-'],
+      ["Contact person's position", record.contactPersonPosition || '-'],
+      ["Contact person's email", record.billingEmail || '-'],
+      ["Contact person's phone", record.billingPhone || '-'],
+      ['Company address', record.companyAddress || '-'],
+      ['Purchase order / reference no.', record.referenceNo || '-'],
+      ['Participant notes', record.participantNotes || '-']
+    );
+  }
+
+  if (record.route === 'Invited Guests') {
+    rows.push(
+      ['Invited guest role', record.guestType || '-'],
+      ['Invitation notes', record.invitationNote || '-'],
+      ['Short speaker biography', record.speakerBiography || '-'],
+      ['Speaker portrait link', attachmentUrlByField(record, 'speaker_photo') || '-']
+    );
+  }
+
+  if (record.route === 'Partners') {
+    rows.push(
+      ['Partner type', record.partnerType || '-'],
+      ['Organisation website', record.website || '-'],
+      ['Partnership interest', record.partnershipInterest || '-'],
+      ['Organisation logo link', attachmentUrlByField(record, 'organisation_logo') || '-'],
+      ['Partner acceptance letter link', attachmentUrlByField(record, 'partner_acceptance_letter') || '-']
+    );
+  }
+
+  rows.push(
+    ['Attachment folder link', folderUrl(getFolderId(record))],
+    ['Submitted at', record.submittedAt]
+  );
+
+  return rows;
+}
+
 function sendConfirmationEmail(record, pdf) {
   if (!record.email) {
     return { sent: false, reason: 'No recipient email address provided.' };
@@ -686,7 +744,7 @@ function sendConfirmationEmail(record, pdf) {
       subject,
       body,
       name: options.name,
-      replyTo: AISED.replyTo,
+      replyTo: sender.replyTo,
       attachments: options.attachments
     });
     return {
@@ -721,7 +779,7 @@ function getEmailSender(record) {
 }
 
 function shouldAttachPdf(record) {
-  return record.route === 'Call for Papers';
+  return Boolean(record.email);
 }
 
 function getEmailSubject(record) {
@@ -743,6 +801,7 @@ function getEmailSubject(record) {
 function getEmailBody(record) {
   const greeting = `Dear ${getRecipientName(record)},`;
   const acknowledgement = getRegistrationAcknowledgement();
+  const pdfNotice = 'Please find attached a conference-letterhead PDF acknowledgement containing a copy of the information submitted through the registration form.';
   const closing = [
     '',
     'Regards,',
@@ -766,7 +825,7 @@ function getEmailBody(record) {
       '',
       'We have received your paper registration and submission details. Your paper will be reviewed by the committee, and we will inform you by 29th August 2026 for the next step.',
       '',
-      'Please find the attached acknowledgement letter for your records.',
+      pdfNotice,
       closing
     ].join('\n');
   }
@@ -782,6 +841,8 @@ function getEmailBody(record) {
       'Registration details:',
       ...details,
       '',
+      pdfNotice,
+      '',
       'Note: You shall receive the confirmation email or further engagement / next step personally from the secretariat soon.',
       closing
     ].join('\n');
@@ -796,6 +857,8 @@ function getEmailBody(record) {
       '',
       `Reference: ${record.reference}`,
       `Guest role: ${record.guestType || record.type || '-'}`,
+      '',
+      pdfNotice,
       '',
       'The conference secretariat will be in touch if any further information is required.',
       closing
@@ -813,6 +876,8 @@ function getEmailBody(record) {
       `Partner category: ${record.partnerType || '-'}`,
       `Organisation: ${record.organisation || '-'}`,
       '',
+      pdfNotice,
+      '',
       'We appreciate your interest in being part of the conference. The conference secretariat will follow up on the next steps.',
       closing
     ].join('\n');
@@ -825,6 +890,8 @@ function getEmailBody(record) {
     acknowledgement,
     '',
     `Reference: ${record.reference}`,
+    '',
+    pdfNotice,
     closing
   ].join('\n');
 }
@@ -887,6 +954,8 @@ function getParticipantEmailDetails(record) {
 function getPdfTitle(record) {
   if (record.route === 'Call for Papers') return 'Paper Registration Acknowledgement';
   if (record.route === 'Participants') return 'Participant Registration Acknowledgement';
+  if (record.route === 'Invited Guests') return 'Invited Guest Registration Acknowledgement';
+  if (record.route === 'Partners') return 'Partner Registration Acknowledgement';
   return 'Registration Acknowledgement';
 }
 
