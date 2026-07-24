@@ -36,9 +36,8 @@ test("supports a direct academic presenter registration link", () => {
     /registration\.html\?category=call-papers&subsection=Academics%20%2F%20Entrepreneurs%20%2F%20Others&type=Presenter/
   );
   assert.match(appJs, /params\.get\("subsection"\)/);
-  assert.match(appJs, /params\.get\("type"\)/);
   assert.match(appJs, /renderRegistrationFields\(\);\s*showStep\("form"\);\s*return;/);
-  assert.match(appJs, /registrationState\.type = requestedType/);
+  assert.match(appJs, /registrationState\.type = "Presenter"/);
 });
 
 test("supports a simple call for papers registration link", () => {
@@ -48,7 +47,7 @@ test("supports a simple call for papers registration link", () => {
   );
 });
 
-test("call for papers route uses one submit button and form dropdowns", () => {
+test("call for papers route uses one submit button and an audience dropdown", () => {
   assert.doesNotMatch(registrationHtml, /data-step="type"/);
   assert.doesNotMatch(registrationHtml, />Who is registering\?<\/h3>/);
   assert.match(registrationHtml, /data-open-call-paper-form><strong>Submit Paper Now<\/strong>/);
@@ -56,12 +55,11 @@ test("call for papers route uses one submit button and form dropdowns", () => {
   assert.match(appJs, /name="registration_subsection"/);
   assert.match(appJs, /<option value="Academics \/ Entrepreneurs \/ Others"/);
   assert.match(appJs, /<option value="Postgraduate Students"/);
-  assert.match(appJs, /id="call-paper-registration-type"/);
-  assert.match(appJs, /name="registration_type"/);
-  assert.match(appJs, /<option value="Presenter"/);
-  assert.match(appJs, /<option value="Non-Presenter"/);
+  assert.match(appJs, /<input type="hidden" name="registration_type" value="Presenter">/);
+  assert.doesNotMatch(appJs, /id="call-paper-registration-type"/);
+  assert.doesNotMatch(appJs, /<option value="Non-Presenter"/);
   assert.match(appJs, /event\.target\.name === "registration_subsection"/);
-  assert.match(appJs, /event\.target\.name === "registration_type"/);
+  assert.match(appJs, /registrationState\.type = "Presenter"/);
   assert.match(appJs, /registrationState\.category === "call-papers"[\s\S]*showStep\("subsection"\)/);
   assert.match(registrationHtml, /<div class="flow-step-head"><span>01<\/span><strong>15th August 2026<\/strong><\/div><p><b>Submit Abstract<\/b>/);
   assert.match(registrationHtml, /Papers Council Reviewer/);
@@ -70,24 +68,33 @@ test("call for papers route uses one submit button and form dropdowns", () => {
   assert.match(css, /\.call-paper-flow \.flow-step-head\s*\{/);
 });
 
-test("presenter forms collect SCOPUS preference and abstract or full paper upload", () => {
-  assert.match(appJs, /registrationState\.type === "Presenter" \|\| registrationState\.type === "Non-Presenter"/);
+test("call for papers forms register every author as a presenter and collect SCOPUS preference", () => {
+  assert.match(appJs, /if \(registrationState\.category === "call-papers"\) \{\s*routeFields =/);
   assert.doesNotMatch(appJs, /attendance_interest/);
   assert.match(appJs, /buildRadioGroup\("submit_to_scopus", "Submit to SCOPUS", \["Yes", "No"\]\)/);
   assert.match(appJs, /name="scopus_presentation_mode"/);
-  assert.match(appJs, /Physical Presentation">\s*Physical Presentation \(\+ RM200\)/);
-  assert.match(appJs, /Online Presentation">\s*Online Presentation \(\+ RM150\)/);
+  assert.match(appJs, /<label>Presentation Mode/);
+  assert.match(appJs, /Publication Fees ranging USD 599 - USD 1500, final amount will be advised\./);
+  assert.match(appJs, /Physical Presentation">\s*Physical Presentation/);
+  assert.match(appJs, /Online Presentation">\s*Online Presentation/);
+  assert.doesNotMatch(appJs, /Physical Presentation \(\+ RM200\)/);
+  assert.doesNotMatch(appJs, /Online Presentation \(\+ RM150\)/);
   assert.match(registrationHtml, /name="estimated_payable_amount"/);
   assert.match(registrationHtml, /name="estimated_fee_breakdown"/);
   assert.match(registrationHtml, /class="registration-submit-row"/);
   assert.match(registrationHtml, /data-payable-estimate hidden/);
-  assert.match(registrationHtml, /Payment to be made after paper acceptance/);
+  assert.match(registrationHtml, /Payment to be made after Final Paper draft is accepted\./);
+  assert.match(registrationHtml, /SCOPUS Additional surcharge will be advised \(~ USD 599 - USD 1500\)/);
   assert.match(registrationHtml, /<button class="primary-button registration-submit-button" type="submit">Submit<\/button>/);
   assert.match(appJs, /const callPaperFees = \{/);
-  assert.match(appJs, /"Academics \/ Entrepreneurs \/ Others"[\s\S]*Presenter:\s*1000[\s\S]*"Non-Presenter":\s*700/);
-  assert.match(appJs, /"Postgraduate Students"[\s\S]*Presenter:\s*850[\s\S]*"Non-Presenter":\s*350/);
-  assert.match(appJs, /const scopusPublicationFees = \{[\s\S]*"Physical Presentation":\s*200[\s\S]*"Online Presentation":\s*150/);
+  assert.match(appJs, /"Academics \/ Entrepreneurs \/ Others":\s*1000/);
+  assert.match(appJs, /"Postgraduate Students":\s*850/);
+  assert.doesNotMatch(appJs, /const scopusPublicationFees/);
+  assert.match(appJs, /const total = baseFee;/);
   assert.match(appJs, /const participantFees = \{[\s\S]*"HRD Corp Claimable":\s*1800[\s\S]*"General Admission":\s*1800[\s\S]*"Government Agencies":\s*1800/);
+  assert.match(appJs, /const academicParticipantFees = \{[\s\S]*"Academician \/ Educator \/ Lecturer":\s*700[\s\S]*"Student \/ Postgraduate Student":\s*500/);
+  assert.match(appJs, /name="academic_participant_category"/);
+  assert.match(appJs, /selectedParticipantType === "Academics \/ Students \/ Postgraduate Students"/);
   assert.match(appJs, /const payableEstimateCategories = \["call-papers", "participants"\]/);
   assert.match(appJs, /const hiddenEstimateCategories = \["invited-guests", "partners"\]/);
   assert.match(appJs, /function updateCallPaperEstimate\(form\)/);

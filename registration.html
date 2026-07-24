@@ -44,8 +44,8 @@
         <div class="wizard-panel" data-step="category">
           <h3>How would you like to join?</h3>
           <div class="wizard-options">
-            <button type="button" data-category="call-papers"><span>01</span><strong>CALL FOR PAPERS</strong><p>For academics and postgraduate students submitting or attending academic paper sessions.</p><em>Choose this for presenter or non-presenter paper registration.</em></button>
-            <button type="button" data-category="participants"><span>02</span><strong>PARTICIPANTS</strong><p>For HRD Corp Claimable, General Admission and Government Agencies delegates.</p><em>Choose this for professional conference participation.</em></button>
+            <button type="button" data-category="call-papers"><span>01</span><strong>CALL FOR PAPERS</strong><p>For academics and postgraduate students submitting academic paper sessions.</p><em>Choose this to submit an academic paper.</em></button>
+            <button type="button" data-category="participants"><span>02</span><strong>PARTICIPANTS</strong><p>For HRD Corp Claimable, General Admission, Government Agencies and academic delegates.</p><em>Choose this for professional conference participation.</em></button>
             <button type="button" data-category="invited-guests"><span>03</span><strong>INVITED GUESTS</strong><p>For invited dignitaries, VIPs, special guests and official guests of the conference.</p><em>Choose this for invitation-based registration.</em></button>
             <button type="button" data-category="partners"><span>04</span><strong>PARTNERS</strong><p>For organisations supporting the conference through strategic, media or ecosystem collaboration.</p><em>Choose this for partnership registration.</em></button>
           </div>
@@ -135,6 +135,7 @@
             <button type="button" data-participant-type="HRD Corp Claimable"><strong>HRD Corp Claimable</strong><em>2-day conference participation fee: RM1,800</em></button>
             <button type="button" data-participant-type="General Admission"><strong>General Admission</strong><em>2-day conference participation fee: RM1,800</em></button>
             <button type="button" data-participant-type="Government Agencies"><strong>Government Agencies</strong><em>2-day conference participation fee: RM1,800</em></button>
+            <button type="button" data-participant-type="Academics / Students / Postgraduate Students"><strong>Academics / Students / Postgraduate Students</strong></button>
           </div>
         </div>
 
@@ -181,8 +182,11 @@
             <input type="hidden" name="estimated_fee_breakdown" value="">
             <div class="registration-submit-row">
               <div class="payable-estimate" data-payable-estimate hidden>
-                <strong>Payment to be made after paper acceptance</strong>
-                <span data-estimate-amount>RM0</span>
+                <strong>Payment to be made after Final Paper draft is accepted.</strong>
+                <div class="payable-amount-line">
+                  <span data-estimate-amount>RM0</span>
+                  <em data-scopus-surcharge hidden>SCOPUS Additional surcharge will be advised (~ USD 599 - USD 1500)</em>
+                </div>
                 <small data-estimate-breakdown></small>
               </div>
               <button class="primary-button registration-submit-button" type="submit">Submit</button>
@@ -205,5 +209,37 @@
 
   <script src="config.js?v=20260625-registration"></script>
   <script src="app.js?v=20260625-registration"></script>
+  <script>
+    (() => {
+      const participantAccessCopy = "3 Days Conference Access";
+      const academicCategoryName = "Academic/ Lecturer / Educator / Student / Postgraduate Student";
+
+      const updateParticipantCategoryCards = () => {
+        const panel = Array.from(document.querySelectorAll("#registration-wizard .wizard-panel")).find(
+          (candidate) => /Choose participant category/i.test(candidate.textContent || "")
+        );
+
+        if (!panel) return;
+
+        panel.querySelectorAll(".wizard-options button").forEach((card) => {
+          const title = card.querySelector("strong");
+          const description = card.querySelector("em");
+
+          if (title && /Academics\s*\/\s*Students\s*\/\s*Postgraduate\s*Students/i.test(title.textContent)) {
+            title.textContent = academicCategoryName;
+          }
+
+          if (description && description.textContent.trim() !== participantAccessCopy) {
+            description.textContent = participantAccessCopy;
+          }
+        });
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        updateParticipantCategoryCards();
+        window.setTimeout(updateParticipantCategoryCards, 100);
+      });
+    })();
+  </script>
 </body>
 </html>

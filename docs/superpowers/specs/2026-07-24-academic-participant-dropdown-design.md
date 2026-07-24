@@ -13,10 +13,11 @@ Label: `Participant category`
 Options:
 
 - `Please select`
-- `Academician / Educator / Lecturer — RM700`
-- `Student / Postgraduate Student — RM500`
+- `Academician / Educator / Lecturer`
+- `Student / Postgraduate Student`
 
 The dropdown is part of the form's primary rendering logic. It must not be inserted or repositioned by a separate inline script.
+Pricing appears only in the payable estimate below the form fields, not in the dropdown option labels.
 
 ## Pricing Behaviour
 

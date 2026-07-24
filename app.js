@@ -19,25 +19,19 @@ const registrationState = {
 };
 
 const callPaperFees = {
-  "Academics / Entrepreneurs / Others": {
-    Presenter: 1000,
-    "Non-Presenter": 700
-  },
-  "Postgraduate Students": {
-    Presenter: 850,
-    "Non-Presenter": 350
-  }
-};
-
-const scopusPublicationFees = {
-  "Physical Presentation": 200,
-  "Online Presentation": 150
+  "Academics / Entrepreneurs / Others": 1000,
+  "Postgraduate Students": 850
 };
 
 const participantFees = {
   "HRD Corp Claimable": 1800,
   "General Admission": 1800,
   "Government Agencies": 1800
+};
+
+const academicParticipantFees = {
+  "Academician / Educator / Lecturer": 700,
+  "Student / Postgraduate Student": 500
 };
 
 const payableEstimateCategories = ["call-papers", "participants"];
@@ -159,14 +153,13 @@ function buildRadioGroup(name, legend, options, required = true) {
 
 function getCallPaperFeeBreakdown(form) {
   const subsection = form.querySelector("[name='registration_subsection']")?.value || registrationState.subsection;
-  const type = form.querySelector("[name='registration_type']")?.value || registrationState.type;
+  const type = "Presenter";
   const submitToScopus = form.querySelector("[name='submit_to_scopus']:checked")?.value || "";
   const scopusMode = form.querySelector("[name='scopus_presentation_mode']")?.value || "";
-  const baseFee = callPaperFees[subsection]?.[type] || 0;
-  const scopusFee = submitToScopus === "Yes" ? (scopusPublicationFees[scopusMode] || 0) : 0;
-  const total = baseFee + scopusFee;
+  const baseFee = callPaperFees[subsection] || 0;
+  const total = baseFee;
 
-  return { subsection, type, submitToScopus, scopusMode, baseFee, scopusFee, total };
+  return { subsection, type, submitToScopus, scopusMode, baseFee, total };
 }
 
 function hidePaymentEstimate({ estimateContainer, amountInput, breakdownInput }) {
@@ -177,8 +170,13 @@ function hidePaymentEstimate({ estimateContainer, amountInput, breakdownInput })
 
 function updateParticipantEstimate(form, estimateContainer, amountInput, breakdownInput, estimateAmount, estimateBreakdown) {
   const type = form.querySelector("[name='participant_sector']")?.value || registrationState.type;
-  const total = participantFees[type] || 0;
-  const breakdownText = total ? `${type}: RM${total.toLocaleString("en-MY")}` : "";
+  const selectedAcademicCategory = form.querySelector("[name='academic_participant_category']")?.value || "";
+  const isAcademicParticipant = type === "Academics / Students / Postgraduate Students";
+  const total = isAcademicParticipant
+    ? academicParticipantFees[selectedAcademicCategory] || 0
+    : participantFees[type] || 0;
+  const feeLabel = isAcademicParticipant ? selectedAcademicCategory : type;
+  const breakdownText = total ? `${feeLabel}: RM${total.toLocaleString("en-MY")}` : "";
 
   if (estimateContainer) estimateContainer.hidden = false;
   if (estimateAmount) estimateAmount.textContent = total ? `RM${total.toLocaleString("en-MY")}` : "RM0";
@@ -197,6 +195,7 @@ function updateCallPaperEstimate(form) {
   const breakdownInput = form.querySelector("[name='estimated_fee_breakdown']");
   const estimateAmount = form.querySelector("[data-estimate-amount]");
   const estimateBreakdown = form.querySelector("[data-estimate-breakdown]");
+  const scopusSurchargeNotice = form.querySelector("[data-scopus-surcharge]");
 
   if (
     hiddenEstimateCategories.includes(registrationState.category) ||
@@ -207,11 +206,12 @@ function updateCallPaperEstimate(form) {
   }
 
   if (registrationState.category === "participants") {
+    if (scopusSurchargeNotice) scopusSurchargeNotice.hidden = true;
     updateParticipantEstimate(form, estimateContainer, amountInput, breakdownInput, estimateAmount, estimateBreakdown);
     return;
   }
 
-  const { subsection, type, submitToScopus, scopusMode, baseFee, scopusFee, total } = getCallPaperFeeBreakdown(form);
+  const { subsection, type, submitToScopus, scopusMode, baseFee, total } = getCallPaperFeeBreakdown(form);
 
   if (estimateContainer) estimateContainer.hidden = false;
 
@@ -224,18 +224,16 @@ function updateCallPaperEstimate(form) {
 
   const baseText = baseFee
     ? `${subsection} ${type}: RM${baseFee.toLocaleString("en-MY")}`
-    : "Please choose who is registering and Presenter / Non-Presenter.";
-  const scopusText = submitToScopus === "Yes"
-    ? scopusMode
-      ? `SCOPUS indexed publication (${scopusMode}): RM${scopusFee.toLocaleString("en-MY")}`
-      : ""
-    : "SCOPUS indexed publication: RM0";
+    : "Please choose who is registering.";
   const totalText = total ? `RM${total.toLocaleString("en-MY")}` : "RM0";
   const breakdownText = submitToScopus === "Yes" && !scopusMode
     ? ""
-    : `${baseText}${baseFee && scopusText ? ` + ${scopusText}` : ""}`;
+    : baseFee
+      ? baseText
+      : "";
 
   if (estimateAmount) estimateAmount.textContent = totalText;
+  if (scopusSurchargeNotice) scopusSurchargeNotice.hidden = submitToScopus !== "Yes";
   if (estimateBreakdown) estimateBreakdown.textContent = breakdownText;
   if (amountInput) amountInput.value = total ? String(total) : "";
   if (breakdownInput) breakdownInput.value = breakdownText;
@@ -306,13 +304,7 @@ function renderRegistrationFields() {
   summary.textContent = getRegistrationLabel();
 
   const registrationTypeField = registrationState.category === "call-papers"
-    ? `<label>Presenter / Non-Presenter
-        <select id="call-paper-registration-type" name="registration_type" required>
-          <option value="">Please select</option>
-          <option value="Presenter"${registrationState.type === "Presenter" ? " selected" : ""}>Presenter</option>
-          <option value="Non-Presenter"${registrationState.type === "Non-Presenter" ? " selected" : ""}>Non-Presenter</option>
-        </select>
-      </label>`
+    ? `<input type="hidden" name="registration_type" value="Presenter">`
     : `<input type="hidden" name="registration_type" value="${registrationState.type}">`;
 
   const registrationSubsectionField = registrationState.category === "call-papers"
@@ -340,27 +332,22 @@ function renderRegistrationFields() {
   let routeFields = "";
 
   if (registrationState.category === "call-papers") {
-    if (registrationState.type === "Presenter" || registrationState.type === "Non-Presenter") {
-      routeFields = `
-        ${buildField("paper_title", "Paper title", "text", true, `placeholder="e.g, AI for Sustainable Entrepreneurship in ASEAN"`)}
-        <label>Abstract<textarea name="abstract" rows="4" required placeholder="e.g, 250-300 word abstract summary"></textarea></label>
-        ${buildRadioGroup("submit_to_scopus", "Submit to SCOPUS", ["Yes", "No"])}
-        <div class="scopus-presentation-choice" hidden>
-          <label>SCOPUS publication presentation mode
-            <select name="scopus_presentation_mode">
-              <option value="">Please select</option>
-              <option value="Physical Presentation">Physical Presentation (+ RM200)</option>
-              <option value="Online Presentation">Online Presentation (+ RM150)</option>
-            </select>
-          </label>
-        </div>
-        <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
-      `;
-    } else {
-      routeFields = `
-        <div class="form-divider"><strong>Presenter status</strong><span>Please choose Presenter or Non-Presenter above to continue.</span></div>
-      `;
-    }
+    routeFields = `
+      ${buildField("paper_title", "Paper title", "text", true, `placeholder="e.g, AI for Sustainable Entrepreneurship in ASEAN"`)}
+      <label>Abstract<textarea name="abstract" rows="4" required placeholder="e.g, 250-300 word abstract summary"></textarea></label>
+      ${buildRadioGroup("submit_to_scopus", "Submit to SCOPUS", ["Yes", "No"])}
+      <div class="scopus-presentation-choice" hidden>
+        <label>Presentation Mode
+          <select name="scopus_presentation_mode">
+            <option value="">Please select</option>
+            <option value="Physical Presentation">Physical Presentation</option>
+            <option value="Online Presentation">Online Presentation</option>
+          </select>
+        </label>
+        <p class="scopus-fee-note">Publication Fees ranging USD 599 - USD 1500, final amount will be advised.</p>
+      </div>
+      <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
+    `;
   }
 
   if (registrationState.category === "participants") {
@@ -393,18 +380,25 @@ function renderRegistrationFields() {
     } else if (selectedParticipantType === "Government Agencies") {
       participantFields = `
         ${buildField("department", "Department / unit", "text", true, `placeholder="e.g, Policy Planning Division"`)}
-        ${buildField("billing_contact", "Administrative contact person", "text", true, `placeholder="e.g, Ahmad Zaki"`)}
-        ${buildField("billing_email", "Administrative email", "email", true, `placeholder="e.g, admin@agency.gov.my"`)}
-        ${buildField("reference_no", "Purchase order / reference no.", "text", true, `placeholder="e.g, PO-2026-001"`)}
-        <label>Official notes<textarea name="participant_notes" rows="4" required placeholder="e.g, protocol, billing or approval notes"></textarea></label>
+        <label>Official notes<textarea name="participant_notes" rows="4" required placeholder="e.g, protocol, accessibility or other important notes"></textarea></label>
+      `;
+    } else if (selectedParticipantType === "Academics / Students / Postgraduate Students") {
+      const academicParticipantCategoryField = `
+        <label>Participant category
+          <select id="participant-registration-type" name="academic_participant_category" required>
+            <option value="">Please select</option>
+            <option value="Academician / Educator / Lecturer">Academician / Educator / Lecturer</option>
+            <option value="Student / Postgraduate Student">Student / Postgraduate Student</option>
+          </select>
+        </label>
+      `;
+      commonFields.splice(3, 0, academicParticipantCategoryField);
+      participantFields = `
+        <label>Delegate notes<textarea name="participant_notes" rows="4" required placeholder="e.g, accessibility or other important notes"></textarea></label>
       `;
     } else {
       participantFields = `
-        ${buildField("company_registration", "Company registration no.", "text", true, `placeholder="e.g, 202001234567"`)}
-        ${buildField("billing_contact", "Billing contact person", "text", true, `placeholder="e.g, Michelle Tan"`)}
-        ${buildField("billing_email", "Billing email", "email", true, `placeholder="e.g, finance@example.com"`)}
-        ${buildField("reference_no", "Purchase order / reference no.", "text", true, `placeholder="e.g, PO-2026-001"`)}
-        <label>Delegate notes<textarea name="participant_notes" rows="4" required placeholder="e.g, invoice, accessibility or other important notes"></textarea></label>
+        <label>Delegate notes<textarea name="participant_notes" rows="4" required placeholder="e.g, accessibility or other important notes"></textarea></label>
       `;
     }
 
@@ -550,7 +544,7 @@ function initRegistrationWizard() {
     if (button.dataset.category) {
       registrationState.category = button.dataset.category;
       registrationState.subsection = "";
-      registrationState.type = "";
+      registrationState.type = registrationState.category === "call-papers" ? "Presenter" : "";
       clearActive("[data-category]");
       button.classList.add("active");
       if (registrationState.category === "call-papers") {
@@ -626,14 +620,16 @@ function initRegistrationWizard() {
   });
 
   form.addEventListener("change", (event) => {
-    if (registrationState.category === "call-papers" && event.target.name === "registration_subsection") {
-      registrationState.subsection = event.target.value;
-      renderRegistrationFields();
+    if (
+      registrationState.category === "participants" &&
+      event.target.name === "academic_participant_category"
+    ) {
+      updateCallPaperEstimate(form);
       return;
     }
 
-    if (registrationState.category === "call-papers" && event.target.name === "registration_type") {
-      registrationState.type = event.target.value;
+    if (registrationState.category === "call-papers" && event.target.name === "registration_subsection") {
+      registrationState.subsection = event.target.value;
       renderRegistrationFields();
       return;
     }
@@ -679,17 +675,13 @@ function initRegistrationWizard() {
     callPapersButton?.classList.add("active");
 
     const requestedSubsection = params.get("subsection");
-    const requestedType = params.get("type");
-
     if (requestedSubsection) {
       registrationState.subsection = requestedSubsection;
     }
 
-    if (requestedType) {
-      registrationState.type = requestedType;
-    }
+    registrationState.type = "Presenter";
 
-    if (registrationState.subsection || registrationState.type) {
+    if (registrationState.subsection) {
       renderRegistrationFields();
       showStep("form");
       return;

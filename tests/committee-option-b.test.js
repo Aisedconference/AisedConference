@@ -59,7 +59,7 @@ test("uses Dato’ Steve Cheah's transparent portrait", () => {
 
 test("uses the Option B uniform directory structure", () => {
   assert.match(html, /class="committee-directory"/);
-  assert.equal((html.match(/class="committee-profile-card"/g) || []).length, 27);
+  assert.equal((html.match(/class="committee-profile-card"/g) || []).length, 28);
   assert.equal((html.match(/class="committee-profile-grid"/g) || []).length, 7);
 });
 
@@ -163,6 +163,22 @@ test("adds Swa Lee Lee and Sanura Jaya to the academic committee", () => {
   }
 });
 
+test("adds Prof Dr Eugene Aw Cheng Xi to the academic committee", () => {
+  const name = "Prof Dr Eugene Aw Cheng Xi";
+  const role = "Associate Dean, Research and Postgraduate Studies, UCSI Graduate Business School, UCSI University";
+  const filename = "Prof Dr Eugene Aw Cheng Xi.png";
+
+  assert.ok(html.includes(`<strong>${name}</strong><p>${role}</p>`));
+  assert.match(
+    html,
+    new RegExp(`<img[^>]+src="assets/Committee/${filename.replace(".", "\\.")}"[^>]+alt="Portrait of ${name}"`)
+  );
+  assert.ok(
+    fs.existsSync(path.join(root, "assets", "Committee", filename)),
+    `Missing portrait file for ${name}`
+  );
+});
+
 test("adds the International Academic Advisory Committee members with matched portraits", () => {
   const group = html.match(/<section class="committee-group" aria-labelledby="international-academic-heading">([\s\S]*?)<\/section>/)?.[1] || "";
   assert.ok(group, "Missing International Academic Advisory Committee section");
@@ -262,6 +278,7 @@ test("fills every filename-matched committee portrait", () => {
     "Assoc Prof Dr Noorshella Che Nawi.png",
     "Assoc Prof Dr Swa Lee Lee.png",
     "Dr Sanura Jaya.png",
+    "Prof Dr Eugene Aw Cheng Xi.png",
   ];
 
   for (const filename of expectedCommitteeAssets) {
