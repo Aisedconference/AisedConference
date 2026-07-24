@@ -8,17 +8,19 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="index.html" aria-label="AiSED home"><img src="assets/aised-logo.png" alt="AiSED"><span>AiSED 2026<small>Conference Portal</small></span></a>
+    <a class="brand" href="index.html" aria-label="AiSED home"><img src="assets/aised-logo-wide.png" alt="AiSED"></a>
     <nav aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="submission.html">Paper Submission</a>
       <div class="nav-group">
-        <a class="nav-parent" href="programme.html">Programme</a>
+        <button class="nav-parent" type="button" aria-haspopup="true">Programme</button>
         <div class="nav-dropdown" aria-label="Programme submenu">
+          <a href="programme.html">Conference Schedule</a>
           <a href="speakers.html">Speakers</a>
+          <a href="committee.html">Conference Leadership</a>
         </div>
       </div>
-      <a href="registration.html">Register</a>
+      <a href="registration.html">Registration</a>
     </nav>
   </header>
 
@@ -28,7 +30,7 @@
     <section class="page-hero">
       <p class="eyebrow">Speakers</p>
       <h1>Featured voices.</h1>
-      <p>Mock speaker profiles are mapped to the proposed sessions and can be replaced once official confirmations are ready.</p>
+      <p>Registered speaker profiles will be updated from the conference registration records.</p>
     </section>
 
     <section class="section alt">
@@ -40,78 +42,93 @@
       </div>
       <div class="speaker-grid royal-grid">
         <article class="speaker-card featured-speaker">
-          <div class="speaker-avatar royal-avatar">DYTM</div>
+          <img class="speaker-avatar royal-avatar" src="assets/tengku-amir-shah-profile.jpg" alt="His Highness The Raja Muda of Selangor Tengku Amir Shah ibni Sultan Sharafuddin Idris Shah Alhaj">
           <span class="status-pill light">Royal Patron</span>
-          <h3>Duli Yang Teramat Mulia Tengku Amir Shah ibni Sultan Sharafuddin Idris Shah</h3>
-          <p>Royal Patron for the AiSED International Conference 2026 and officiating dignitary for the opening ceremony.</p>
+          <h3>His Highness The Raja Muda of Selangor Tengku Amir Shah ibni Sultan Sharafuddin Idris Shah Alhaj</h3>
+          <p>Royal Patron of AiSED.</p>
           <b>Opening Ceremony</b>
         </article>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section speaker-profile-section">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Proposed speakers</p>
-          <h2>Session profiles.</h2>
+          <h2>Speaker Profile</h2>
         </div>
       </div>
-      <div class="speaker-grid">
-        <article class="speaker-card">
-          <div class="speaker-avatar">AK</div>
-          <span>Keynote Speaker</span>
-          <h3>Ambassador Dr. Aisha Karim</h3>
-          <p>Former senior diplomat and international policy advisor focusing on AI governance, diplomacy and cross-border cooperation.</p>
-          <b>International diplomacy and AI governance</b>
+      <div class="speaker-grid profile-grid">
+        <article class="speaker-card profile-speaker-card">
+          <img class="speaker-avatar royal-avatar speaker-profile-photo" src="assets/steve-cheah-speaker.png" alt="Dato' Steve Cheah">
+          <div class="profile-copy">
+            <span>Keynote Speaker</span>
+            <h3>Dato' Steve Cheah</h3>
+            <p>Chairman of AiSED</p>
+            <p class="profile-session">Opening Ceremony and High-Level Forums</p>
+          </div>
         </article>
-        <article class="speaker-card">
-          <div class="speaker-avatar">LM</div>
-          <span>Keynote Speaker</span>
-          <h3>Prof. Lucas Meyer</h3>
-          <p>Global sustainability scholar working on AI-enabled climate transitions, inclusive innovation and responsible technology.</p>
-          <b>AI, sustainability and future societies</b>
+        <article class="speaker-card profile-speaker-card">
+          <img class="speaker-avatar royal-avatar speaker-profile-photo" src="assets/Committee/Dato’ Professor Dr Nik Maheran Nik Muhammad.png" alt="Dato' Prof. Dr. Nik Maheran binti Nik Muhammad">
+          <div class="profile-copy">
+            <span>Keynote Speaker</span>
+            <h3>Dato' Prof. Dr. Nik Maheran binti Nik Muhammad</h3>
+            <p>Executive Co-Chair, AiSED</p>
+            <p class="profile-session">Conference Chair and Keynote Addresses</p>
+          </div>
         </article>
-        <article class="speaker-card">
-          <div class="speaker-avatar">NS</div>
-          <span>Forum Chair</span>
-          <h3>Dr. Nadia Salleh</h3>
-          <p>Higher education strategist specialising in AI literacy, digital universities and future-ready graduate development.</p>
-          <b>AI in higher education</b>
+        <article class="speaker-card profile-speaker-card">
+          <img class="speaker-avatar royal-avatar speaker-profile-photo" src="assets/Committee/Prof Dato' Dr Ansary Ahmed.png" alt="Prof Dato' Dr Ansary Ahmed">
+          <div class="profile-copy">
+            <span>Keynote Speaker</span>
+            <h3>Prof Dato' Dr Ansary Ahmed</h3>
+            <p>Founder President, Asia e University</p>
+            <p class="profile-session">Keynote Session 3</p>
+          </div>
         </article>
-        <article class="speaker-card">
-          <div class="speaker-avatar">RA</div>
-          <span>Panel Speaker</span>
-          <h3>Ravi Anand</h3>
-          <p>Entrepreneurship ecosystem builder connecting founders, universities and regional investors across Asia.</p>
-          <b>International entrepreneurial talks</b>
+        <article class="speaker-card profile-speaker-card">
+          <img class="speaker-avatar royal-avatar speaker-profile-photo" src="assets/sam-majid-speaker.jpg" alt="Sam Majid">
+          <div class="profile-copy">
+            <span>Panelist</span>
+            <h3>Sam Majid</h3>
+            <p>Former CEO of National AI Office</p>
+            <p class="profile-session">Forum 2: Artificial Intelligence</p>
+          </div>
         </article>
-        <article class="speaker-card">
-          <div class="speaker-avatar">CY</div>
-          <span>Roundtable Lead</span>
-          <h3>Prof. Chen Yuling</h3>
-          <p>Research collaboration lead in digital transformation, institutional partnerships and applied AI networks.</p>
-          <b>Strategic collaboration meeting</b>
+        <article class="speaker-card profile-speaker-card">
+          <img class="speaker-avatar royal-avatar speaker-profile-photo" src="assets/Committee/Adj. Prof. Dr. Behrang (Hani) Parhizkar.png" alt="Adj. Prof. Dr. Behrang (Hani) Parhizkar">
+          <div class="profile-copy">
+            <span>Panelist</span>
+            <h3>Adj. Prof. Dr. Behrang (Hani) Parhizkar</h3>
+            <p>CEO of ChamRun Academy</p>
+            <p class="profile-session">Forum 2: Artificial Intelligence</p>
+          </div>
         </article>
-        <article class="speaker-card">
-          <div class="speaker-avatar">FH</div>
-          <span>Academic Lead</span>
-          <h3>Assoc. Prof. Faridah Hassan</h3>
-          <p>Research methods advisor supporting academic paper review, parallel sessions and presenter development.</p>
-          <b>Academic parallel sessions</b>
+        <article class="speaker-card profile-speaker-card">
+          <img class="speaker-avatar royal-avatar speaker-profile-photo" src="assets/Committee/Kamarul Hisham Baginda.png" alt="Kamarul Hisham Baginda FCMI">
+          <div class="profile-copy">
+            <span>Moderator</span>
+            <h3>Kamarul Hisham Baginda FCMI</h3>
+            <p>Adjunct. Professor of Asia e University &amp; Fellow of Chartered Management Institute, UK</p>
+            <p class="profile-session">Forum 3: Entrepreneurship</p>
+          </div>
         </article>
-        <article class="speaker-card">
-          <div class="speaker-avatar">MJ</div>
-          <span>Moderator</span>
-          <h3>Michael Jameson</h3>
-          <p>Technology journalist and forum moderator experienced in public policy, innovation ecosystems and future work.</p>
-          <b>Future collaboration panel</b>
+        <article class="speaker-card profile-speaker-card">
+          <img class="speaker-avatar royal-avatar speaker-profile-photo" src="assets/ts-zehan-teoh-speaker.png" alt="Ts. Zehan Teoh">
+          <div class="profile-copy">
+            <span>Panelist</span>
+            <h3>Ts. Zehan Teoh</h3>
+            <p>Chief Transformation Officer, The MUI Group and Seating Expert of AiSED</p>
+            <p class="profile-session">Forum 4: Sustainable Entrepreneurship</p>
+          </div>
         </article>
-        <article class="speaker-card">
-          <div class="speaker-avatar">ZT</div>
-          <span>Awards Host</span>
-          <h3>Zara Tan</h3>
-          <p>Conference host and communications specialist supporting the awards presentation and closing programme.</p>
-          <b>Awards presentation ceremony</b>
+        <article class="speaker-card profile-speaker-card">
+          <img class="speaker-avatar royal-avatar speaker-profile-photo" src="assets/Committee/Dr Janeth Emanuel Kigobe.png" alt="Dr. Janeth Emanuel Kigobe">
+          <div class="profile-copy">
+            <span>Moderator</span>
+            <h3>Dr. Janeth Emanuel Kigobe</h3>
+            <p>Dean of Faculty of Education &amp; Co-Chair, UNESCO Chair on Teacher &amp; Curriculum, Open University Tanzania</p>
+            <p class="profile-session">Forum 4: Sustainable Entrepreneurship</p>
+          </div>
         </article>
       </div>
     </section>
@@ -120,7 +137,7 @@
   <footer class="footer">
     <div class="footer-grid">
       <div><strong>AiSED International Conference 2026</strong><span>For enquiries, please contact info@aisedconference.org</span></div>
-      <div><strong>Conference</strong><a href="programme.html">Programme</a><a href="speakers.html">Speakers</a></div>
+      <div><strong>Conference</strong><a href="programme.html">Programme</a><a href="speakers.html">Speakers</a><a href="committee.html">Conference Leadership</a></div>
       <div><strong>Participate</strong><a href="registration.html">Registration</a><a href="submission.html">Paper Submission</a></div>
       <div><strong>Partners</strong><a href="partners.html">Partnership</a><a href="venue.html">Venue</a></div>
     </div>

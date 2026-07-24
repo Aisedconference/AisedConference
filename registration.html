@@ -9,19 +9,20 @@
 <body>
   <header class="site-header">
     <a class="brand" href="index.html" aria-label="AiSED home">
-      <img src="assets/aised-logo.png" alt="AiSED">
-      <span>AiSED 2026<small>Conference Portal</small></span>
+      <img src="assets/aised-logo-wide.png" alt="AiSED">
     </a>
     <nav aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="submission.html">Paper Submission</a>
       <div class="nav-group">
-        <a class="nav-parent" href="programme.html">Programme</a>
+        <button class="nav-parent" type="button" aria-haspopup="true">Programme</button>
         <div class="nav-dropdown" aria-label="Programme submenu">
+          <a href="programme.html">Conference Schedule</a>
           <a href="speakers.html">Speakers</a>
+          <a href="committee.html">Conference Leadership</a>
         </div>
       </div>
-      <a href="registration.html">Register</a>
+      <a href="registration.html">Registration</a>
     </nav>
   </header>
 
@@ -43,8 +44,8 @@
         <div class="wizard-panel" data-step="category">
           <h3>How would you like to join?</h3>
           <div class="wizard-options">
-            <button type="button" data-category="call-papers"><span>01</span><strong>CALL FOR PAPERS</strong><p>For academics and postgraduate students submitting or attending academic paper sessions.</p><em>Choose this for presenter or non-presenter paper registration.</em></button>
-            <button type="button" data-category="participants"><span>02</span><strong>PARTICIPANTS</strong><p>For HRD Corp claimable participants, corporate sector delegates and government agencies.</p><em>Choose this for professional conference participation.</em></button>
+            <button type="button" data-category="call-papers"><span>01</span><strong>CALL FOR PAPERS</strong><p>For academics and postgraduate students submitting academic paper sessions.</p><em>Choose this to submit an academic paper.</em></button>
+            <button type="button" data-category="participants"><span>02</span><strong>PARTICIPANTS</strong><p>For HRD Corp Claimable, General Admission, Government Agencies and academic delegates.</p><em>Choose this for professional conference participation.</em></button>
             <button type="button" data-category="invited-guests"><span>03</span><strong>INVITED GUESTS</strong><p>For invited dignitaries, VIPs, special guests and official guests of the conference.</p><em>Choose this for invitation-based registration.</em></button>
             <button type="button" data-category="partners"><span>04</span><strong>PARTNERS</strong><p>For organisations supporting the conference through strategic, media or ecosystem collaboration.</p><em>Choose this for partnership registration.</em></button>
           </div>
@@ -53,69 +54,67 @@
         <div class="wizard-panel" data-step="subsection" hidden>
           <button class="text-link wizard-back" type="button" data-back="category">Back</button>
           <h3>CALL FOR PAPERS</h3>
-          <div class="call-paper-info">
-            <article class="call-paper-block wide">
-              <span>Conference theme</span>
-              <strong>Harnessing AI, Empowering Innovation, Advancing Sustainable Futures Through Entrepreneurship and Diplomacy.</strong>
-              <p>Researchers, academics, postgraduate students, policymakers, industry practitioners and professionals are invited to submit original and unpublished papers related to the conference theme and thematic tracks.</p>
-            </article>
-
-            <article class="call-paper-block wide">
-              <span>Thematic tracks</span>
-              <div class="mini-track-grid">
-                <p>AI for Sustainable Development</p>
-                <p>Sustainable Entrepreneurship and Innovation</p>
-                <p>AI and Digital Transformation in Business</p>
-                <p>Diplomacy in the AI Era</p>
-                <p>Policy, Governance and Ethics of AI</p>
-                <p>Green Economy and Circular Business Models</p>
-                <p>Education, Skills and AI for Future Work</p>
-                <p>Smart Cities and Sustainable Societies</p>
-                <p>AI for Health, Well-being and Human Security</p>
-                <p>Global Collaboration and Future Diplomacy</p>
-              </div>
-            </article>
-
-            <article class="call-paper-block">
-              <span>Paper types</span>
-              <ul>
-                <li>Conceptual papers</li>
-                <li>Empirical research papers</li>
-                <li>Case studies</li>
-                <li>Policy analyses</li>
-                <li>Innovation and industry papers</li>
-                <li>Applied research and best practice papers</li>
-              </ul>
-            </article>
-
-            <article class="call-paper-block">
-              <span>Guidelines</span>
-              <ul>
-                <li>Abstracts: 250 - 300 words</li>
-                <li>Full papers: 4,000 - 6,000 words</li>
-                <li>Language: English</li>
-                <li>Original, unpublished work only</li>
-                <li>Peer-review and editorial evaluation</li>
-                <li>Authors should align papers with the conference thematic tracks</li>
-                <li>Selected papers may be considered for indexed publication opportunities</li>
-                <li>Paper templates, review guidelines and publication updates will be announced through official conference channels</li>
-              </ul>
-            </article>
+          <div class="wizard-options call-paper-audience">
+            <button type="button" data-open-call-paper-form><strong>Submit Paper Now</strong><em>Continue to the paper submission registration form.</em></button>
           </div>
 
-          <h3>Who is registering?</h3>
-          <div class="wizard-options">
-            <button type="button" data-subsection="Academics"><strong>Academics</strong><em>Faculty, researchers and academic presenters</em></button>
-            <button type="button" data-subsection="Postgraduate Students"><strong>Postgraduate Students</strong><em>Master's and doctoral students</em></button>
-          </div>
-        </div>
+          <div class="call-paper-detail-zone">
+            <div class="call-paper-flow" aria-label="Call for papers submission flow">
+              <div><div class="flow-step-head"><span>01</span><strong>15th August 2026</strong></div><p><b>Submit Abstract</b> Complete the form and upload the abstract or draft paper manuscript.</p></div>
+              <div><div class="flow-step-head"><span>02</span><strong>Papers Council Reviewer</strong></div><p>The reviewers will evaluate the submission and confirm the acceptance status.</p></div>
+              <div><div class="flow-step-head"><span>03</span><strong>29th August 2026</strong></div><p>Acceptance and payment notice will be sent to accepted authors.</p></div>
+              <div><div class="flow-step-head"><span>04</span><strong>31st October 2026</strong></div><p><b>Full paper submission</b> Complete payment and submit the full paper for conference processing.</p></div>
+            </div>
 
-        <div class="wizard-panel" data-step="type" hidden>
-          <button class="text-link wizard-back" type="button" data-back="subsection">Back</button>
-          <h3>Will you present a paper?</h3>
-          <div class="wizard-options">
-            <button type="button" data-registration-type="Presenter"><strong>Presenter</strong><em>Submit paper details and attachment</em></button>
-            <button type="button" data-registration-type="Non-Presenter"><strong>Non-Presenter</strong><em>Attend without paper presentation</em></button>
+            <div class="call-paper-info">
+              <article class="call-paper-block wide">
+                <span>Conference theme</span>
+                <strong>Harnessing AI, Empowering Innovation, Advancing Sustainable Futures Through Entrepreneurship and Diplomacy.</strong>
+                <p>Researchers, academics, postgraduate students, policymakers, industry practitioners and professionals are invited to submit original and unpublished papers related to the conference theme and thematic tracks.</p>
+              </article>
+
+              <article class="call-paper-block wide">
+                <span>Thematic tracks</span>
+                <div class="mini-track-grid">
+                  <p>AI for Sustainable Development</p>
+                  <p>Sustainable Entrepreneurship and Innovation</p>
+                  <p>AI and Digital Transformation in Business</p>
+                  <p>Diplomacy in the AI Era</p>
+                  <p>Policy, Governance and Ethics of AI</p>
+                  <p>Green Economy and Circular Business Models</p>
+                  <p>Education, Skills and AI for Future Work</p>
+                  <p>Smart Cities and Sustainable Societies</p>
+                  <p>AI for Health, Well-being and Human Security</p>
+                  <p>AI in Technology and Creative Industry</p>
+                </div>
+              </article>
+
+              <article class="call-paper-block">
+                <span>Paper types</span>
+                <ul>
+                  <li>Conceptual papers</li>
+                  <li>Empirical research papers</li>
+                  <li>Case studies</li>
+                  <li>Policy analyses</li>
+                  <li>Innovation and industry papers</li>
+                  <li>Applied research and best practice papers</li>
+                </ul>
+              </article>
+
+              <article class="call-paper-block">
+                <span>Guidelines</span>
+                <ul>
+                  <li>Abstracts: 250 - 300 words</li>
+                  <li>Full papers: 4,000 - 6,000 words</li>
+                  <li>Language: English</li>
+                  <li>Original, unpublished work only</li>
+                  <li>Peer-review and editorial evaluation</li>
+                  <li>Authors should align papers with the conference thematic tracks</li>
+                  <li>Selected papers may be considered for indexed publication opportunities</li>
+                  <li>Paper templates, review guidelines and publication updates will be announced through official conference channels</li>
+                </ul>
+              </article>
+            </div>
           </div>
         </div>
 
@@ -129,13 +128,69 @@
           </div>
         </div>
 
+        <div class="wizard-panel" data-step="participant-type" hidden>
+          <button class="text-link wizard-back" type="button" data-back="category">Back</button>
+          <h3>Choose participant category</h3>
+          <div class="wizard-options">
+            <button type="button" data-participant-type="HRD Corp Claimable"><strong>HRD Corp Claimable</strong><em>2-day conference participation fee: RM1,800</em></button>
+            <button type="button" data-participant-type="General Admission"><strong>General Admission</strong><em>2-day conference participation fee: RM1,800</em></button>
+            <button type="button" data-participant-type="Government Agencies"><strong>Government Agencies</strong><em>2-day conference participation fee: RM1,800</em></button>
+            <button type="button" data-participant-type="Academics / Students / Postgraduate Students"><strong>Academics / Students / Postgraduate Students</strong></button>
+          </div>
+        </div>
+
+        <div class="wizard-panel" data-step="guest-type" hidden>
+          <button class="text-link wizard-back" type="button" data-back="category">Back</button>
+          <h3>Choose invited guest role</h3>
+          <div class="wizard-options">
+            <button type="button" data-guest-type="VIP Guest"><strong>VIP Guest</strong><em>For invited VIPs, senior leaders, embassy guests, guests of honour and protocol guests attending by official invitation.</em></button>
+            <button type="button" data-guest-type="Speakers"><strong>Speakers</strong><em>For confirmed keynote, panel, moderator or session speakers.</em></button>
+            <button type="button" data-guest-type="Institutional Guest"><strong>Institutional Guest</strong><em>For representatives invited by partner universities, agencies, NGOs or institutions.</em></button>
+            <button type="button" data-guest-type="Media Guest"><strong>Media Guest</strong><em>For invited press, media partners, photographers and communications representatives.</em></button>
+          </div>
+        </div>
+
         <div class="wizard-panel form-panel" data-step="form" hidden>
           <button class="text-link wizard-back" type="button" data-back="previous">Back</button>
           <h3>Your details</h3>
           <p class="wizard-summary" id="registration-summary"></p>
           <form class="action-form" id="registration-wizard-form">
             <div class="dynamic-fields" id="registration-fields"></div>
-            <button class="primary-button" type="submit">Submit Registration</button>
+            <label class="consent-check" for="pdpa-consent-registration">
+              <input id="pdpa-consent-registration" type="checkbox" name="pdpaConsent" value="agreed" required aria-describedby="pdpa-policy-registration">
+              <span>I have read, understood and agree to the Terms &amp; Conditions and Personal Data Protection Notice below. <strong>(Required)</strong></span>
+            </label>
+            <details class="consent-policy" id="pdpa-policy-registration">
+              <summary>Terms &amp; Conditions and Personal Data Protection Notice (PDPA)</summary>
+              <div class="consent-policy-body">
+                <p>By submitting this registration form, I confirm that the information provided is true and accurate.</p>
+                <p>I hereby consent to the Asia Institute of Sustainability, Entrepreneurship and Diplomacy (AiSED), Asia e University (AeU), Gaine Academy, and the AiSED International Conference 2026 Secretariat collecting, processing, storing and using my personal data in accordance with the Personal Data Protection Act 2010 (PDPA) for purposes related to the organisation and administration of the AiSED International Conference 2026, including but not limited to:</p>
+                <ul>
+                  <li>Processing my conference registration and payment;</li>
+                  <li>Communicating conference updates and important announcements;</li>
+                  <li>Preparing participant lists, name badges and certificates;</li>
+                  <li>Managing conference proceedings, publications and presentation schedules;</li>
+                  <li>Sharing relevant information with conference organisers, appointed service providers, sponsors or partners where necessary for conference administration; and</li>
+                  <li>Providing information on future conferences, professional development programmes and related events organised by AiSED and its partners (unless I opt out).</li>
+                </ul>
+                <p>I understand that photographs, video recordings and audio recordings may be taken during the conference for documentation, reporting, promotional and educational purposes. By attending the conference, I consent to the use of such recordings without compensation.</p>
+                <p>I understand that my personal data will be handled securely and will not be disclosed to unauthorised third parties except where required by law or for the purposes stated above.</p>
+                <p>Should I wish to access, update or withdraw my consent regarding my personal data, I may contact the Conference Secretariat at <a href="mailto:info@aisedconference.org">info@aisedconference.org</a>.</p>
+              </div>
+            </details>
+            <input type="hidden" name="estimated_payable_amount" value="">
+            <input type="hidden" name="estimated_fee_breakdown" value="">
+            <div class="registration-submit-row">
+              <div class="payable-estimate" data-payable-estimate hidden>
+                <strong>Payment to be made after Final Paper draft is accepted.</strong>
+                <div class="payable-amount-line">
+                  <span data-estimate-amount>RM0</span>
+                  <em data-scopus-surcharge hidden>SCOPUS Additional surcharge will be advised (~ USD 599 - USD 1500)</em>
+                </div>
+                <small data-estimate-breakdown></small>
+              </div>
+              <button class="primary-button registration-submit-button" type="submit">Submit</button>
+            </div>
             <p class="form-status" id="registration-status" aria-live="polite"></p>
           </form>
         </div>
@@ -146,13 +201,45 @@
   <footer class="footer">
     <div class="footer-grid">
       <div><strong>AiSED International Conference 2026</strong><span>For enquiries, please contact info@aisedconference.org</span></div>
-      <div><strong>Conference</strong><a href="programme.html">Programme</a><a href="speakers.html">Speakers</a></div>
+      <div><strong>Conference</strong><a href="programme.html">Programme</a><a href="speakers.html">Speakers</a><a href="committee.html">Conference Leadership</a></div>
       <div><strong>Participate</strong><a href="registration.html">Registration</a><a href="submission.html">Paper Submission</a></div>
       <div><strong>Partners</strong><a href="partners.html">Partnership</a><a href="venue.html">Venue</a></div>
     </div>
   </footer>
 
-  <script src="config.js?v=20260617-portal"></script>
-  <script src="app.js?v=20260617-portal"></script>
+  <script src="config.js?v=20260625-registration"></script>
+  <script src="app.js?v=20260625-registration"></script>
+  <script>
+    (() => {
+      const participantAccessCopy = "3 Days Conference Access";
+      const academicCategoryName = "Academic/ Lecturer / Educator / Student / Postgraduate Student";
+
+      const updateParticipantCategoryCards = () => {
+        const panel = Array.from(document.querySelectorAll("#registration-wizard .wizard-panel")).find(
+          (candidate) => /Choose participant category/i.test(candidate.textContent || "")
+        );
+
+        if (!panel) return;
+
+        panel.querySelectorAll(".wizard-options button").forEach((card) => {
+          const title = card.querySelector("strong");
+          const description = card.querySelector("em");
+
+          if (title && /Academics\s*\/\s*Students\s*\/\s*Postgraduate\s*Students/i.test(title.textContent)) {
+            title.textContent = academicCategoryName;
+          }
+
+          if (description && description.textContent.trim() !== participantAccessCopy) {
+            description.textContent = participantAccessCopy;
+          }
+        });
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        updateParticipantCategoryCards();
+        window.setTimeout(updateParticipantCategoryCards, 100);
+      });
+    })();
+  </script>
 </body>
 </html>

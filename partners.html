@@ -8,17 +8,19 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="index.html" aria-label="AiSED home"><img src="assets/aised-logo.png" alt="AiSED"><span>AiSED 2026<small>Conference Portal</small></span></a>
+    <a class="brand" href="index.html" aria-label="AiSED home"><img src="assets/aised-logo-wide.png" alt="AiSED"></a>
     <nav aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="submission.html">Paper Submission</a>
       <div class="nav-group">
-        <a class="nav-parent" href="programme.html">Programme</a>
+        <button class="nav-parent" type="button" aria-haspopup="true">Programme</button>
         <div class="nav-dropdown" aria-label="Programme submenu">
+          <a href="programme.html">Conference Schedule</a>
           <a href="speakers.html">Speakers</a>
+          <a href="committee.html">Conference Leadership</a>
         </div>
       </div>
-      <a href="registration.html">Register</a>
+      <a href="registration.html">Registration</a>
     </nav>
   </header>
 
@@ -28,7 +30,7 @@
     <section class="page-hero">
       <p class="eyebrow">Partners</p>
       <h1>Create impact together.</h1>
-      <p>AiSED 2026 brings together academic, industry and ecosystem partners for AI, sustainability, entrepreneurship and diplomacy.</p>
+      <p>AiSED International Conference 2026 brings together academic, industry and ecosystem partners for AI, sustainability, entrepreneurship and diplomacy.</p>
     </section>
 
     <section class="section alt">
@@ -36,15 +38,24 @@
         <div>
           <p class="eyebrow">Partner network</p>
           <h2>Supporting organisations.</h2>
-          <p class="section-intro">Tentative partner logo wall for current conference materials.</p>
+          <p class="section-intro">Current partner logos from the conference media folder.</p>
         </div>
       </div>
-      <div class="logo-wall" aria-label="Partner logos">
-        <article class="logo-card"><img src="assets/aised-partner-logo.svg" alt="AiSED logo"><span>AiSED</span></article>
-        <article class="logo-card"><img src="assets/aeu-logo.svg" alt="AeU logo"><span>Asia e University</span></article>
-        <article class="logo-card"><img src="assets/gaine-logo.svg" alt="GAINE logo"><span>Global AI Network for Education</span></article>
-        <article class="logo-card"><img src="assets/ucsi-logo.svg" alt="UCSI logo"><span>UCSI University</span></article>
-        <article class="logo-card"><img src="assets/eenet-logo.svg" alt="EE-NET SEA logo"><span>Entrepreneurship Education Network</span></article>
+      <div class="partner-groups" aria-label="Conference partners and organisers">
+        <div class="partner-group">
+          <h3>Organisers</h3>
+          <div class="logo-wall" aria-label="Organiser logos">
+            <article class="logo-card"><img src="assets/aised-partner-logo.png?v=1b76c92" alt="AiSED logo"></article>
+            <article class="logo-card"><img src="assets/aeu-logo.png" alt="AeU logo"></article>
+            <article class="logo-card"><img src="assets/gaine-logo.png" alt="GAINE logo"></article>
+          </div>
+        </div>
+        <div class="partner-group strategic">
+          <h3>Strategic Partners</h3>
+          <div class="logo-wall" aria-label="Strategic partner logos">
+            <article class="logo-card"><img src="assets/eenet-partner-logo.png" alt="EE-NET Southeast Asia logo"></article>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -66,6 +77,28 @@
         <label>Organisation<input name="organisation" required></label>
         <label>Interest<select name="type" required><option>Strategic Partner</option><option>Ecosystem Partner</option><option>Sponsor</option><option>Media Partner</option></select></label>
         <label>Message<textarea name="goals" rows="4" required></textarea></label>
+        <label class="consent-check" for="pdpa-consent-partner">
+          <input id="pdpa-consent-partner" type="checkbox" name="pdpaConsent" value="agreed" required aria-describedby="pdpa-policy-partner">
+          <span>I have read, understood and agree to the Terms &amp; Conditions and Personal Data Protection Notice below. <strong>(Required)</strong></span>
+        </label>
+        <details class="consent-policy" id="pdpa-policy-partner">
+          <summary>Terms &amp; Conditions and Personal Data Protection Notice (PDPA)</summary>
+          <div class="consent-policy-body">
+            <p>By submitting this registration form, I confirm that the information provided is true and accurate.</p>
+            <p>I hereby consent to the Asia Institute of Sustainability, Entrepreneurship and Diplomacy (AiSED), Asia e University (AeU), Gaine Academy, and the AiSED International Conference 2026 Secretariat collecting, processing, storing and using my personal data in accordance with the Personal Data Protection Act 2010 (PDPA) for purposes related to the organisation and administration of the AiSED International Conference 2026, including but not limited to:</p>
+            <ul>
+              <li>Processing my conference registration and payment;</li>
+              <li>Communicating conference updates and important announcements;</li>
+              <li>Preparing participant lists, name badges and certificates;</li>
+              <li>Managing conference proceedings, publications and presentation schedules;</li>
+              <li>Sharing relevant information with conference organisers, appointed service providers, sponsors or partners where necessary for conference administration; and</li>
+              <li>Providing information on future conferences, professional development programmes and related events organised by AiSED and its partners (unless I opt out).</li>
+            </ul>
+            <p>I understand that photographs, video recordings and audio recordings may be taken during the conference for documentation, reporting, promotional and educational purposes. By attending the conference, I consent to the use of such recordings without compensation.</p>
+            <p>I understand that my personal data will be handled securely and will not be disclosed to unauthorised third parties except where required by law or for the purposes stated above.</p>
+            <p>Should I wish to access, update or withdraw my consent regarding my personal data, I may contact the Conference Secretariat at <a href="mailto:info@aisedconference.org">info@aisedconference.org</a>.</p>
+          </div>
+        </details>
         <button class="primary-button" type="submit">Send Enquiry</button>
         <p class="form-status" id="partner-status" aria-live="polite"></p>
       </form>
@@ -75,7 +108,7 @@
   <footer class="footer">
     <div class="footer-grid">
       <div><strong>AiSED International Conference 2026</strong><span>For enquiries, please contact info@aisedconference.org</span></div>
-      <div><strong>Conference</strong><a href="programme.html">Programme</a><a href="speakers.html">Speakers</a></div>
+      <div><strong>Conference</strong><a href="programme.html">Programme</a><a href="speakers.html">Speakers</a><a href="committee.html">Conference Leadership</a></div>
       <div><strong>Participate</strong><a href="registration.html">Registration</a><a href="submission.html">Paper Submission</a></div>
       <div><strong>Partners</strong><a href="partners.html">Partnership</a><a href="venue.html">Venue</a></div>
     </div>

@@ -1,0 +1,4 @@
+apps-script/
+outputs/
+.DS_Store
+tmp/
