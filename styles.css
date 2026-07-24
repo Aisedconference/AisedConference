@@ -1586,6 +1586,24 @@ h3 {
   font-weight: 900;
 }
 
+.payable-amount-line {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+
+.payable-amount-line em {
+  color: var(--green);
+  font-size: 0.95rem;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.payable-amount-line em[hidden] {
+  display: none;
+}
+
 .payable-estimate small {
   color: var(--muted);
   line-height: 1.45;

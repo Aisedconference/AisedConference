@@ -35,7 +35,8 @@ test("retains the shared original dark-green inner-page hero gradient", () => {
 
 test("uses the updated participant and invited guest registration wording", () => {
   assert.match(registrationHtml, /data-participant-type="General Admission"><strong>General Admission<\/strong>/);
-  assert.match(registrationHtml, /HRD Corp Claimable, General Admission and Government Agencies delegates/);
+  assert.match(registrationHtml, /data-participant-type="Academics \/ Students \/ Postgraduate Students"><strong>Academics \/ Students \/ Postgraduate Students<\/strong>/);
+  assert.match(registrationHtml, /HRD Corp Claimable, General Admission, Government Agencies and academic delegates/);
   assert.doesNotMatch(registrationHtml, /Non-HRD Corp Claimable/);
   assert.match(registrationHtml, /embassy guests, guests of honour and protocol guests/);
   assert.match(registrationHtml, /partner universities, agencies, NGOs or institutions/);
