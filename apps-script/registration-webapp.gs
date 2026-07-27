@@ -540,10 +540,7 @@ function repairLegacyCallPaperAttachmentLinks() {
       repairedCount += 1;
     }
 
-    if (
-      isHttpsUrl(row[masterScopusIndex]) &&
-      String(row[masterScopusIndex]).trim() === attachmentUrl
-    ) {
+    if (isHttpsUrl(row[masterScopusIndex])) {
       master.getRange(sheetRow, masterScopusIndex + 1).setValue('');
       clearedMisplacedCount += 1;
     }

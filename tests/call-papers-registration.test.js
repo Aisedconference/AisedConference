@@ -306,9 +306,10 @@ test("backend captures the selected academic participant category", () => {
 test("backend repairs the exact paper file URL without overwriting genuine SCOPUS answers", () => {
   const context = loadRegistrationBackend();
   const exactUrl = "https://drive.google.com/file/d/exact-file-id/view?usp=drivesdk";
+  const legacyUrl = "https://drive.google.com/file/d/exact-file-id/view?usp=drive_link";
   const masterRows = [
     ["Registration ID", "Submit to SCOPUS", "Paper Attachment Link"],
-    ["REG-OLD-1", exactUrl, ""],
+    ["REG-OLD-1", legacyUrl, ""],
     ["REG-KEEP-YES", "Yes", ""]
   ];
   const callPaperRows = [
