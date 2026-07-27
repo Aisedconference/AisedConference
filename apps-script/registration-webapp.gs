@@ -23,6 +23,7 @@ const REGISTRATION_SHEET_HEADERS = {
     'Registration Subsection',
     'Registration Type',
     'Participant Sector',
+    'Academic Participant Category',
     'Invited Guest Role',
     'Partner Type',
     'Title',
@@ -59,6 +60,7 @@ const REGISTRATION_SHEET_HEADERS = {
     'Organisation Logo Link',
     'Partner Acceptance Letter Link',
     'Attachment Folder Link',
+    'Remark',
     'SCOPUS Presentation Mode',
     'Estimated Payable Amount',
     'Estimated Fee Breakdown'
@@ -88,11 +90,12 @@ const REGISTRATION_SHEET_HEADERS = {
     'Timestamp',
     'Registration ID',
     'Participant Sector',
+    'Academic Participant Category',
     'Title',
     'Full Name',
     'Email',
     'Contact Number',
-    'Organisation',
+    'Organisation / Company',
     'Position / Designation',
     'MyKad / IC Number / Passport Number',
     'HRD Corp Employer Code',
@@ -129,10 +132,10 @@ const REGISTRATION_SHEET_HEADERS = {
     'Timestamp',
     'Registration ID',
     'Partner Type',
-    'Organisation / Company Name',
+    'Organisation',
     'Organisation Website',
     'Representative / PIC Name',
-    'Representative / PIC Position',
+    'Position / Designation',
     'Representative / PIC Email',
     'Representative / PIC Contact Number',
     'Partnership Interest',
@@ -197,6 +200,7 @@ function normaliseRecord(payload) {
     position: payload.position || '',
     attendanceInterest: payload.attendance_interest || '',
     participantSector: payload.participant_sector || '',
+    academicParticipantCategory: payload.academic_participant_category || '',
     billingContact: payload.billing_contact || '',
     billingEmail: payload.billing_email || '',
     billingPhone: payload.billing_phone || '',
@@ -282,14 +286,14 @@ function saveAttachments(record) {
 function appendRegistrationRows(record) {
   const ss = SpreadsheetApp.openById(AISED.spreadsheetId);
   const master = ss.getSheetByName('Master Registrations');
-  ensureSheetHeaders(master, REGISTRATION_SHEET_HEADERS.master);
-  appendSheetRow(master, [
+  appendSheetRowByHeaders(master, REGISTRATION_SHEET_HEADERS.master, [
     record.submittedAt,
     record.reference,
     record.route,
     record.subsection,
     record.type,
     record.participantSector,
+    record.academicParticipantCategory,
     record.guestType,
     record.partnerType,
     record.route === 'Partners' ? '' : record.title,
@@ -326,6 +330,7 @@ function appendRegistrationRows(record) {
     attachmentUrlByField(record, 'organisation_logo'),
     attachmentUrlByField(record, 'partner_acceptance_letter'),
     folderUrl(getFolderId(record)),
+    '',
     record.scopusPresentationMode,
     record.estimatedPayableAmount,
     record.estimatedFeeBreakdown
@@ -339,8 +344,7 @@ function appendRegistrationRows(record) {
 
 function appendCallForPapers(ss, record) {
   const sheet = ss.getSheetByName('Call for Papers');
-  ensureSheetHeaders(sheet, REGISTRATION_SHEET_HEADERS.callPapers);
-  appendSheetRow(sheet, [
+  appendSheetRowByHeaders(sheet, REGISTRATION_SHEET_HEADERS.callPapers, [
     record.submittedAt,
     record.reference,
     record.subsection,
@@ -365,11 +369,11 @@ function appendCallForPapers(ss, record) {
 
 function appendParticipants(ss, record) {
   const sheet = ss.getSheetByName('Participants');
-  ensureSheetHeaders(sheet, REGISTRATION_SHEET_HEADERS.participants);
-  appendSheetRow(sheet, [
+  appendSheetRowByHeaders(sheet, REGISTRATION_SHEET_HEADERS.participants, [
     record.submittedAt,
     record.reference,
     record.participantSector,
+    record.academicParticipantCategory,
     record.title,
     record.name,
     record.email,
@@ -396,8 +400,7 @@ function appendParticipants(ss, record) {
 
 function appendInvitedGuests(ss, record) {
   const sheet = ss.getSheetByName('Invited Guests');
-  ensureSheetHeaders(sheet, REGISTRATION_SHEET_HEADERS.invitedGuests);
-  appendSheetRow(sheet, [
+  appendSheetRowByHeaders(sheet, REGISTRATION_SHEET_HEADERS.invitedGuests, [
     record.submittedAt,
     record.reference,
     record.guestType,
@@ -416,8 +419,7 @@ function appendInvitedGuests(ss, record) {
 
 function appendPartners(ss, record) {
   const sheet = ss.getSheetByName('Partners');
-  ensureSheetHeaders(sheet, REGISTRATION_SHEET_HEADERS.partners);
-  appendSheetRow(sheet, [
+  appendSheetRowByHeaders(sheet, REGISTRATION_SHEET_HEADERS.partners, [
     record.submittedAt,
     record.reference,
     record.partnerType,
@@ -434,8 +436,24 @@ function appendPartners(ss, record) {
   ]);
 }
 
-function appendSheetRow(sheet, values) {
-  sheet.appendRow(values.map(safeSheetValue));
+function appendSheetRowByHeaders(sheet, headers, values) {
+  ensureSheetHeaders(sheet, headers);
+
+  const currentHeaders = sheet
+    .getRange(1, 1, 1, Math.max(sheet.getLastColumn(), 1))
+    .getValues()[0]
+    .map((value) => String(value || '').trim());
+  const valueByHeader = {};
+
+  headers.forEach((header, index) => {
+    valueByHeader[header] = values[index];
+  });
+
+  sheet.appendRow(currentHeaders.map((header) => (
+    Object.prototype.hasOwnProperty.call(valueByHeader, header)
+      ? safeSheetValue(valueByHeader[header])
+      : ''
+  )));
 }
 
 function ensureSheetHeaders(sheet, headers) {

@@ -2,6 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
+const vm = require("node:vm");
 
 const root = path.resolve(__dirname, "..");
 const submissionHtml = fs.readFileSync(path.join(root, "submission.html"), "utf8");
@@ -20,6 +21,63 @@ const registrationWebapp = fs.readFileSync(
   path.join(root, "apps-script", "registration-webapp.gs"),
   "utf8"
 );
+
+function loadRegistrationBackend() {
+  const context = {
+    console,
+    SpreadsheetApp: {},
+    DriveApp: {
+      getFolderById(id) {
+        return { getUrl: () => `https://drive.google.com/drive/folders/${id}` };
+      }
+    }
+  };
+  vm.createContext(context);
+  vm.runInContext(
+    `${registrationWebapp}
+globalThis.__backend = {
+  REGISTRATION_SHEET_HEADERS,
+  normaliseRecord,
+  appendRegistrationRows
+};`,
+    context
+  );
+  return context;
+}
+
+function createSheet(existingHeaders) {
+  const headers = [...existingHeaders];
+  const appendedRows = [];
+
+  return {
+    headers,
+    appendedRows,
+    getLastColumn() {
+      return headers.length;
+    },
+    getRange(row, column, rowCount, columnCount) {
+      assert.equal(row, 1);
+      assert.equal(rowCount, 1);
+      return {
+        getValues() {
+          return [[...headers, ...Array(Math.max(0, columnCount - headers.length)).fill("")].slice(0, columnCount)];
+        },
+        setValues(rows) {
+          rows[0].forEach((value, index) => {
+            headers[column - 1 + index] = value;
+          });
+        }
+      };
+    },
+    getFrozenRows() {
+      return 1;
+    },
+    setFrozenRows() {},
+    appendRow(values) {
+      appendedRows.push(values);
+    }
+  };
+}
 
 test("paper submission button opens the call for papers registration route", () => {
   assert.match(
@@ -138,6 +196,88 @@ test("backend captures payable amounts only for call for papers and participants
   assert.match(registrationWebapp, /estimatedFeeBreakdown:\s*capturesPayableAmount \? \(payload\.estimated_fee_breakdown \|\| ''\) : ''/);
   assert.match(registrationWebapp, /participants:\s*\[[\s\S]*'Estimated Payable Amount'[\s\S]*'Estimated Fee Breakdown'/);
   assert.match(registrationWebapp, /function appendParticipants[\s\S]*record\.estimatedPayableAmount[\s\S]*record\.estimatedFeeBreakdown/);
+});
+
+test("backend aligns every answer to the live sheet header, including legacy columns", () => {
+  const context = loadRegistrationBackend();
+  const backend = context.__backend;
+  const masterHeaders = [
+    ...backend.REGISTRATION_SHEET_HEADERS.master.filter((header) => (
+      !["SCOPUS Presentation Mode", "Estimated Payable Amount", "Estimated Fee Breakdown"].includes(header)
+    )),
+    "Remark"
+  ];
+  const callPaperHeaders = backend.REGISTRATION_SHEET_HEADERS.callPapers.slice(0, 16);
+  const master = createSheet(masterHeaders);
+  const callPapers = createSheet(callPaperHeaders);
+  const sheets = {
+    "Master Registrations": master,
+    "Call for Papers": callPapers
+  };
+
+  context.SpreadsheetApp.openById = () => ({
+    getSheetByName(name) {
+      return sheets[name];
+    }
+  });
+
+  const record = backend.normaliseRecord({
+    registration_category: "call-papers",
+    registration_subsection: "Postgraduate Students",
+    registration_type: "Presenter",
+    reference: "REG-TEST-SCOPUS",
+    submittedAt: "2026-07-27T00:00:00.000Z",
+    name: "Test Author",
+    email: "author@example.com",
+    submit_to_scopus: "Yes",
+    scopus_presentation_mode: "Online Presentation",
+    estimated_payable_amount: "850",
+    estimated_fee_breakdown: "Postgraduate Students: RM850"
+  });
+
+  backend.appendRegistrationRows(record);
+
+  const masterRow = Object.fromEntries(master.headers.map((header, index) => [header, master.appendedRows[0][index] ?? ""]));
+  const callPaperRow = Object.fromEntries(callPapers.headers.map((header, index) => [header, callPapers.appendedRows[0][index] ?? ""]));
+
+  for (const row of [masterRow, callPaperRow]) {
+    assert.equal(row["Submit to SCOPUS"], "Yes");
+    assert.equal(row["SCOPUS Presentation Mode"], "Online Presentation");
+    assert.equal(row["Estimated Payable Amount"], "850");
+    assert.equal(row["Estimated Fee Breakdown"], "Postgraduate Students: RM850");
+  }
+  assert.equal(masterRow.Remark, "");
+});
+
+test("backend captures the selected academic participant category", () => {
+  const context = loadRegistrationBackend();
+  const backend = context.__backend;
+  const master = createSheet(backend.REGISTRATION_SHEET_HEADERS.master);
+  const participants = createSheet(backend.REGISTRATION_SHEET_HEADERS.participants);
+  const sheets = {
+    "Master Registrations": master,
+    Participants: participants
+  };
+  context.SpreadsheetApp.openById = () => ({
+    getSheetByName(name) {
+      return sheets[name];
+    }
+  });
+  const record = backend.normaliseRecord({
+    registration_category: "participants",
+    reference: "REG-TEST-PARTICIPANT",
+    submittedAt: "2026-07-27T00:00:00.000Z",
+    participant_sector: "Academics / Students / Postgraduate Students",
+    academic_participant_category: "Student / Postgraduate Student"
+  });
+
+  backend.appendRegistrationRows(record);
+
+  assert.equal(record.academicParticipantCategory, "Student / Postgraduate Student");
+  const masterRow = Object.fromEntries(master.headers.map((header, index) => [header, master.appendedRows[0][index] ?? ""]));
+  const participantRow = Object.fromEntries(participants.headers.map((header, index) => [header, participants.appendedRows[0][index] ?? ""]));
+  assert.equal(masterRow["Academic Participant Category"], "Student / Postgraduate Student");
+  assert.equal(participantRow["Academic Participant Category"], "Student / Postgraduate Student");
 });
 
 test("backend attaches a letterhead PDF copy for every registration route", () => {
