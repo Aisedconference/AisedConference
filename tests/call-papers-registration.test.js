@@ -38,7 +38,11 @@ function loadRegistrationBackend() {
 globalThis.__backend = {
   REGISTRATION_SHEET_HEADERS,
   normaliseRecord,
-  appendRegistrationRows
+  appendRegistrationRows,
+  repairLegacyCallPaperAttachmentLinks:
+    typeof repairLegacyCallPaperAttachmentLinks === "function"
+      ? repairLegacyCallPaperAttachmentLinks
+      : undefined
 };`,
     context
   );
@@ -75,6 +79,25 @@ function createSheet(existingHeaders) {
     setFrozenRows() {},
     appendRow(values) {
       appendedRows.push(values);
+    }
+  };
+}
+
+function createDataSheet(rows) {
+  return {
+    getDataRange() {
+      return {
+        getValues() {
+          return rows.map((row) => [...row]);
+        }
+      };
+    },
+    getRange(row, column) {
+      return {
+        setValue(value) {
+          rows[row - 1][column - 1] = value;
+        }
+      };
     }
   };
 }
@@ -278,6 +301,40 @@ test("backend captures the selected academic participant category", () => {
   const participantRow = Object.fromEntries(participants.headers.map((header, index) => [header, participants.appendedRows[0][index] ?? ""]));
   assert.equal(masterRow["Academic Participant Category"], "Student / Postgraduate Student");
   assert.equal(participantRow["Academic Participant Category"], "Student / Postgraduate Student");
+});
+
+test("backend repairs the exact paper file URL without overwriting genuine SCOPUS answers", () => {
+  const context = loadRegistrationBackend();
+  const exactUrl = "https://drive.google.com/file/d/exact-file-id/view?usp=drivesdk";
+  const masterRows = [
+    ["Registration ID", "Submit to SCOPUS", "Paper Attachment Link"],
+    ["REG-OLD-1", exactUrl, ""],
+    ["REG-KEEP-YES", "Yes", ""]
+  ];
+  const callPaperRows = [
+    ["Registration ID", "Submit to SCOPUS", "Paper Attachment Link"],
+    ["REG-OLD-1", "", exactUrl],
+    ["REG-KEEP-YES", "Yes", ""]
+  ];
+  const sheets = {
+    "Master Registrations": createDataSheet(masterRows),
+    "Call for Papers": createDataSheet(callPaperRows)
+  };
+  context.SpreadsheetApp.openById = () => ({
+    getSheetByName(name) {
+      return sheets[name];
+    }
+  });
+
+  const result = context.__backend.repairLegacyCallPaperAttachmentLinks();
+
+  assert.equal(masterRows[1][2], exactUrl);
+  assert.equal(masterRows[1][1], "");
+  assert.equal(masterRows[2][1], "Yes");
+  assert.deepEqual(
+    { ...result },
+    { repairedCount: 1, clearedMisplacedCount: 1 }
+  );
 });
 
 test("backend attaches a letterhead PDF copy for every registration route", () => {

@@ -498,6 +498,70 @@ function setupRegistrationSheetHeaders() {
   ensureSheetHeaders(ss.getSheetByName('Partners'), REGISTRATION_SHEET_HEADERS.partners);
 }
 
+function repairLegacyCallPaperAttachmentLinks() {
+  const ss = SpreadsheetApp.openById(AISED.spreadsheetId);
+  const master = ss.getSheetByName('Master Registrations');
+  const callPapers = ss.getSheetByName('Call for Papers');
+
+  if (!master || !callPapers) {
+    throw new Error('Registration sheet is missing. Please check the spreadsheet tabs.');
+  }
+
+  const masterRows = master.getDataRange().getValues();
+  const callPaperRows = callPapers.getDataRange().getValues();
+  const masterHeaders = masterRows[0] || [];
+  const callPaperHeaders = callPaperRows[0] || [];
+  const masterIdIndex = headerIndex(masterHeaders, 'Registration ID');
+  const masterScopusIndex = headerIndex(masterHeaders, 'Submit to SCOPUS');
+  const masterAttachmentIndex = headerIndex(masterHeaders, 'Paper Attachment Link');
+  const callPaperIdIndex = headerIndex(callPaperHeaders, 'Registration ID');
+  const callPaperAttachmentIndex = headerIndex(callPaperHeaders, 'Paper Attachment Link');
+  const attachmentUrlByRegistrationId = {};
+
+  callPaperRows.slice(1).forEach((row) => {
+    const registrationId = String(row[callPaperIdIndex] || '').trim();
+    const attachmentUrl = String(row[callPaperAttachmentIndex] || '').trim();
+    if (registrationId && isHttpsUrl(attachmentUrl)) {
+      attachmentUrlByRegistrationId[registrationId] = attachmentUrl;
+    }
+  });
+
+  let repairedCount = 0;
+  let clearedMisplacedCount = 0;
+
+  masterRows.slice(1).forEach((row, index) => {
+    const registrationId = String(row[masterIdIndex] || '').trim();
+    const attachmentUrl = attachmentUrlByRegistrationId[registrationId];
+    if (!attachmentUrl) return;
+
+    const sheetRow = index + 2;
+    if (String(row[masterAttachmentIndex] || '').trim() !== attachmentUrl) {
+      master.getRange(sheetRow, masterAttachmentIndex + 1).setValue(attachmentUrl);
+      repairedCount += 1;
+    }
+
+    if (
+      isHttpsUrl(row[masterScopusIndex]) &&
+      String(row[masterScopusIndex]).trim() === attachmentUrl
+    ) {
+      master.getRange(sheetRow, masterScopusIndex + 1).setValue('');
+      clearedMisplacedCount += 1;
+    }
+  });
+
+  return { repairedCount, clearedMisplacedCount };
+}
+
+function isHttpsUrl(value) {
+  return /^https:\/\//i.test(String(value || '').trim());
+}
+
+function headerIndex(headers, name) {
+  const index = headers.indexOf(name);
+  if (index < 0) throw new Error(`Missing required sheet header: ${name}`);
+  return index;
+}
+
 function safeSheetValue(value) {
   if (value === null || value === undefined) return '';
   if (typeof value !== 'string') return value;
