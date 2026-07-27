@@ -308,9 +308,10 @@ test("backend repairs the exact paper file URL without overwriting genuine SCOPU
   const exactUrl = "https://drive.google.com/file/d/exact-file-id/view?usp=drivesdk";
   const legacyUrl = "https://drive.google.com/file/d/exact-file-id/view?usp=drive_link";
   const masterRows = [
-    ["Registration ID", "Submit to SCOPUS", "Paper Attachment Link"],
-    ["REG-OLD-1", legacyUrl, ""],
-    ["REG-KEEP-YES", "Yes", ""]
+    ["Registration ID", "Registration Route", "Submit to SCOPUS", "Paper Attachment Link"],
+    ["REG-OLD-1", "Call for Papers", legacyUrl, ""],
+    ["REG-MASTER-ONLY", "Call for Papers", legacyUrl, ""],
+    ["REG-KEEP-YES", "Call for Papers", "Yes", ""]
   ];
   const callPaperRows = [
     ["Registration ID", "Submit to SCOPUS", "Paper Attachment Link"],
@@ -329,12 +330,14 @@ test("backend repairs the exact paper file URL without overwriting genuine SCOPU
 
   const result = context.__backend.repairLegacyCallPaperAttachmentLinks();
 
-  assert.equal(masterRows[1][2], exactUrl);
-  assert.equal(masterRows[1][1], "");
-  assert.equal(masterRows[2][1], "Yes");
+  assert.equal(masterRows[1][3], exactUrl);
+  assert.equal(masterRows[1][2], "");
+  assert.equal(masterRows[2][3], legacyUrl);
+  assert.equal(masterRows[2][2], "");
+  assert.equal(masterRows[3][2], "Yes");
   assert.deepEqual(
     { ...result },
-    { repairedCount: 1, clearedMisplacedCount: 1 }
+    { repairedCount: 2, clearedMisplacedCount: 2 }
   );
 });
 

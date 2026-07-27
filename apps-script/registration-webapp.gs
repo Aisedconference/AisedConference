@@ -512,6 +512,7 @@ function repairLegacyCallPaperAttachmentLinks() {
   const masterHeaders = masterRows[0] || [];
   const callPaperHeaders = callPaperRows[0] || [];
   const masterIdIndex = headerIndex(masterHeaders, 'Registration ID');
+  const masterRouteIndex = headerIndex(masterHeaders, 'Registration Route');
   const masterScopusIndex = headerIndex(masterHeaders, 'Submit to SCOPUS');
   const masterAttachmentIndex = headerIndex(masterHeaders, 'Paper Attachment Link');
   const callPaperIdIndex = headerIndex(callPaperHeaders, 'Registration ID');
@@ -531,7 +532,12 @@ function repairLegacyCallPaperAttachmentLinks() {
 
   masterRows.slice(1).forEach((row, index) => {
     const registrationId = String(row[masterIdIndex] || '').trim();
-    const attachmentUrl = attachmentUrlByRegistrationId[registrationId];
+    const misplacedUrl = isHttpsUrl(row[masterScopusIndex])
+      ? String(row[masterScopusIndex]).trim()
+      : '';
+    const attachmentUrl =
+      attachmentUrlByRegistrationId[registrationId] ||
+      (row[masterRouteIndex] === 'Call for Papers' ? misplacedUrl : '');
     if (!attachmentUrl) return;
 
     const sheetRow = index + 2;
@@ -540,7 +546,7 @@ function repairLegacyCallPaperAttachmentLinks() {
       repairedCount += 1;
     }
 
-    if (isHttpsUrl(row[masterScopusIndex])) {
+    if (misplacedUrl) {
       master.getRange(sheetRow, masterScopusIndex + 1).setValue('');
       clearedMisplacedCount += 1;
     }
