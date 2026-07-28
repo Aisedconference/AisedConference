@@ -26,6 +26,17 @@ test("labels every registration navigation link consistently", () => {
   }
 });
 
+test("registration page navigation jumps to the join options", () => {
+  assert.match(
+    registrationHtml,
+    /<nav[^>]*>[\s\S]*?<a href="#registration-options">Registration<\/a>[\s\S]*?<\/nav>/
+  );
+  assert.match(
+    registrationHtml,
+    /<div class="wizard-panel" id="registration-options" data-step="category">\s*<h3>How would you like to join\?<\/h3>/
+  );
+});
+
 test("retains the shared original dark-green inner-page hero gradient", () => {
   assert.match(
     css,
