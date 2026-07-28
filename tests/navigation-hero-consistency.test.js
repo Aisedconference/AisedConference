@@ -18,12 +18,47 @@ const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 const registrationHtml = fs.readFileSync(path.join(root, "registration.html"), "utf8");
 const appJs = fs.readFileSync(path.join(root, "app.js"), "utf8");
 
-test("labels every registration navigation link consistently", () => {
+const headerDestinations = [
+  ["Home", "index.html#conference-overview"],
+  ["Paper Submission", "submission.html#submission-guidelines"],
+  ["Conference Schedule", "programme.html#conference-agenda"],
+  ["Speakers", "speakers.html#featured-speakers"],
+  ["Conference Leadership", "committee.html#conference-leadership"],
+  ["Registration", "registration.html#registration-options"],
+];
+
+test("links every main header destination to its first content section", () => {
   for (const page of pages) {
     const html = fs.readFileSync(path.join(root, page), "utf8");
-    assert.match(html, /<a href="registration\.html">Registration<\/a>/, page);
-    assert.doesNotMatch(html, /<a href="registration\.html">Register<\/a>/, page);
+    const nav = html.match(/<nav aria-label="Main navigation">([\s\S]*?)<\/nav>/)?.[1] || "";
+
+    for (const [label, href] of headerDestinations) {
+      const escapedHref = href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      assert.match(nav, new RegExp(`<a href="${escapedHref}">${label}<\\/a>`), `${page}: ${label}`);
+    }
+
+    assert.match(
+      nav,
+      /<button class="nav-parent" type="button" aria-haspopup="true">Programme<\/button>/,
+      page
+    );
   }
+});
+
+test("defines every main header fragment target exactly once", () => {
+  for (const [, href] of headerDestinations) {
+    const [filename, fragment] = href.split("#");
+    const html = fs.readFileSync(path.join(root, filename), "utf8");
+    const matches = html.match(new RegExp(`\\bid="${fragment}"`, "g")) || [];
+    assert.equal(matches.length, 1, href);
+  }
+});
+
+test("registration anchor identifies the join options", () => {
+  assert.match(
+    registrationHtml,
+    /<div class="wizard-panel" id="registration-options" data-step="category">\s*<h3>How would you like to join\?<\/h3>/
+  );
 });
 
 test("retains the shared original dark-green inner-page hero gradient", () => {
