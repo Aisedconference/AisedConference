@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Payment Method | AiSED International Conference 2026</title>
+  <link rel="stylesheet" href="styles.css?v=20260724-registration-v2">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="AiSED home">
+      <img src="assets/aised-logo-wide.png" alt="AiSED">
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="index.html#conference-overview">Home</a>
+      <a href="submission.html#submission-guidelines">Paper Submission</a>
+      <div class="nav-group">
+        <button class="nav-parent" type="button" aria-haspopup="true">Programme</button>
+        <div class="nav-dropdown" aria-label="Programme submenu">
+          <a href="programme.html#conference-agenda">Conference Schedule</a>
+          <a href="speakers.html#featured-speakers">Speakers</a>
+          <a href="committee.html#conference-leadership">Conference Leadership</a>
+        </div>
+      </div>
+      <a href="registration.html#registration-options">Registration</a>
+    </nav>
+  </header>
+
+  <a class="home-return" href="index.html" aria-label="Go back to main page">Back to Main Page</a>
+
+  <main>
+    <section class="page-hero">
+      <p class="eyebrow">Payment method</p>
+      <h1>Payment guidelines.</h1>
+      <p>Complete payment using one of the methods below, then email your receipt for verification.</p>
+      <div class="section-actions">
+        <a class="secondary-button" href="registration.html#registration-options" data-back-link>Back to Previous Page</a>
+      </div>
+    </section>
+
+    <section class="section payment-section" id="payment-methods">
+      <h2>Step 1: Choose your payment method.</h2>
+      <p class="section-intro">Select Method 01 or Method 02. The payment details will appear after you choose a method.</p>
+
+      <div class="payment-choice-list" aria-label="Payment method options">
+        <button type="button" data-payment-choice="method-1">
+          <span class="payment-method-number">01</span>
+          <span class="payment-choice-copy">
+            <strong>Online Payment via Credit Card / Debit Card</strong>
+            <em>Pay online using VISA or Mastercard.</em>
+          </span>
+        </button>
+        <button type="button" data-payment-choice="method-2">
+          <span class="payment-method-number">02</span>
+          <span class="payment-choice-copy">
+            <strong>Bank Transfer / Telegraphic Transfer (TT)</strong>
+            <em>Transfer directly to the Asia e Learning account.</em>
+          </span>
+        </button>
+      </div>
+
+      <div class="payment-method-grid" aria-live="polite">
+        <article class="payment-method-card" data-payment-panel="method-1" hidden>
+          <div class="payment-method-head">
+            <h3>Online Payment via Credit Card / Debit Card</h3>
+          </div>
+          <p>Pay securely through the Asia e University online payment page.</p>
+          <div class="payment-online-action">
+            <img src="assets/visa-and-mastercard.png" alt="VISA and Mastercard">
+            <a class="primary-button payment-direct-button" href="https://myaeu.aeu.edu.my/payment-master-card/pay" target="_blank" rel="noopener noreferrer">Pay Online</a>
+          </div>
+        </article>
+
+        <article class="payment-method-card" data-payment-panel="method-2" hidden>
+          <div class="payment-method-head">
+            <h3>Bank Transfer / Telegraphic Transfer (TT)</h3>
+          </div>
+          <dl class="bank-detail-list">
+            <div><dt>Account Name</dt><dd>Asia e Learning Sdn Bhd</dd></div>
+            <div><dt>Account Number</dt><dd>8000-28-3319</dd></div>
+            <div><dt>Bank Name</dt><dd>CIMB Bank Berhad</dd></div>
+            <div><dt>Bank Address</dt><dd>6 Jalan Tun Perak, 50050 Kuala Lumpur, Malaysia</dd></div>
+            <div><dt>SWIFT Code</dt><dd>CIBBMYKL</dd></div>
+          </dl>
+          <p class="payment-note"><strong>Important Note:</strong> All bank charges, transaction fees and remittance costs incurred during the transfer shall be borne by the payer.</p>
+        </article>
+      </div>
+
+      <h2 class="payment-step-two-title" data-payment-step-two-title hidden>Step 2: Email your receipt</h2>
+      <div class="payment-confirmation-card" data-payment-confirmation hidden>
+        <div>
+          <p>Send receipt to <a href="mailto:registration@aisedconference.org">registration@aisedconference.org</a>.</p>
+        </div>
+        <p class="payment-include-note"><strong>Please include the information below:</strong></p>
+        <div class="payment-reference-grid" aria-label="Payment reference details">
+          <div><strong>Reference</strong><span>Registration ID and Name<br><small>Example: REG-XXXXXX-XXXXX</small></span></div>
+          <div><strong>Also include</strong><span>Payment Date and Amount Paid</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div><strong>AiSED International Conference 2026</strong><span>For enquiries, please contact info@aisedconference.org</span></div>
+      <div><strong>Conference</strong><a href="programme.html">Programme</a><a href="speakers.html">Speakers</a><a href="committee.html">Conference Leadership</a></div>
+      <div><strong>Participate</strong><a href="registration.html">Registration</a><a href="submission.html">Paper Submission</a><a href="payment.html">Payment Method</a></div>
+      <div><strong>Partners</strong><a href="partners.html">Partnership</a><a href="venue.html">Venue</a></div>
+    </div>
+  </footer>
+  <script>
+    (() => {
+      const backLink = document.querySelector("[data-back-link]");
+      const choices = document.querySelectorAll("[data-payment-choice]");
+      const panels = document.querySelectorAll("[data-payment-panel]");
+      const confirmation = document.querySelector("[data-payment-confirmation]");
+      const stepTwoTitle = document.querySelector("[data-payment-step-two-title]");
+
+      if (backLink) {
+        const returnUrl = new URLSearchParams(window.location.search).get("return");
+        if (returnUrl) {
+          backLink.href = returnUrl;
+        }
+
+        backLink.addEventListener("click", (event) => {
+          if (returnUrl) {
+            return;
+          }
+
+          if (window.history.length > 1) {
+            event.preventDefault();
+            window.history.back();
+          }
+        });
+      }
+
+      choices.forEach((choice) => {
+        choice.addEventListener("click", () => {
+          const selected = choice.dataset.paymentChoice;
+
+          choices.forEach((candidate) => {
+            candidate.classList.toggle("active", candidate === choice);
+          });
+
+          panels.forEach((panel) => {
+            panel.hidden = panel.dataset.paymentPanel !== selected;
+          });
+
+          if (confirmation) {
+            confirmation.hidden = false;
+          }
+
+          if (stepTwoTitle) {
+            stepTwoTitle.hidden = false;
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

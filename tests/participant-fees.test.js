@@ -25,6 +25,8 @@ test("academic participant dropdown appears before Title and submits the correct
     appJs,
     /const total = isAcademicParticipant\s*\? academicParticipantFees\[selectedAcademicCategory\] \|\| 0\s*:\s*participantFees\[type\] \|\| 0/
   );
+  assert.match(appJs, /Delegate Note \(If any\)<textarea name="participant_notes" rows="4" placeholder=/);
+  assert.doesNotMatch(appJs, /Delegate notes<textarea name="participant_notes" rows="4" required/);
   assert.doesNotMatch(registrationHtml, /Participant academic\/student fee selector/);
   assert.doesNotMatch(registrationHtml, /syncAcademicParticipantForm/);
 });
