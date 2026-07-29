@@ -196,6 +196,7 @@ function updateCallPaperEstimate(form) {
   const estimateAmount = form.querySelector("[data-estimate-amount]");
   const estimateBreakdown = form.querySelector("[data-estimate-breakdown]");
   const scopusSurchargeNotice = form.querySelector("[data-scopus-surcharge]");
+  const paymentNote = form.querySelector("[data-payment-note]");
 
   if (
     hiddenEstimateCategories.includes(registrationState.category) ||
@@ -203,6 +204,12 @@ function updateCallPaperEstimate(form) {
   ) {
     hidePaymentEstimate({ estimateContainer, amountInput, breakdownInput });
     return;
+  }
+
+  if (paymentNote) {
+    paymentNote.textContent = registrationState.category === "call-papers"
+      ? "Payment to be made after Final Paper draft is accepted."
+      : "Payment to be made";
   }
 
   if (registrationState.category === "participants") {
