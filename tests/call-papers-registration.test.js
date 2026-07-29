@@ -164,10 +164,12 @@ test("call for papers forms register every author as a presenter and collect SCO
   assert.match(registrationHtml, /name="estimated_fee_breakdown"/);
   assert.match(registrationHtml, /class="registration-submit-row"/);
   assert.match(registrationHtml, /data-payable-estimate hidden/);
-  assert.match(registrationHtml, /Payment to be made after Final Paper draft is accepted\./);
+  assert.match(registrationHtml, /<strong data-payment-note>Payment to be made after Final Paper draft is accepted\.<\/strong>/);
   assert.match(registrationHtml, /SCOPUS Additional surcharge will be advised \(~ USD 599 - USD 1500\)/);
   assert.match(registrationHtml, /<button class="primary-button registration-submit-button" type="submit">Submit<\/button>/);
   assert.match(appJs, /const callPaperFees = \{/);
+  assert.match(appJs, /data-payment-note/);
+  assert.match(appJs, /registrationState\.category === "call-papers"[\s\S]*?Payment to be made after Final Paper draft is accepted\.[\s\S]*?Payment to be made/);
   assert.match(appJs, /"Academics \/ Entrepreneurs \/ Others":\s*1000/);
   assert.match(appJs, /"Postgraduate Students":\s*850/);
   assert.doesNotMatch(appJs, /const scopusPublicationFees/);
