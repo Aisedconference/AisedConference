@@ -36,6 +36,11 @@ const academicParticipantFees = {
 
 const payableEstimateCategories = ["call-papers", "participants"];
 const hiddenEstimateCategories = ["invited-guests", "partners"];
+const paymentRedirectParticipantTypes = [
+  "General Admission",
+  "Academics / Students / Postgraduate Students",
+  "Government Agencies"
+];
 
 const maxAttachmentSize = 8 * 1024 * 1024;
 
@@ -248,6 +253,7 @@ function updateCallPaperEstimate(form) {
   if (estimateBreakdown) estimateBreakdown.textContent = breakdownText;
   if (amountInput) amountInput.value = total ? String(total) : "";
   if (breakdownInput) breakdownInput.value = breakdownText;
+  updatePaymentMethodLinks();
 }
 
 function getFieldLabel(input) {
@@ -259,6 +265,43 @@ function getFieldLabel(input) {
 
 function getRegistrationEndpoint() {
   return window.AISED_CONFIG?.registrationEndpoint || "";
+}
+
+function shouldProceedToPaymentAfterSubmit() {
+  return registrationState.category === "participants" &&
+    paymentRedirectParticipantTypes.includes(registrationState.type);
+}
+
+function updateRegistrationSubmitButtonLabel() {
+  const submitButton = document.querySelector(".registration-submit-button");
+  if (!submitButton) return;
+
+  submitButton.textContent = shouldProceedToPaymentAfterSubmit()
+    ? "Submit Application and Proceed to Payment"
+    : "Proceed to Submit Application";
+}
+
+function getPaymentReturnUrl() {
+  const params = new URLSearchParams({
+    category: registrationState.category,
+    type: registrationState.type
+  });
+
+  return `registration.html?${params.toString()}#registration-options`;
+}
+
+function getPaymentPageUrl() {
+  const params = new URLSearchParams({
+    return: getPaymentReturnUrl()
+  });
+
+  return `payment.html?${params.toString()}`;
+}
+
+function updatePaymentMethodLinks() {
+  document.querySelectorAll(".payment-method-link").forEach((link) => {
+    link.href = shouldProceedToPaymentAfterSubmit() ? getPaymentPageUrl() : "payment.html";
+  });
 }
 
 function fileToPayload(file) {
@@ -405,11 +448,11 @@ function renderRegistrationFields() {
       `;
       commonFields.splice(3, 0, academicParticipantCategoryField);
       participantFields = `
-        <label>Delegate notes<textarea name="participant_notes" rows="4" required placeholder="e.g, accessibility or other important notes"></textarea></label>
+        <label>Delegate Note (If any)<textarea name="participant_notes" rows="4" placeholder="e.g, accessibility or other important notes"></textarea></label>
       `;
     } else {
       participantFields = `
-        <label>Delegate notes<textarea name="participant_notes" rows="4" required placeholder="e.g, accessibility or other important notes"></textarea></label>
+        <label>Delegate Note (If any)<textarea name="participant_notes" rows="4" placeholder="e.g, accessibility or other important notes"></textarea></label>
       `;
     }
 
@@ -466,6 +509,8 @@ function renderRegistrationFields() {
 
   fields.innerHTML = `${commonFields.join("")}${routeFields}`;
   updateCallPaperEstimate(fields.closest("form"));
+  updateRegistrationSubmitButtonLabel();
+  updatePaymentMethodLinks();
 }
 
 async function readRegistrationForm(form) {
@@ -542,6 +587,7 @@ function initRegistrationWizard() {
       item.classList.toggle("active", index <= steps.indexOf(step));
     });
     status.textContent = "";
+    updateRegistrationSubmitButtonLabel();
   }
 
   function clearActive(selector) {
@@ -660,11 +706,17 @@ function initRegistrationWizard() {
     status.textContent = "Submitting...";
 
     try {
+      const shouldRedirectToPayment = shouldProceedToPaymentAfterSubmit();
       const result = await submitRegistration(await readRegistrationForm(form));
       status.textContent = result.online
         ? `Thank you. Reference: ${result.reference}. Your confirmation email will be sent shortly.`
         : `Thank you. Reference: ${result.reference}. Submission is saved locally until the Google database endpoint is connected.`;
       form.reset();
+      updateRegistrationSubmitButtonLabel();
+      updatePaymentMethodLinks();
+      if (shouldRedirectToPayment) {
+        window.location.assign(getPaymentPageUrl());
+      }
     } catch (error) {
       status.textContent = error.message || "Submission could not be completed. Please try again.";
     } finally {
@@ -680,6 +732,27 @@ function initRegistrationWizard() {
   }
 
   const params = new URLSearchParams(window.location.search);
+  if (params.get("category") === "participants") {
+    const requestedType = params.get("type");
+    registrationState.category = "participants";
+    registrationState.subsection = requestedType || "";
+    registrationState.type = requestedType || "";
+    const participantsButton = wizard.querySelector('[data-category="participants"]');
+    participantsButton?.classList.add("active");
+
+    if (registrationState.type) {
+      const participantTypeButton = [...wizard.querySelectorAll("[data-participant-type]")]
+        .find((candidate) => candidate.dataset.participantType === registrationState.type);
+      participantTypeButton?.classList.add("active");
+      renderRegistrationFields();
+      showStep("form");
+      return;
+    }
+
+    showStep("participant-type");
+    return;
+  }
+
   if (params.get("category") === "call-papers") {
     registrationState.category = "call-papers";
     const callPapersButton = wizard.querySelector('[data-category="call-papers"]');

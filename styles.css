@@ -1452,6 +1452,11 @@ h3 {
   gap: 12px;
 }
 
+.registration-route-options {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
 .wizard-options button {
   min-height: 172px;
   display: grid;
@@ -1607,6 +1612,12 @@ h3 {
 .payable-estimate small {
   color: var(--muted);
   line-height: 1.45;
+}
+
+.payment-method-link {
+  width: fit-content;
+  min-height: 42px;
+  margin-top: 6px;
 }
 
 .registration-submit-row {
@@ -1866,6 +1877,291 @@ h3 {
   background: #ffffff;
   color: var(--ink);
   font-weight: 800;
+}
+
+.payment-section,
+.payment-confirmation-section {
+  scroll-margin-top: 120px;
+}
+
+.payment-method-grid {
+  display: grid;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.payment-choice-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.payment-choice-list button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #ffffff;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.payment-choice-copy {
+  display: grid;
+  gap: 8px;
+  align-self: center;
+  justify-self: start;
+  max-width: 340px;
+  text-align: left;
+}
+
+.payment-choice-list button:hover,
+.payment-choice-list button:focus-visible,
+.payment-choice-list button.active {
+  border-color: var(--green);
+  background: #fff8df;
+  box-shadow: 0 10px 24px rgba(36, 88, 58, 0.12);
+  transform: translateY(-1px);
+}
+
+.payment-choice-list strong {
+  display: block;
+  color: var(--blue-dark);
+  font-size: 1.12rem;
+  line-height: 1.3;
+}
+
+.payment-choice-list em {
+  display: block;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-style: normal;
+  line-height: 1.35;
+}
+
+.payment-method-card,
+.payment-confirmation-card {
+  display: grid;
+  gap: 14px;
+  padding: 22px;
+  border: 1px solid rgba(194, 154, 40, 0.28);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.payment-method-card[hidden],
+.payment-confirmation-card[hidden] {
+  display: none;
+}
+
+.payment-confirmation-card {
+  grid-template-columns: 1fr;
+  align-items: start;
+  margin-top: 12px;
+  background: #fff8df;
+}
+
+.payment-step-two-title {
+  margin-top: 56px;
+}
+
+.payment-step-two-title[hidden] {
+  display: none;
+}
+
+.payment-method-head {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 14px;
+  justify-items: center;
+  text-align: center;
+}
+
+.payment-method-number {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: #ffffff;
+  background: var(--green);
+  font-size: 1.25rem;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  box-shadow: 0 10px 20px rgba(36, 88, 58, 0.18);
+}
+
+.payment-confirmation-card > div:first-child span {
+  color: var(--green);
+  font-size: 0.78rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.payment-method-card h3,
+.payment-method-card h2 {
+  color: var(--blue-dark);
+  font-size: 1.24rem;
+  line-height: 1.3;
+}
+
+.payment-confirmation-card h2 {
+  margin: 0;
+  color: var(--blue-dark);
+  font-size: clamp(2.15rem, 5vw, 4.8rem);
+  line-height: 0.98;
+}
+
+.payment-reference-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.payment-method-card p,
+.payment-confirmation-card p,
+.payment-note {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.payment-confirmation-card p {
+  margin: 0;
+}
+
+.payment-include-note strong {
+  color: var(--green);
+  font-weight: 950;
+}
+
+.payment-method-card p {
+  margin: 0;
+  text-align: center;
+}
+
+.payment-online-action {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.payment-online-action img {
+  width: min(100%, 260px);
+  height: auto;
+  display: block;
+}
+
+.payment-reference-grid div {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid rgba(194, 154, 40, 0.36);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.payment-reference-grid strong {
+  color: var(--green);
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+
+.payment-reference-grid span {
+  color: var(--blue-dark);
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+.payment-reference-grid small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.payment-direct-button {
+  width: 184px;
+  min-height: 56px;
+  margin-top: 4px;
+  color: #ffffff;
+  border-color: var(--gold);
+  background: #b98518;
+  box-shadow: 0 10px 22px rgba(185, 133, 24, 0.22);
+}
+
+.payment-direct-button:hover,
+.payment-direct-button:focus-visible {
+  color: #ffffff;
+  border-color: #9f7113;
+  background: #9f7113;
+}
+
+.payment-confirmation-card a {
+  color: #ffffff;
+  font-weight: 850;
+}
+
+.payment-confirmation-card p a {
+  color: var(--blue-dark);
+  font-weight: 950;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.bank-detail-list {
+  display: grid;
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.payment-method-card .bank-detail-list,
+.payment-method-card .payment-note {
+  text-align: left;
+}
+
+.bank-detail-list div {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.42fr) minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(218, 203, 170, 0.72);
+}
+
+.bank-detail-list div:last-child {
+  border-bottom: 0;
+}
+
+.bank-detail-list dt {
+  color: var(--green);
+  font-weight: 900;
+}
+
+.bank-detail-list dd {
+  margin: 0;
+  color: var(--blue-dark);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.payment-note {
+  margin: 0;
+  padding: 12px 14px;
+  border-left: 4px solid var(--gold);
+  border-radius: 8px;
+  background: #fff8df;
 }
 
 .registration-tiers {
@@ -2477,9 +2773,14 @@ label {
   .fee-grid,
   .wizard-progress,
   .wizard-options,
+  .registration-route-options,
   .call-paper-info,
   .call-paper-flow,
   .mini-track-grid,
+  .payment-choice-list,
+  .payment-method-grid,
+  .payment-confirmation-card,
+  .payment-reference-grid,
   .registration-tiers,
   .tier-grid,
   .registration-levels,
@@ -2598,6 +2899,11 @@ label {
     border: 1px solid var(--line);
     background: #fffaf1;
     font-size: 0.8rem;
+  }
+
+  .bank-detail-list div {
+    grid-template-columns: 1fr;
+    gap: 4px;
   }
 
   .hero-actions,
