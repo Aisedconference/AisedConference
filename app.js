@@ -209,7 +209,7 @@ function updateCallPaperEstimate(form) {
   if (paymentNote) {
     paymentNote.textContent = registrationState.category === "call-papers"
       ? "Payment to be made after Final Paper draft is accepted."
-      : "Payment to be made";
+      : "TOTAL";
   }
 
   if (registrationState.category === "participants") {
