@@ -176,7 +176,11 @@ function updateParticipantEstimate(form, estimateContainer, amountInput, breakdo
     ? academicParticipantFees[selectedAcademicCategory] || 0
     : participantFees[type] || 0;
   const feeLabel = isAcademicParticipant ? selectedAcademicCategory : type;
-  const breakdownText = total ? `${feeLabel}: RM${total.toLocaleString("en-MY")}` : "";
+  const breakdownText = total
+    ? type === "HRD Corp Claimable"
+      ? `RM ${total.toLocaleString("en-MY")} (Claimable)`
+      : `${feeLabel}: RM${total.toLocaleString("en-MY")}`
+    : "";
 
   if (estimateContainer) estimateContainer.hidden = false;
   if (estimateAmount) estimateAmount.textContent = total ? `RM${total.toLocaleString("en-MY")}` : "RM0";
