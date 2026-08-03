@@ -2,6 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
+const vm = require("node:vm");
 
 const root = path.resolve(__dirname, "..");
 const submissionHtml = fs.readFileSync(path.join(root, "submission.html"), "utf8");
@@ -20,6 +21,86 @@ const registrationWebapp = fs.readFileSync(
   path.join(root, "apps-script", "registration-webapp.gs"),
   "utf8"
 );
+
+function loadRegistrationBackend() {
+  const context = {
+    console,
+    SpreadsheetApp: {},
+    DriveApp: {
+      getFolderById(id) {
+        return { getUrl: () => `https://drive.google.com/drive/folders/${id}` };
+      }
+    }
+  };
+  vm.createContext(context);
+  vm.runInContext(
+    `${registrationWebapp}
+globalThis.__backend = {
+  REGISTRATION_SHEET_HEADERS,
+  normaliseRecord,
+  appendRegistrationRows,
+  repairLegacyCallPaperAttachmentLinks:
+    typeof repairLegacyCallPaperAttachmentLinks === "function"
+      ? repairLegacyCallPaperAttachmentLinks
+      : undefined
+};`,
+    context
+  );
+  return context;
+}
+
+function createSheet(existingHeaders) {
+  const headers = [...existingHeaders];
+  const appendedRows = [];
+
+  return {
+    headers,
+    appendedRows,
+    getLastColumn() {
+      return headers.length;
+    },
+    getRange(row, column, rowCount, columnCount) {
+      assert.equal(row, 1);
+      assert.equal(rowCount, 1);
+      return {
+        getValues() {
+          return [[...headers, ...Array(Math.max(0, columnCount - headers.length)).fill("")].slice(0, columnCount)];
+        },
+        setValues(rows) {
+          rows[0].forEach((value, index) => {
+            headers[column - 1 + index] = value;
+          });
+        }
+      };
+    },
+    getFrozenRows() {
+      return 1;
+    },
+    setFrozenRows() {},
+    appendRow(values) {
+      appendedRows.push(values);
+    }
+  };
+}
+
+function createDataSheet(rows) {
+  return {
+    getDataRange() {
+      return {
+        getValues() {
+          return rows.map((row) => [...row]);
+        }
+      };
+    },
+    getRange(row, column) {
+      return {
+        setValue(value) {
+          rows[row - 1][column - 1] = value;
+        }
+      };
+    }
+  };
+}
 
 test("paper submission button opens the call for papers registration route", () => {
   assert.match(
@@ -111,6 +192,8 @@ test("call for papers forms register every author as a presenter and collect SCO
   assert.match(css, /\.radio-group\s*\{/);
   assert.match(css, /\.payable-estimate\s*\{/);
   assert.match(css, /\.payable-estimate\[hidden\]\s*\{\s*display:\s*none;/);
+  assert.match(css, /\.discount-code-field\s*\{/);
+  assert.match(css, /\.discount-code-field\[hidden\]\s*\{\s*display:\s*none;/);
   assert.match(css, /\.registration-submit-row\s*\{/);
   assert.match(css, /\.action-form \.registration-submit-button\s*\{/);
 });
@@ -143,6 +226,130 @@ test("backend captures payable amounts only for call for papers and participants
   assert.match(registrationWebapp, /estimatedFeeBreakdown:\s*capturesPayableAmount \? \(payload\.estimated_fee_breakdown \|\| ''\) : ''/);
   assert.match(registrationWebapp, /participants:\s*\[[\s\S]*'Estimated Payable Amount'[\s\S]*'Estimated Fee Breakdown'/);
   assert.match(registrationWebapp, /function appendParticipants[\s\S]*record\.estimatedPayableAmount[\s\S]*record\.estimatedFeeBreakdown/);
+});
+
+test("backend aligns every answer to the live sheet header, including legacy columns", () => {
+  const context = loadRegistrationBackend();
+  const backend = context.__backend;
+  const masterHeaders = [
+    ...backend.REGISTRATION_SHEET_HEADERS.master.filter((header) => (
+      !["SCOPUS Presentation Mode", "Estimated Payable Amount", "Estimated Fee Breakdown"].includes(header)
+    )),
+    "Remark"
+  ];
+  const callPaperHeaders = backend.REGISTRATION_SHEET_HEADERS.callPapers.slice(0, 16);
+  const master = createSheet(masterHeaders);
+  const callPapers = createSheet(callPaperHeaders);
+  const sheets = {
+    "Master Registrations": master,
+    "Call for Papers": callPapers
+  };
+
+  context.SpreadsheetApp.openById = () => ({
+    getSheetByName(name) {
+      return sheets[name];
+    }
+  });
+
+  const record = backend.normaliseRecord({
+    registration_category: "call-papers",
+    registration_subsection: "Postgraduate Students",
+    registration_type: "Presenter",
+    reference: "REG-TEST-SCOPUS",
+    submittedAt: "2026-07-27T00:00:00.000Z",
+    name: "Test Author",
+    email: "author@example.com",
+    submit_to_scopus: "Yes",
+    scopus_presentation_mode: "Online Presentation",
+    estimated_payable_amount: "850",
+    estimated_fee_breakdown: "Postgraduate Students: RM850"
+  });
+
+  backend.appendRegistrationRows(record);
+
+  const masterRow = Object.fromEntries(master.headers.map((header, index) => [header, master.appendedRows[0][index] ?? ""]));
+  const callPaperRow = Object.fromEntries(callPapers.headers.map((header, index) => [header, callPapers.appendedRows[0][index] ?? ""]));
+
+  for (const row of [masterRow, callPaperRow]) {
+    assert.equal(row["Submit to SCOPUS"], "Yes");
+    assert.equal(row["SCOPUS Presentation Mode"], "Online Presentation");
+    assert.equal(row["Estimated Payable Amount"], "850");
+    assert.equal(row["Estimated Fee Breakdown"], "Postgraduate Students: RM850");
+  }
+  assert.equal(masterRow.Remark, "");
+});
+
+test("backend captures the selected academic participant category", () => {
+  const context = loadRegistrationBackend();
+  const backend = context.__backend;
+  const master = createSheet(backend.REGISTRATION_SHEET_HEADERS.master);
+  const participants = createSheet(backend.REGISTRATION_SHEET_HEADERS.participants);
+  const sheets = {
+    "Master Registrations": master,
+    Participants: participants
+  };
+  context.SpreadsheetApp.openById = () => ({
+    getSheetByName(name) {
+      return sheets[name];
+    }
+  });
+  const record = backend.normaliseRecord({
+    registration_category: "participants",
+    reference: "REG-TEST-PARTICIPANT",
+    submittedAt: "2026-07-27T00:00:00.000Z",
+    participant_sector: "Academics / Students / Postgraduate Students",
+    academic_participant_category: "Student / Postgraduate Student",
+    country: "Malaysia"
+  });
+
+  backend.appendRegistrationRows(record);
+
+  assert.equal(record.academicParticipantCategory, "Student / Postgraduate Student");
+  assert.equal(record.country, "Malaysia");
+  const masterRow = Object.fromEntries(master.headers.map((header, index) => [header, master.appendedRows[0][index] ?? ""]));
+  const participantRow = Object.fromEntries(participants.headers.map((header, index) => [header, participants.appendedRows[0][index] ?? ""]));
+  assert.equal(masterRow["Academic Participant Category"], "Student / Postgraduate Student");
+  assert.equal(masterRow["Country of Origin"], "Malaysia");
+  assert.equal(participantRow["Academic Participant Category"], "Student / Postgraduate Student");
+  assert.equal(participantRow["Country of Origin"], "Malaysia");
+});
+
+test("backend repairs the exact paper file URL without overwriting genuine SCOPUS answers", () => {
+  const context = loadRegistrationBackend();
+  const exactUrl = "https://drive.google.com/file/d/exact-file-id/view?usp=drivesdk";
+  const legacyUrl = "https://drive.google.com/file/d/exact-file-id/view?usp=drive_link";
+  const masterRows = [
+    ["Registration ID", "Registration Route", "Submit to SCOPUS", "Paper Attachment Link"],
+    ["REG-OLD-1", "Call for Papers", legacyUrl, ""],
+    ["REG-MASTER-ONLY", "Call for Papers", legacyUrl, ""],
+    ["REG-KEEP-YES", "Call for Papers", "Yes", ""]
+  ];
+  const callPaperRows = [
+    ["Registration ID", "Submit to SCOPUS", "Paper Attachment Link"],
+    ["REG-OLD-1", "", exactUrl],
+    ["REG-KEEP-YES", "Yes", ""]
+  ];
+  const sheets = {
+    "Master Registrations": createDataSheet(masterRows),
+    "Call for Papers": createDataSheet(callPaperRows)
+  };
+  context.SpreadsheetApp.openById = () => ({
+    getSheetByName(name) {
+      return sheets[name];
+    }
+  });
+
+  const result = context.__backend.repairLegacyCallPaperAttachmentLinks();
+
+  assert.equal(masterRows[1][3], exactUrl);
+  assert.equal(masterRows[1][2], "");
+  assert.equal(masterRows[2][3], legacyUrl);
+  assert.equal(masterRows[2][2], "");
+  assert.equal(masterRows[3][2], "Yes");
+  assert.deepEqual(
+    { ...result },
+    { repairedCount: 2, clearedMisplacedCount: 2 }
+  );
 });
 
 test("backend attaches a letterhead PDF copy for every registration route", () => {

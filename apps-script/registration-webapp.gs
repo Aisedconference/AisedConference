@@ -23,12 +23,14 @@ const REGISTRATION_SHEET_HEADERS = {
     'Registration Subsection',
     'Registration Type',
     'Participant Sector',
+    'Academic Participant Category',
     'Invited Guest Role',
     'Partner Type',
     'Title',
     'Full Name',
     'Email',
     'Contact Number',
+    'Country of Origin',
     'Organisation / Company Name',
     'Position / Designation',
     'Paper Title',
@@ -59,6 +61,7 @@ const REGISTRATION_SHEET_HEADERS = {
     'Organisation Logo Link',
     'Partner Acceptance Letter Link',
     'Attachment Folder Link',
+    'Remark',
     'SCOPUS Presentation Mode',
     'Estimated Payable Amount',
     'Estimated Fee Breakdown'
@@ -74,6 +77,7 @@ const REGISTRATION_SHEET_HEADERS = {
     'Position / Designation',
     'Email',
     'Contact Number',
+    'Country of Origin',
     'Paper Title',
     'Abstract',
     'Attendance Interest',
@@ -88,11 +92,13 @@ const REGISTRATION_SHEET_HEADERS = {
     'Timestamp',
     'Registration ID',
     'Participant Sector',
+    'Academic Participant Category',
     'Title',
     'Full Name',
     'Email',
     'Contact Number',
-    'Organisation',
+    'Country of Origin',
+    'Organisation / Company',
     'Position / Designation',
     'MyKad / IC Number / Passport Number',
     'HRD Corp Employer Code',
@@ -118,6 +124,7 @@ const REGISTRATION_SHEET_HEADERS = {
     'Full Name',
     'Email',
     'Contact Number',
+    'Country of Origin',
     'Organisation',
     'Position / Designation',
     'Invitation Notes',
@@ -129,12 +136,13 @@ const REGISTRATION_SHEET_HEADERS = {
     'Timestamp',
     'Registration ID',
     'Partner Type',
-    'Organisation / Company Name',
+    'Organisation',
     'Organisation Website',
     'Representative / PIC Name',
-    'Representative / PIC Position',
+    'Position / Designation',
     'Representative / PIC Email',
     'Representative / PIC Contact Number',
+    'Country of Origin',
     'Partnership Interest',
     'Organisation Logo Link',
     'Partner Acceptance Letter Link',
@@ -193,10 +201,12 @@ function normaliseRecord(payload) {
     name: payload.name || '',
     email: payload.email || '',
     phone: payload.phone || '',
+    country: payload.country || '',
     organisation: payload.organisation || '',
     position: payload.position || '',
     attendanceInterest: payload.attendance_interest || '',
     participantSector: payload.participant_sector || '',
+    academicParticipantCategory: payload.academic_participant_category || '',
     billingContact: payload.billing_contact || '',
     billingEmail: payload.billing_email || '',
     billingPhone: payload.billing_phone || '',
@@ -282,20 +292,21 @@ function saveAttachments(record) {
 function appendRegistrationRows(record) {
   const ss = SpreadsheetApp.openById(AISED.spreadsheetId);
   const master = ss.getSheetByName('Master Registrations');
-  ensureSheetHeaders(master, REGISTRATION_SHEET_HEADERS.master);
-  appendSheetRow(master, [
+  appendSheetRowByHeaders(master, REGISTRATION_SHEET_HEADERS.master, [
     record.submittedAt,
     record.reference,
     record.route,
     record.subsection,
     record.type,
     record.participantSector,
+    record.academicParticipantCategory,
     record.guestType,
     record.partnerType,
     record.route === 'Partners' ? '' : record.title,
     record.route === 'Partners' ? '' : record.name,
     record.route === 'Partners' ? '' : record.email,
     record.route === 'Partners' ? '' : record.phone,
+    record.country,
     record.organisation,
     record.position,
     record.paperTitle,
@@ -326,6 +337,7 @@ function appendRegistrationRows(record) {
     attachmentUrlByField(record, 'organisation_logo'),
     attachmentUrlByField(record, 'partner_acceptance_letter'),
     folderUrl(getFolderId(record)),
+    '',
     record.scopusPresentationMode,
     record.estimatedPayableAmount,
     record.estimatedFeeBreakdown
@@ -339,8 +351,7 @@ function appendRegistrationRows(record) {
 
 function appendCallForPapers(ss, record) {
   const sheet = ss.getSheetByName('Call for Papers');
-  ensureSheetHeaders(sheet, REGISTRATION_SHEET_HEADERS.callPapers);
-  appendSheetRow(sheet, [
+  appendSheetRowByHeaders(sheet, REGISTRATION_SHEET_HEADERS.callPapers, [
     record.submittedAt,
     record.reference,
     record.subsection,
@@ -351,6 +362,7 @@ function appendCallForPapers(ss, record) {
     record.position,
     record.email,
     record.phone,
+    record.country,
     record.paperTitle,
     record.abstract,
     record.attendanceInterest,
@@ -365,15 +377,16 @@ function appendCallForPapers(ss, record) {
 
 function appendParticipants(ss, record) {
   const sheet = ss.getSheetByName('Participants');
-  ensureSheetHeaders(sheet, REGISTRATION_SHEET_HEADERS.participants);
-  appendSheetRow(sheet, [
+  appendSheetRowByHeaders(sheet, REGISTRATION_SHEET_HEADERS.participants, [
     record.submittedAt,
     record.reference,
     record.participantSector,
+    record.academicParticipantCategory,
     record.title,
     record.name,
     record.email,
     record.phone,
+    record.country,
     record.organisation,
     record.position,
     record.participantIdNumber,
@@ -396,8 +409,7 @@ function appendParticipants(ss, record) {
 
 function appendInvitedGuests(ss, record) {
   const sheet = ss.getSheetByName('Invited Guests');
-  ensureSheetHeaders(sheet, REGISTRATION_SHEET_HEADERS.invitedGuests);
-  appendSheetRow(sheet, [
+  appendSheetRowByHeaders(sheet, REGISTRATION_SHEET_HEADERS.invitedGuests, [
     record.submittedAt,
     record.reference,
     record.guestType,
@@ -405,6 +417,7 @@ function appendInvitedGuests(ss, record) {
     record.name,
     record.email,
     record.phone,
+    record.country,
     record.organisation,
     record.position,
     record.invitationNote,
@@ -416,8 +429,7 @@ function appendInvitedGuests(ss, record) {
 
 function appendPartners(ss, record) {
   const sheet = ss.getSheetByName('Partners');
-  ensureSheetHeaders(sheet, REGISTRATION_SHEET_HEADERS.partners);
-  appendSheetRow(sheet, [
+  appendSheetRowByHeaders(sheet, REGISTRATION_SHEET_HEADERS.partners, [
     record.submittedAt,
     record.reference,
     record.partnerType,
@@ -427,6 +439,7 @@ function appendPartners(ss, record) {
     record.position,
     record.email,
     record.phone,
+    record.country,
     record.partnershipInterest,
     attachmentUrlByField(record, 'organisation_logo'),
     attachmentUrlByField(record, 'partner_acceptance_letter'),
@@ -434,8 +447,24 @@ function appendPartners(ss, record) {
   ]);
 }
 
-function appendSheetRow(sheet, values) {
-  sheet.appendRow(values.map(safeSheetValue));
+function appendSheetRowByHeaders(sheet, headers, values) {
+  ensureSheetHeaders(sheet, headers);
+
+  const currentHeaders = sheet
+    .getRange(1, 1, 1, Math.max(sheet.getLastColumn(), 1))
+    .getValues()[0]
+    .map((value) => String(value || '').trim());
+  const valueByHeader = {};
+
+  headers.forEach((header, index) => {
+    valueByHeader[header] = values[index];
+  });
+
+  sheet.appendRow(currentHeaders.map((header) => (
+    Object.prototype.hasOwnProperty.call(valueByHeader, header)
+      ? safeSheetValue(valueByHeader[header])
+      : ''
+  )));
 }
 
 function ensureSheetHeaders(sheet, headers) {
@@ -478,6 +507,73 @@ function setupRegistrationSheetHeaders() {
   ensureSheetHeaders(ss.getSheetByName('Participants'), REGISTRATION_SHEET_HEADERS.participants);
   ensureSheetHeaders(ss.getSheetByName('Invited Guests'), REGISTRATION_SHEET_HEADERS.invitedGuests);
   ensureSheetHeaders(ss.getSheetByName('Partners'), REGISTRATION_SHEET_HEADERS.partners);
+}
+
+function repairLegacyCallPaperAttachmentLinks() {
+  const ss = SpreadsheetApp.openById(AISED.spreadsheetId);
+  const master = ss.getSheetByName('Master Registrations');
+  const callPapers = ss.getSheetByName('Call for Papers');
+
+  if (!master || !callPapers) {
+    throw new Error('Registration sheet is missing. Please check the spreadsheet tabs.');
+  }
+
+  const masterRows = master.getDataRange().getValues();
+  const callPaperRows = callPapers.getDataRange().getValues();
+  const masterHeaders = masterRows[0] || [];
+  const callPaperHeaders = callPaperRows[0] || [];
+  const masterIdIndex = headerIndex(masterHeaders, 'Registration ID');
+  const masterRouteIndex = headerIndex(masterHeaders, 'Registration Route');
+  const masterScopusIndex = headerIndex(masterHeaders, 'Submit to SCOPUS');
+  const masterAttachmentIndex = headerIndex(masterHeaders, 'Paper Attachment Link');
+  const callPaperIdIndex = headerIndex(callPaperHeaders, 'Registration ID');
+  const callPaperAttachmentIndex = headerIndex(callPaperHeaders, 'Paper Attachment Link');
+  const attachmentUrlByRegistrationId = {};
+
+  callPaperRows.slice(1).forEach((row) => {
+    const registrationId = String(row[callPaperIdIndex] || '').trim();
+    const attachmentUrl = String(row[callPaperAttachmentIndex] || '').trim();
+    if (registrationId && isHttpsUrl(attachmentUrl)) {
+      attachmentUrlByRegistrationId[registrationId] = attachmentUrl;
+    }
+  });
+
+  let repairedCount = 0;
+  let clearedMisplacedCount = 0;
+
+  masterRows.slice(1).forEach((row, index) => {
+    const registrationId = String(row[masterIdIndex] || '').trim();
+    const misplacedUrl = isHttpsUrl(row[masterScopusIndex])
+      ? String(row[masterScopusIndex]).trim()
+      : '';
+    const attachmentUrl =
+      attachmentUrlByRegistrationId[registrationId] ||
+      (row[masterRouteIndex] === 'Call for Papers' ? misplacedUrl : '');
+    if (!attachmentUrl) return;
+
+    const sheetRow = index + 2;
+    if (String(row[masterAttachmentIndex] || '').trim() !== attachmentUrl) {
+      master.getRange(sheetRow, masterAttachmentIndex + 1).setValue(attachmentUrl);
+      repairedCount += 1;
+    }
+
+    if (misplacedUrl) {
+      master.getRange(sheetRow, masterScopusIndex + 1).setValue('');
+      clearedMisplacedCount += 1;
+    }
+  });
+
+  return { repairedCount, clearedMisplacedCount };
+}
+
+function isHttpsUrl(value) {
+  return /^https:\/\//i.test(String(value || '').trim());
+}
+
+function headerIndex(headers, name) {
+  const index = headers.indexOf(name);
+  if (index < 0) throw new Error(`Missing required sheet header: ${name}`);
+  return index;
 }
 
 function safeSheetValue(value) {

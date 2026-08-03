@@ -60,7 +60,7 @@ test("registration page links participants to the payment method page", () => {
 
   assert.match(
     registrationHtml,
-    /<a class="secondary-button payment-method-link" href="payment\.html">View Payment Method<\/a>/
+    /<label class="discount-code-field" data-discount-code-field hidden>Discount Code \(If applicable\)\s*<input name="discount_code" type="text" placeholder="Enter discount code">/
   );
   assert.match(registrationHtml, /<div class="wizard-options registration-route-options">/);
   assert.match(registrationHtml, /<strong>Participate<\/strong>[\s\S]*<a href="payment\.html">Payment Method<\/a>/);
@@ -71,7 +71,9 @@ test("registration page links participants to the payment method page", () => {
   assert.match(appJs, /function getPaymentPageUrl\(\)/);
   assert.match(appJs, /return `payment\.html\?\$\{params\.toString\(\)\}`/);
   assert.match(appJs, /params\.get\("category"\) === "participants"/);
-  assert.match(appJs, /"Submit Application and Proceed to Payment"/);
+  assert.match(appJs, /"Submit & Pay"/);
+  assert.match(appJs, /function updateDiscountCodeFields\(\)/);
+  assert.match(appJs, /document\.querySelectorAll\("\[data-discount-code-field\]"\)/);
   assert.match(appJs, /window\.location\.assign\(getPaymentPageUrl\(\)\)/);
 });
 

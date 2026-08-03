@@ -993,6 +993,240 @@ h3 {
   object-position: center 24%;
 }
 
+.speaker-agenda-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.royal-grid {
+  max-width: 980px;
+  margin: 0;
+}
+
+.keynote-grid {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  align-items: stretch;
+}
+
+.speaker-agenda-card {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  grid-template-rows: auto;
+  gap: 16px;
+  align-items: center;
+  max-width: none;
+  min-height: 100%;
+  padding: 16px;
+  box-shadow: 0 12px 30px rgba(39, 49, 44, 0.07);
+  width: 100%;
+}
+
+.speaker-agenda-card .committee-profile-copy {
+  gap: 8px;
+  align-items: start;
+  justify-items: start;
+  text-align: left;
+}
+
+.speaker-agenda-card .committee-profile-copy strong {
+  font-size: clamp(1rem, 1.45vw, 1.2rem);
+  line-height: 1.22;
+}
+
+.speaker-agenda-card .committee-profile-copy p {
+  font-size: 0.94rem;
+  line-height: 1.45;
+}
+
+.speaker-agenda-card .committee-profile-copy em,
+.speaker-agenda-card .committee-profile-copy small {
+  display: block;
+  color: var(--green);
+  font-style: normal;
+  font-weight: 850;
+  line-height: 1.4;
+}
+
+.speaker-agenda-card .committee-profile-copy small {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.speaker-agenda-card .committee-profile-copy .speaker-time {
+  color: var(--gold);
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+
+.speaker-session-link {
+  width: max-content;
+  max-width: 100%;
+  color: var(--gold);
+  font-size: 0.86rem;
+  font-weight: 950;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.speaker-session-link:hover,
+.speaker-session-link:focus-visible {
+  text-decoration: underline;
+}
+
+.speaker-session-date {
+  display: block;
+  color: var(--green);
+  font-size: 0.82rem;
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+.speaker-session-title {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+.speaker-agenda-card .committee-portrait,
+.speaker-initials {
+  width: 112px;
+  height: 112px;
+  margin: 0;
+  border-radius: 12px;
+}
+
+.featured-speaker .committee-portrait,
+.featured-speaker .speaker-initials {
+  width: 170px;
+  height: 170px;
+}
+
+.featured-speaker {
+  grid-template-columns: 170px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  max-width: 980px;
+  min-height: 0;
+  padding: 22px;
+  align-items: center;
+}
+
+.featured-speaker > .speaker-role {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: start;
+  margin: 0 0 8px;
+}
+
+.featured-speaker .committee-portrait {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: center;
+}
+
+.featured-speaker .committee-profile-copy {
+  grid-column: 2;
+  grid-row: 2;
+  padding: 0;
+}
+
+.speaker-initials {
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(194, 154, 40, 0.34);
+  border-radius: 12px 12px 0 0;
+  color: var(--green);
+  background:
+    radial-gradient(circle at top left, rgba(194, 154, 40, 0.2), transparent 42%),
+    linear-gradient(135deg, #fffaf0, #ffffff);
+  font-size: 1.8rem;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+}
+
+.speaker-role {
+  width: max-content;
+  max-width: 100%;
+  padding: 6px 10px;
+  border: 1px solid rgba(194, 154, 40, 0.36);
+  border-radius: 999px;
+  color: var(--green);
+  background: #fff7df;
+  font-size: 0.66rem;
+  font-weight: 950;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.speaker-forum-directory {
+  display: grid;
+  gap: 28px;
+}
+
+.speaker-forum-group {
+  display: grid;
+  gap: 20px;
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 14px 34px rgba(39, 49, 44, 0.07);
+}
+
+.forum-heading {
+  display: grid;
+  gap: 8px;
+  max-width: 920px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(194, 154, 40, 0.26);
+}
+
+.forum-date-line {
+  display: grid;
+  gap: 3px;
+}
+
+.forum-heading h3 {
+  margin: 0;
+  color: var(--green);
+  font-size: clamp(1.45rem, 2.2vw, 2.1rem);
+  line-height: 1.08;
+}
+
+.forum-heading p:not(.eyebrow) {
+  max-width: 860px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.04rem;
+  line-height: 1.55;
+}
+
+.forum-speaker-row {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  align-items: stretch;
+  justify-content: start;
+  gap: 18px;
+}
+
+.forum-speaker-row .committee-profile-card {
+  max-width: none;
+}
+
+.moderator-card {
+  border-color: rgba(18, 88, 55, 0.32);
+  background: linear-gradient(180deg, #fff9e8, #ffffff);
+  box-shadow: inset 0 0 0 1px rgba(18, 88, 55, 0.12), 0 12px 30px rgba(39, 49, 44, 0.08);
+}
+
+.moderator-card .speaker-role {
+  border-color: var(--green);
+  color: #ffffff;
+  background: var(--green);
+}
+
 .venue-feature {
   display: grid;
   grid-template-columns: minmax(280px, 0.92fr) minmax(0, 1fr);
@@ -1103,6 +1337,46 @@ h3 {
   margin: 0;
   color: var(--muted);
   line-height: 1.45;
+}
+
+.committee-profile-card.speaker-agenda-card {
+  display: grid;
+  flex: none;
+  grid-template-columns: 112px minmax(0, 1fr);
+  grid-template-rows: auto;
+  gap: 16px;
+  align-items: center;
+  max-width: none;
+  min-height: 0;
+  padding: 16px;
+}
+
+.committee-profile-card.speaker-agenda-card .committee-portrait {
+  width: 112px;
+  height: 112px;
+  border-radius: 12px;
+}
+
+.committee-profile-card.speaker-agenda-card.featured-speaker {
+  grid-template-columns: 170px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  max-width: 980px;
+  padding: 22px;
+}
+
+.committee-profile-card.speaker-agenda-card.featured-speaker .committee-portrait {
+  width: 170px;
+  height: 170px;
+}
+
+.committee-profile-card.speaker-agenda-card .committee-profile-copy {
+  justify-items: start;
+  padding: 0;
+  text-align: left;
+}
+
+.committee-profile-card.speaker-agenda-card .committee-profile-copy strong {
+  text-align: left;
 }
 
 .status-pill.light {
@@ -1320,6 +1594,12 @@ h3 {
 
 .agenda-row:not(.agenda-head):nth-child(odd) {
   background: rgba(255, 250, 241, 0.72);
+}
+
+.agenda-row:target {
+  scroll-margin-top: 130px;
+  outline: 3px solid rgba(199, 161, 45, 0.55);
+  background: #fff7df;
 }
 
 .agenda-row:first-child {
@@ -1614,10 +1894,28 @@ h3 {
   line-height: 1.45;
 }
 
-.payment-method-link {
-  width: fit-content;
+.discount-code-field {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+  color: var(--green);
+  font-weight: 850;
+}
+
+.discount-code-field[hidden] {
+  display: none;
+}
+
+.discount-code-field input {
+  width: min(100%, 320px);
   min-height: 42px;
-  margin-top: 6px;
+  padding: 10px 12px;
+  border: 1px solid rgba(194, 154, 40, 0.52);
+  border-radius: 8px;
+  color: var(--ink);
+  background: #ffffff;
+  font: inherit;
+  font-weight: 700;
 }
 
 .registration-submit-row {
@@ -2767,6 +3065,8 @@ label {
   .award-grid,
   .date-grid,
   .speaker-grid,
+  .keynote-grid,
+  .forum-speaker-row,
   .pricing-grid,
   .logo-wall,
   .publication-panel,
@@ -2791,6 +3091,19 @@ label {
   .deputy-grid,
   .committee-member-grid {
     grid-template-columns: 1fr;
+  }
+
+  .speaker-agenda-card,
+  .featured-speaker {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+
+  .speaker-agenda-card .committee-portrait,
+  .speaker-initials,
+  .featured-speaker .committee-portrait,
+  .featured-speaker .speaker-initials {
+    width: 96px;
+    height: 96px;
   }
 
   .tier-card.featured,
@@ -2990,5 +3303,34 @@ label {
     grid-template-rows: min(78vw, 300px) auto;
     max-width: 100%;
     min-height: 0;
+  }
+
+  .speaker-agenda-card,
+  .featured-speaker {
+    grid-template-columns: 88px minmax(0, 1fr);
+    grid-template-rows: auto;
+  }
+
+  .featured-speaker > .speaker-role {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .featured-speaker .committee-portrait {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .featured-speaker .committee-profile-copy {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .speaker-agenda-card .committee-portrait,
+  .speaker-initials,
+  .featured-speaker .committee-portrait,
+  .featured-speaker .speaker-initials {
+    width: 88px;
+    height: 88px;
   }
 }
