@@ -253,7 +253,7 @@ function updateCallPaperEstimate(form) {
   if (estimateBreakdown) estimateBreakdown.textContent = breakdownText;
   if (amountInput) amountInput.value = total ? String(total) : "";
   if (breakdownInput) breakdownInput.value = breakdownText;
-  updatePaymentMethodLinks();
+  updateDiscountCodeFields();
 }
 
 function getFieldLabel(input) {
@@ -277,7 +277,7 @@ function updateRegistrationSubmitButtonLabel() {
   if (!submitButton) return;
 
   submitButton.textContent = shouldProceedToPaymentAfterSubmit()
-    ? "Submit Application and Proceed to Payment"
+    ? "Submit & Pay"
     : "Proceed to Submit Application";
 }
 
@@ -298,9 +298,15 @@ function getPaymentPageUrl() {
   return `payment.html?${params.toString()}`;
 }
 
-function updatePaymentMethodLinks() {
-  document.querySelectorAll(".payment-method-link").forEach((link) => {
-    link.href = shouldProceedToPaymentAfterSubmit() ? getPaymentPageUrl() : "payment.html";
+function updateDiscountCodeFields() {
+  document.querySelectorAll("[data-discount-code-field]").forEach((field) => {
+    const paymentRequired = shouldProceedToPaymentAfterSubmit();
+    field.hidden = !paymentRequired;
+
+    const input = field.querySelector("input");
+    if (input && !paymentRequired) {
+      input.value = "";
+    }
   });
 }
 
@@ -379,6 +385,7 @@ function renderRegistrationFields() {
     buildField("name", "Full name", "text", true, `placeholder="e.g, John Smith"`),
     buildField("email", "Email", "email", true, `placeholder="e.g, name@example.com"`),
     buildField("phone", "Contact number", "tel", true, `placeholder="e.g, +60 12-345 6789"`),
+    buildField("country", "Country of Origin", "text", true, `placeholder="e.g, Malaysia"`),
     buildField("organisation", "Organisation / University / Institution", "text", true, `placeholder="e.g, Asia e University"`),
     buildField("position", "Position / Designation", "text", true, `placeholder="e.g, Director / Lecturer / Manager"`)
   ];
@@ -432,6 +439,7 @@ function renderRegistrationFields() {
         <label>5. Company Address<textarea name="company_address" rows="4" required placeholder="e.g, Level 10, Menara ABC, Jalan Example, 50450 Kuala Lumpur"></textarea></label>
       `;
     } else if (selectedParticipantType === "Government Agencies") {
+      commonFields = commonFields.filter((field) => !field.includes('name="country"'));
       participantFields = `
         ${buildField("department", "Department / unit", "text", true, `placeholder="e.g, Policy Planning Division"`)}
         <label>Official notes<textarea name="participant_notes" rows="4" required placeholder="e.g, protocol, accessibility or other important notes"></textarea></label>
@@ -496,7 +504,8 @@ function renderRegistrationFields() {
       buildField("name", "Representative / PIC name", "text", true, `placeholder="e.g, John Smith"`),
       buildField("position", "Position / Designation", "text", true, `placeholder="e.g, Director / Manager / Coordinator"`),
       buildField("email", "Representative / PIC email", "email", true, `placeholder="e.g, name@example.com"`),
-      buildField("phone", "Representative / PIC contact number", "tel", true, `placeholder="e.g, +60 12-345 6789"`)
+      buildField("phone", "Representative / PIC contact number", "tel", true, `placeholder="e.g, +60 12-345 6789"`),
+      buildField("country", "Country of Origin", "text", true, `placeholder="e.g, Malaysia"`)
     ];
 
     routeFields = `
@@ -510,7 +519,7 @@ function renderRegistrationFields() {
   fields.innerHTML = `${commonFields.join("")}${routeFields}`;
   updateCallPaperEstimate(fields.closest("form"));
   updateRegistrationSubmitButtonLabel();
-  updatePaymentMethodLinks();
+  updateDiscountCodeFields();
 }
 
 async function readRegistrationForm(form) {
@@ -713,7 +722,7 @@ function initRegistrationWizard() {
         : `Thank you. Reference: ${result.reference}. Submission is saved locally until the Google database endpoint is connected.`;
       form.reset();
       updateRegistrationSubmitButtonLabel();
-      updatePaymentMethodLinks();
+      updateDiscountCodeFields();
       if (shouldRedirectToPayment) {
         window.location.assign(getPaymentPageUrl());
       }
@@ -775,7 +784,38 @@ function initRegistrationWizard() {
   }
 }
 
+function syncProgrammeTabToHash() {
+  if (!window.location.pathname.endsWith("programme.html") || !window.location.hash) {
+    return;
+  }
+
+  const targetId = decodeURIComponent(window.location.hash.slice(1));
+  const target = document.getElementById(targetId);
+  const panel = target?.closest(".programme-tab-panel");
+
+  if (!target || !panel) {
+    return;
+  }
+
+  const tabId = panel.classList.contains("day-2-panel")
+    ? "programme-day-2-tab"
+    : panel.classList.contains("day-3-panel")
+      ? "programme-day-3-tab"
+      : "programme-day-1-tab";
+  const tab = document.getElementById(tabId);
+
+  if (tab) {
+    tab.checked = true;
+  }
+
+  window.setTimeout(() => {
+    target.scrollIntoView({ block: "center" });
+  }, 0);
+}
+
 populateOptions();
 initRegistrationWizard();
 bindForm("#speaker-form", "submission", "#speaker-status");
 bindForm("#partner-form", "partner", "#partner-status");
+syncProgrammeTabToHash();
+window.addEventListener("hashchange", syncProgrammeTabToHash);

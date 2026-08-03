@@ -30,3 +30,10 @@ test("academic participant dropdown appears before Title and submits the correct
   assert.doesNotMatch(registrationHtml, /Participant academic\/student fee selector/);
   assert.doesNotMatch(registrationHtml, /syncAcademicParticipantForm/);
 });
+
+test("country field is included where required and excluded for HRDC and Government Agencies", () => {
+  assert.ok(appJs.includes('buildField("country", "Country of Origin", "text", true, `placeholder="e.g, Malaysia"`)'));
+  assert.match(appJs, /selectedParticipantType === "HRD Corp Claimable"[\s\S]*commonFields = commonFields\.slice\(0, 3\)/);
+  assert.match(appJs, /selectedParticipantType === "Government Agencies"[\s\S]*commonFields = commonFields\.filter\(\(field\) => !field\.includes\('name="country"'\)\)/);
+  assert.match(appJs, /registrationState\.category === "partners"[\s\S]*buildField\("country", "Country of Origin", "text", true, `placeholder="e\.g, Malaysia"`\)/);
+});

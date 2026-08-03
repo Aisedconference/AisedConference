@@ -89,6 +89,19 @@ test("includes the supplied forum, keynote and moderator content", () => {
   }
 });
 
+test("anchors keynote speaker links to the exact programme rows", () => {
+  for (const anchor of [
+    "welcome-address-conference-chair",
+    "keynote-session-1",
+    "keynote-session-3",
+  ]) {
+    assert.ok(html.includes(`id="${anchor}"`), `Missing programme anchor: ${anchor}`);
+  }
+
+  assert.match(css, /\.agenda-row:target\s*\{[^}]*scroll-margin-top:\s*130px/s);
+  assert.ok(html.includes('<script src="app.js?v=20260724-registration-v2"></script>'), "Programme page must load the tab-switching script");
+});
+
 test("removes speaker columns and person lists from the programme timetable", () => {
   assert.doesNotMatch(html, /<span>Speakers<\/span>/);
   assert.doesNotMatch(html, /class="agenda-row has-speakers"/);

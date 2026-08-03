@@ -192,6 +192,8 @@ test("call for papers forms register every author as a presenter and collect SCO
   assert.match(css, /\.radio-group\s*\{/);
   assert.match(css, /\.payable-estimate\s*\{/);
   assert.match(css, /\.payable-estimate\[hidden\]\s*\{\s*display:\s*none;/);
+  assert.match(css, /\.discount-code-field\s*\{/);
+  assert.match(css, /\.discount-code-field\[hidden\]\s*\{\s*display:\s*none;/);
   assert.match(css, /\.registration-submit-row\s*\{/);
   assert.match(css, /\.action-form \.registration-submit-button\s*\{/);
 });
@@ -296,16 +298,20 @@ test("backend captures the selected academic participant category", () => {
     reference: "REG-TEST-PARTICIPANT",
     submittedAt: "2026-07-27T00:00:00.000Z",
     participant_sector: "Academics / Students / Postgraduate Students",
-    academic_participant_category: "Student / Postgraduate Student"
+    academic_participant_category: "Student / Postgraduate Student",
+    country: "Malaysia"
   });
 
   backend.appendRegistrationRows(record);
 
   assert.equal(record.academicParticipantCategory, "Student / Postgraduate Student");
+  assert.equal(record.country, "Malaysia");
   const masterRow = Object.fromEntries(master.headers.map((header, index) => [header, master.appendedRows[0][index] ?? ""]));
   const participantRow = Object.fromEntries(participants.headers.map((header, index) => [header, participants.appendedRows[0][index] ?? ""]));
   assert.equal(masterRow["Academic Participant Category"], "Student / Postgraduate Student");
+  assert.equal(masterRow["Country of Origin"], "Malaysia");
   assert.equal(participantRow["Academic Participant Category"], "Student / Postgraduate Student");
+  assert.equal(participantRow["Country of Origin"], "Malaysia");
 });
 
 test("backend repairs the exact paper file URL without overwriting genuine SCOPUS answers", () => {
