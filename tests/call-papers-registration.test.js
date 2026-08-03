@@ -199,7 +199,9 @@ test("call for papers forms register every author as a presenter and collect SCO
 });
 
 test("call for papers backend stores SCOPUS choice and sends papers auto reply", () => {
-  assert.match(registrationWebapp, /papersEmailFrom:\s*'papers@aisedconference\.org'/);
+  assert.match(registrationWebapp, /emailFrom:\s*'registration@aisedconference\.org'/);
+  assert.match(registrationWebapp, /papersCc:\s*'papers@aisedconference\.org'/);
+  assert.match(registrationWebapp, /paymentMethodUrl:\s*'https:\/\/aisedconference\.org\/payment\.html'/);
   assert.match(registrationWebapp, /spreadsheetId:\s*'1Nnu1zFcpzDcnWTtUGtDWQhxIxZlbxhsuBHpLuHVL1Ro'/);
   assert.match(registrationWebapp, /const REGISTRATION_SHEET_HEADERS = \{/);
   assert.match(registrationWebapp, /'SCOPUS Presentation Mode'/);
@@ -213,11 +215,40 @@ test("call for papers backend stores SCOPUS choice and sends papers auto reply",
   assert.match(registrationWebapp, /estimatedFeeBreakdown:\s*capturesPayableAmount \? \(payload\.estimated_fee_breakdown \|\| ''\) : ''/);
   assert.match(registrationWebapp, /record\.submitToScopus/);
   assert.match(registrationWebapp, /function appendCallForPapers[\s\S]*record\.submitToScopus[\s\S]*attachmentUrlByField\(record, 'paper_attachment'\)[\s\S]*folderUrl\(getFolderId\(record\)\)[\s\S]*record\.scopusPresentationMode[\s\S]*record\.estimatedPayableAmount[\s\S]*record\.estimatedFeeBreakdown/);
-  assert.match(registrationWebapp, /route === 'Call for Papers'[\s\S]*AISED\.papersEmailFrom/);
+  assert.match(registrationWebapp, /route === 'Call for Papers'[\s\S]*from:\s*AISED\.emailFrom[\s\S]*cc:\s*AISED\.papersCc/);
   assert.match(registrationWebapp, /Submit to SCOPUS:\s*\$\{record\.submitToScopus \|\| '-'\}/);
   assert.match(registrationWebapp, /SCOPUS presentation mode:\s*\$\{record\.scopusPresentationMode \|\| '-'\}/);
   assert.match(registrationWebapp, /Estimated payable amount:\s*\$\{record\.estimatedPayableAmount \? `RM\$\{record\.estimatedPayableAmount\}` : '-'\}/);
   assert.match(registrationWebapp, /reviewed by the committee, and we will inform you by 29th August 2026/);
+});
+
+test("participant auto reply includes the payment method link", () => {
+  const emailBody = registrationWebapp.slice(registrationWebapp.indexOf("function getEmailBody(record)"));
+  const callPapersBranch = emailBody.slice(
+    emailBody.indexOf("if (record.route === 'Call for Papers')"),
+    emailBody.indexOf("if (record.route === 'Participants')")
+  );
+  const participantsBranch = emailBody.slice(
+    emailBody.indexOf("if (record.route === 'Participants')"),
+    emailBody.indexOf("if (record.route === 'Invited Guests')")
+  );
+
+  assert.match(participantsBranch, /Payment method:\s*\$\{AISED\.paymentMethodUrl\}/);
+  assert.doesNotMatch(callPapersBranch, /Payment method:\s*\$\{AISED\.paymentMethodUrl\}/);
+});
+
+test("auto reply sends a branded HTML email for every registration route", () => {
+  assert.match(registrationWebapp, /const htmlBody = getEmailHtmlBody\(record\)/);
+  assert.match(registrationWebapp, /htmlBody/);
+  assert.match(registrationWebapp, /AiSED International Conference 2026/);
+  assert.match(registrationWebapp, /Paper Registration Received/);
+  assert.match(registrationWebapp, /Participant Registration Received/);
+  assert.match(registrationWebapp, /Invited Guest Registration Received/);
+  assert.match(registrationWebapp, /Partnership Registration Received/);
+  assert.match(registrationWebapp, /function getEmailSummaryRows\(record\)/);
+  assert.match(registrationWebapp, /function renderEmailSummaryCard\(rows\)/);
+  assert.match(registrationWebapp, /View Payment Method/);
+  assert.match(registrationWebapp, /Send the receipt to registration@aisedconference\.org with your Registration ID and Name, Payment Date and Amount Paid/);
 });
 
 test("backend captures payable amounts only for call for papers and participants", () => {
@@ -357,10 +388,8 @@ test("backend attaches a letterhead PDF copy for every registration route", () =
   assert.match(registrationWebapp, /function shouldAttachPdf\(record\) \{\s*return Boolean\(record\.email\);\s*\}/);
   assert.match(registrationWebapp, /AISED_LETTERHEAD_BACKGROUND/);
   assert.match(registrationWebapp, /AiSED International Conference 2026 letterhead/);
-  assert.match(registrationWebapp, /conference-letterhead PDF acknowledgement containing a copy of the information submitted through the registration form/);
-  assert.match(registrationWebapp, /if \(record\.route === 'Participants'\)[\s\S]*pdfNotice/);
-  assert.match(registrationWebapp, /if \(record\.route === 'Invited Guests'\)[\s\S]*pdfNotice/);
-  assert.match(registrationWebapp, /if \(record\.route === 'Partners'\)[\s\S]*pdfNotice/);
+  assert.doesNotMatch(registrationWebapp, /conference-letterhead PDF acknowledgement containing a copy of the information submitted through the registration form/);
+  assert.doesNotMatch(registrationWebapp, /pdfNotice/);
   assert.match(registrationWebapp, /replyTo:\s*sender\.replyTo/);
 });
 

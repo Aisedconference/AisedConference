@@ -2,8 +2,8 @@ const AISED = {
   spreadsheetId: '1Nnu1zFcpzDcnWTtUGtDWQhxIxZlbxhsuBHpLuHVL1Ro',
   emailFrom: 'registration@aisedconference.org',
   replyTo: 'registration@aisedconference.org',
-  papersEmailFrom: 'papers@aisedconference.org',
-  papersReplyTo: 'papers@aisedconference.org',
+  papersCc: 'papers@aisedconference.org',
+  paymentMethodUrl: 'https://aisedconference.org/payment.html',
   conferenceName: 'AiSED International Conference 2026',
   conferenceDates: '2-4 December 2026',
   venue: 'Shah Alam Convention Centre, Malaysia',
@@ -817,13 +817,16 @@ function sendConfirmationEmail(record, pdf) {
 
   const subject = getEmailSubject(record);
   const body = getEmailBody(record);
+  const htmlBody = getEmailHtmlBody(record);
   const sender = getEmailSender(record);
   const options = {
     name: sender.name,
-    replyTo: sender.replyTo
+    replyTo: sender.replyTo,
+    htmlBody
   };
 
   if (pdf) options.attachments = [pdf];
+  if (sender.cc) options.cc = sender.cc;
 
   try {
     const aliases = GmailApp.getAliases();
@@ -841,6 +844,8 @@ function sendConfirmationEmail(record, pdf) {
       body,
       name: options.name,
       replyTo: sender.replyTo,
+      htmlBody: options.htmlBody,
+      cc: options.cc,
       attachments: options.attachments
     });
     return {
@@ -861,9 +866,10 @@ function sendConfirmationEmail(record, pdf) {
 function getEmailSender(record) {
   if (record.route === 'Call for Papers') {
     return {
-      from: AISED.papersEmailFrom,
-      replyTo: AISED.papersReplyTo,
-      name: 'AiSED Conference Papers Secretariat'
+      from: AISED.emailFrom,
+      replyTo: AISED.replyTo,
+      cc: AISED.papersCc,
+      name: 'AiSED Conference Registration'
     };
   }
 
@@ -897,7 +903,6 @@ function getEmailSubject(record) {
 function getEmailBody(record) {
   const greeting = `Dear ${getRecipientName(record)},`;
   const acknowledgement = getRegistrationAcknowledgement();
-  const pdfNotice = 'Please find attached a conference-letterhead PDF acknowledgement containing a copy of the information submitted through the registration form.';
   const closing = [
     '',
     'Regards,',
@@ -920,8 +925,6 @@ function getEmailBody(record) {
       `Estimated payable amount: ${record.estimatedPayableAmount ? `RM${record.estimatedPayableAmount}` : '-'}`,
       '',
       'We have received your paper registration and submission details. Your paper will be reviewed by the committee, and we will inform you by 29th August 2026 for the next step.',
-      '',
-      pdfNotice,
       closing
     ].join('\n');
   }
@@ -937,7 +940,7 @@ function getEmailBody(record) {
       'Registration details:',
       ...details,
       '',
-      pdfNotice,
+      `Payment method: ${AISED.paymentMethodUrl}`,
       '',
       'Note: You shall receive the confirmation email or further engagement / next step personally from the secretariat soon.',
       closing
@@ -953,8 +956,6 @@ function getEmailBody(record) {
       '',
       `Reference: ${record.reference}`,
       `Guest role: ${record.guestType || record.type || '-'}`,
-      '',
-      pdfNotice,
       '',
       'The conference secretariat will be in touch if any further information is required.',
       closing
@@ -972,8 +973,6 @@ function getEmailBody(record) {
       `Partner category: ${record.partnerType || '-'}`,
       `Organisation: ${record.organisation || '-'}`,
       '',
-      pdfNotice,
-      '',
       'We appreciate your interest in being part of the conference. The conference secretariat will follow up on the next steps.',
       closing
     ].join('\n');
@@ -986,10 +985,168 @@ function getEmailBody(record) {
     acknowledgement,
     '',
     `Reference: ${record.reference}`,
-    '',
-    pdfNotice,
     closing
   ].join('\n');
+}
+
+function getEmailHtmlBody(record) {
+  const title = getEmailDisplayTitle(record);
+  const intro = getEmailIntro(record);
+  const summaryRows = getEmailSummaryRows(record);
+  const nextStep = getEmailNextStep(record);
+  const recipientName = getRecipientName(record);
+
+  return [
+    '<div style="margin:0;padding:0;background:#f4f6f2;font-family:Arial,Helvetica,sans-serif;color:#25322d;">',
+    '<div style="max-width:760px;margin:0 auto;background:#ffffff;border:1px solid #dfe6dd;">',
+    '<div style="background:#123f2a;padding:32px 36px;">',
+    '<div style="color:#d2ad30;font-size:14px;letter-spacing:4px;font-weight:700;text-transform:uppercase;">AiSED International Conference 2026</div>',
+    `<h1 style="margin:18px 0 0;color:#ffffff;font-size:34px;line-height:1.15;font-weight:800;">${escapeHtml(title)}</h1>`,
+    '</div>',
+    '<div style="padding:36px;">',
+    `<p style="margin:0 0 24px;font-size:16px;line-height:1.6;">Dear ${escapeHtml(recipientName)},</p>`,
+    `<p style="margin:0 0 22px;font-size:16px;line-height:1.7;">${escapeHtml(intro)}</p>`,
+    '<p style="margin:0 0 28px;font-size:16px;line-height:1.7;">Your registration has been well received. The Organizing Team will get back to you to confirm your enrollment and revert to you with the details.</p>',
+    renderEmailSummaryCard(summaryRows),
+    renderEmailNextStep(nextStep),
+    '<p style="margin:32px 0 0;font-size:16px;line-height:1.7;">Thank you.</p>',
+    '<p style="margin:10px 0 0;font-size:16px;line-height:1.7;">Regards,<br>AiSED Conference Secretariat</p>',
+    '</div>',
+    '</div>',
+    '</div>'
+  ].join('');
+}
+
+function getEmailDisplayTitle(record) {
+  if (record.route === 'Call for Papers') return 'Paper Registration Received';
+  if (record.route === 'Participants') return 'Participant Registration Received';
+  if (record.route === 'Invited Guests') return 'Invited Guest Registration Received';
+  if (record.route === 'Partners') return 'Partnership Registration Received';
+  return 'Registration Received';
+}
+
+function getEmailIntro(record) {
+  if (record.route === 'Call for Papers') {
+    return `Thank you for registering for ${AISED.conferenceName} under Call for Papers.`;
+  }
+  if (record.route === 'Participants') {
+    return `Thank you for registering for ${AISED.conferenceName}.`;
+  }
+  if (record.route === 'Invited Guests') {
+    return `Thank you for completing your invited guest registration for ${AISED.conferenceName}.`;
+  }
+  if (record.route === 'Partners') {
+    return `Thank you for registering your organisation as part of ${AISED.conferenceName}.`;
+  }
+  return `Thank you for registering for ${AISED.conferenceName}.`;
+}
+
+function getEmailSummaryRows(record) {
+  if (record.route === 'Call for Papers') {
+    return [
+      ['Registration ID', record.reference],
+      ['Category', record.subsection || '-'],
+      ['Type', record.type || '-'],
+      ['Paper Title', record.paperTitle || '-'],
+      ['Submit to SCOPUS', record.submitToScopus || '-'],
+      ['SCOPUS Presentation Mode', record.scopusPresentationMode || '-'],
+      ['Estimated Payable Amount', record.estimatedPayableAmount ? `RM${record.estimatedPayableAmount}` : '-']
+    ];
+  }
+
+  if (record.route === 'Participants') {
+    return getParticipantEmailRows(record);
+  }
+
+  if (record.route === 'Invited Guests') {
+    return [
+      ['Registration ID', record.reference],
+      ['Guest Role', record.guestType || record.type || '-'],
+      ['Organisation / University / Institution', record.organisation || '-'],
+      ['Email', record.email || '-']
+    ];
+  }
+
+  if (record.route === 'Partners') {
+    return [
+      ['Registration ID', record.reference],
+      ['Partner Category', record.partnerType || '-'],
+      ['Organisation', record.organisation || '-'],
+      ['Organisation Website', record.website || '-']
+    ];
+  }
+
+  return [['Registration ID', record.reference]];
+}
+
+function getEmailNextStep(record) {
+  if (record.route === 'Call for Papers') {
+    return {
+      title: 'Next step — Paper review',
+      body: 'Your paper registration and submission details have been received. Your paper will be reviewed by the committee, and we will inform you by 29th August 2026 for the next step.'
+    };
+  }
+
+  if (record.route === 'Participants') {
+    return {
+      title: 'Next step — Payment method',
+      body: 'Please proceed to the payment method page and save your receipt after payment. Send the receipt to registration@aisedconference.org with your Registration ID and Name, Payment Date and Amount Paid.',
+      buttonLabel: 'View Payment Method',
+      buttonUrl: AISED.paymentMethodUrl
+    };
+  }
+
+  if (record.route === 'Invited Guests') {
+    return {
+      title: 'Next step — Secretariat follow-up',
+      body: 'The conference secretariat will be in touch if any further information is required.'
+    };
+  }
+
+  if (record.route === 'Partners') {
+    return {
+      title: 'Next step — Partnership follow-up',
+      body: 'We appreciate your interest in being part of the conference. The conference secretariat will follow up on the next steps.'
+    };
+  }
+
+  return {
+    title: 'Next step',
+    body: 'The conference secretariat will be in touch if any further information is required.'
+  };
+}
+
+function renderEmailSummaryCard(rows) {
+  const rowHtml = rows
+    .filter((row) => row && row[0])
+    .map(([label, value]) => [
+      '<div style="margin:0 0 18px;">',
+      `<div style="font-weight:800;color:#25322d;font-size:15px;">${escapeHtml(label)}</div>`,
+      `<div style="margin-top:5px;color:#25322d;font-size:16px;line-height:1.5;">${escapeHtml(value || '-')}</div>`,
+      '</div>'
+    ].join(''))
+    .join('');
+
+  return [
+    '<div style="background:#f2f5f1;padding:24px 26px;margin:0 0 30px;">',
+    rowHtml,
+    '</div>'
+  ].join('');
+}
+
+function renderEmailNextStep(step) {
+  if (!step) return '';
+  const button = step.buttonUrl ? [
+    `<a href="${escapeHtml(step.buttonUrl)}" style="display:inline-block;background:#d0aa2f;color:#123f2a;text-decoration:none;font-weight:800;padding:15px 24px;border-radius:8px;margin-top:14px;">${escapeHtml(step.buttonLabel || 'Open Link')}</a>`
+  ].join('') : '';
+
+  return [
+    '<div style="margin:0 0 22px;">',
+    `<h2 style="margin:0 0 14px;color:#25322d;font-size:22px;line-height:1.3;">${escapeHtml(step.title)}</h2>`,
+    `<p style="margin:0;color:#25322d;font-size:16px;line-height:1.7;">${escapeHtml(step.body)}</p>`,
+    button,
+    '</div>'
+  ].join('');
 }
 
 function getRegistrationAcknowledgement() {
@@ -1003,48 +1160,52 @@ function getRecipientName(record) {
   return [record.title, record.name].filter(Boolean).join(' ') || record.name || 'Participant';
 }
 
-function getParticipantEmailDetails(record) {
-  const lines = [
-    `Reference: ${record.reference}`,
-    `Participant category: ${record.participantSector || record.type || '-'}`,
-    `Title: ${record.title || '-'}`,
-    `Full name: ${record.name || '-'}`,
-    `Organisation / Company: ${record.organisation || '-'}`,
-    `Position / Designation: ${record.position || '-'}`,
-    `Email: ${record.email || '-'}`,
-    `Contact number: ${record.phone || '-'}`
+function getParticipantEmailRows(record) {
+  const rows = [
+    ['Registration ID', record.reference],
+    ['Participant Category', record.participantSector || record.type || '-'],
+    ['Title', record.title || '-'],
+    ['Full Name', record.name || '-'],
+    ['Organisation / Company', record.organisation || '-'],
+    ['Position / Designation', record.position || '-'],
+    ['Email', record.email || '-'],
+    ['Contact Number', record.phone || '-']
   ];
 
   if (record.participantSector === 'HRD Corp Claimable') {
-    lines.push(
-      `HRD Corp Employer Code: ${record.hrdEmployerId || '-'}`,
-      `HRD Corp Claimable Courses (HRD CC): ${record.hrdClaimableCourse || '-'}`,
-      `MyKad / IC Number / Passport Number: ${record.participantIdNumber || '-'}`,
-      `Contact person: ${record.billingContact || '-'}`,
-      `Contact person's position: ${record.contactPersonPosition || '-'}`,
-      `Contact person's email address: ${record.billingEmail || '-'}`,
-      `Contact person's phone number: ${record.billingPhone || '-'}`,
-      `Company address: ${record.companyAddress || '-'}`
+    rows.push(
+      ['HRD Corp Employer Code', record.hrdEmployerId || '-'],
+      ['HRD Corp Claimable Courses (HRD CC)', record.hrdClaimableCourse || '-'],
+      ['MyKad / IC Number / Passport Number', record.participantIdNumber || '-'],
+      ['Contact Person', record.billingContact || '-'],
+      ["Contact Person's Position", record.contactPersonPosition || '-'],
+      ["Contact Person's Email Address", record.billingEmail || '-'],
+      ["Contact Person's Phone Number", record.billingPhone || '-'],
+      ['Company Address', record.companyAddress || '-']
     );
   } else if (record.participantSector === 'Government Agencies') {
-    lines.push(
-      `Department / unit: ${record.department || '-'}`,
-      `Administrative contact person: ${record.billingContact || '-'}`,
-      `Administrative email: ${record.billingEmail || '-'}`,
-      `Purchase order / reference no.: ${record.referenceNo || '-'}`,
-      `Official notes: ${record.participantNotes || '-'}`
+    rows.push(
+      ['Department / Unit', record.department || '-'],
+      ['Administrative Contact Person', record.billingContact || '-'],
+      ['Administrative Email', record.billingEmail || '-'],
+      ['Purchase Order / Reference No.', record.referenceNo || '-'],
+      ['Official Notes', record.participantNotes || '-']
     );
   } else {
-    lines.push(
-      `Company registration no.: ${record.companyRegistration || '-'}`,
-      `Billing contact person: ${record.billingContact || '-'}`,
-      `Billing email: ${record.billingEmail || '-'}`,
-      `Purchase order / reference no.: ${record.referenceNo || '-'}`,
-      `Delegate notes: ${record.participantNotes || '-'}`
+    rows.push(
+      ['Company Registration No.', record.companyRegistration || '-'],
+      ['Billing Contact Person', record.billingContact || '-'],
+      ['Billing Email', record.billingEmail || '-'],
+      ['Purchase Order / Reference No.', record.referenceNo || '-'],
+      ['Delegate Note', record.participantNotes || '-']
     );
   }
 
-  return lines;
+  return rows;
+}
+
+function getParticipantEmailDetails(record) {
+  return getParticipantEmailRows(record).map(([label, value]) => `${label}: ${value}`);
 }
 
 function getPdfTitle(record) {
