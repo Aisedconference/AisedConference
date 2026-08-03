@@ -21,6 +21,9 @@ test("payment method page publishes the AeU guideline details", () => {
   assert.match(html, /new URLSearchParams\(window\.location\.search\)\.get\("return"\)/);
   assert.match(html, /backLink\.href = returnUrl/);
   assert.match(html, /window\.history\.back\(\)/);
+  assert.match(html, /document\.getElementById\("payment-methods"\)/);
+  assert.match(html, /paymentMethods && !window\.location\.hash/);
+  assert.match(html, /paymentMethods\.scrollIntoView\(\{ block: "start" \}\)/);
   assert.match(html, /data-payment-choice="method-1"/);
   assert.match(html, /data-payment-choice="method-2"/);
   assert.match(html, /data-payment-panel="method-1" hidden/);

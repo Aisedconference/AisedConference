@@ -115,6 +115,13 @@
       const panels = document.querySelectorAll("[data-payment-panel]");
       const confirmation = document.querySelector("[data-payment-confirmation]");
       const stepTwoTitle = document.querySelector("[data-payment-step-two-title]");
+      const paymentMethods = document.getElementById("payment-methods");
+
+      if (paymentMethods && !window.location.hash) {
+        window.requestAnimationFrame(() => {
+          paymentMethods.scrollIntoView({ block: "start" });
+        });
+      }
 
       if (backLink) {
         const returnUrl = new URLSearchParams(window.location.search).get("return");
