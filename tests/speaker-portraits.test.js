@@ -25,6 +25,10 @@ const portraits = [
     alt: "Prof Dato’ Dr Ansary Ahmed",
   },
   {
+    src: "assets/amb-shikata-noriyuki-speaker.png",
+    alt: "H.E. SHIKATA Noriyuki",
+  },
+  {
     src: "assets/sam-majid-speaker.jpg",
     alt: "Sam Majid",
   },
@@ -63,6 +67,7 @@ test("arranges visible photo speakers by the available agenda structure", () => 
   const orderedHeadings = [
     "Royal Patron",
     "Keynote Speakers",
+    "Forum 1",
     "Forum 2",
     "Forum 3",
     "Forum 4",
@@ -76,7 +81,6 @@ test("arranges visible photo speakers by the available agenda structure", () => 
   }
 
   assert.doesNotMatch(html, /Forum 5/);
-  assert.doesNotMatch(html, /Forum 1/);
 });
 
 test("matches the Royal Patron wording and layout from the committee page", () => {
@@ -145,9 +149,15 @@ test("temporarily hides proposed speaker profiles without photos", () => {
 
 test("groups each visible forum moderator and panellist in the same speaker row", () => {
   const forumGroups = html.match(/<section class="speaker-forum-group"[\s\S]*?<\/section>/g) || [];
-  assert.equal(forumGroups.length, 3);
+  assert.equal(forumGroups.length, 4);
 
   const expected = [
+    {
+      title: "Diplomacy and Global Affairs",
+      date: "Forum 1 - 2nd Dec 26 (Wed)",
+      time: "Time: 11.15 a.m.–12.30 p.m.",
+      panellists: ["H.E. SHIKATA Noriyuki"],
+    },
     {
       title: "Artificial Intelligence",
       date: "Forum 2 - 2nd Dec 26 (Wed)",
@@ -191,8 +201,8 @@ test("groups each visible forum moderator and panellist in the same speaker row"
 });
 
 test("uses a simple committee-style photo directory layout", () => {
-  assert.equal((html.match(/class="committee-profile-card speaker-agenda-card/g) || []).length, 9);
-  assert.equal((html.match(/class="committee-portrait"/g) || []).length, 9);
+  assert.equal((html.match(/class="committee-profile-card speaker-agenda-card/g) || []).length, 10);
+  assert.equal((html.match(/class="committee-portrait"/g) || []).length, 10);
   assert.match(css, /\.speaker-agenda-card\s*\{[^}]*grid-template-columns:\s*112px minmax\(0,\s*1fr\)/s);
   assert.match(css, /\.committee-profile-card\.speaker-agenda-card\s*\{[^}]*max-width:\s*none/s);
   assert.match(css, /\.committee-profile-card\.speaker-agenda-card \.committee-portrait\s*\{[^}]*width:\s*112px/s);
