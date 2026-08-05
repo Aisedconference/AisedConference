@@ -25,6 +25,10 @@ const portraits = [
     alt: "Prof Dato’ Dr Ansary Ahmed",
   },
   {
+    src: "assets/tan-sri-abd-rahman-mamat-speaker.png",
+    alt: "Tan Sri Abd. Rahman Mamat",
+  },
+  {
     src: "assets/amb-shikata-noriyuki-speaker.png",
     alt: "H.E. SHIKATA Noriyuki",
   },
@@ -96,7 +100,7 @@ test("matches the Royal Patron wording and layout from the committee page", () =
   assert.match(css, /\.committee-profile-card\.speaker-agenda-card\.featured-speaker\s*\{[^}]*max-width:\s*980px/s);
 });
 
-test("shows the three keynote speakers with photos", () => {
+test("shows the confirmed keynote speakers with photos", () => {
   const keynotes = [
     {
       name: "Dato’ Steve Cheah",
@@ -114,6 +118,13 @@ test("shows the three keynote speakers with photos", () => {
     },
     {
       name: "Prof Dato’ Dr Ansary Ahmed",
+      session: "Keynote Session 3",
+      date: "3 Dec 26 (Thu) · 9.00 a.m.–9.45 a.m.",
+      title: "Building Resilient Innovation Ecosystems in the AI Economy",
+      href: "programme.html#keynote-session-3",
+    },
+    {
+      name: "Tan Sri Abd. Rahman Mamat",
       session: "Keynote Session 3",
       date: "3 Dec 26 (Thu) · 9.00 a.m.–9.45 a.m.",
       title: "Building Resilient Innovation Ecosystems in the AI Economy",
@@ -139,7 +150,6 @@ test("temporarily hides proposed speaker profiles without photos", () => {
   for (const hiddenName of [
     "Tengku Datuk Seri Utama Zafrul Tengku Abdul Aziz",
     "Tan Sri Tony Fernandes",
-    "Tan Sri Abd. Rahman Mamat",
     "Datuk Wira Dr Asyraf Wajdi Dusuki",
     "Datuk Jojie Samuel",
     "Badzlan Bakar",
@@ -205,8 +215,8 @@ test("groups each visible forum moderator and panellist in the same speaker row"
 });
 
 test("uses a simple committee-style photo directory layout", () => {
-  assert.equal((html.match(/class="committee-profile-card speaker-agenda-card/g) || []).length, 11);
-  assert.equal((html.match(/class="committee-portrait"/g) || []).length, 11);
+  assert.equal((html.match(/class="committee-profile-card speaker-agenda-card/g) || []).length, 12);
+  assert.equal((html.match(/class="committee-portrait"/g) || []).length, 12);
   assert.match(css, /\.speaker-agenda-card\s*\{[^}]*grid-template-columns:\s*112px minmax\(0,\s*1fr\)/s);
   assert.match(css, /\.committee-profile-card\.speaker-agenda-card\s*\{[^}]*max-width:\s*none/s);
   assert.match(css, /\.committee-profile-card\.speaker-agenda-card \.committee-portrait\s*\{[^}]*width:\s*112px/s);
