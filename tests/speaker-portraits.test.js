@@ -29,6 +29,10 @@ const portraits = [
     alt: "H.E. SHIKATA Noriyuki",
   },
   {
+    src: "assets/amb-karomidin-gadoev-speaker.png",
+    alt: "H.E. Dr. KAROMIDIN GADOEV",
+  },
+  {
     src: "assets/sam-majid-speaker.jpg",
     alt: "Sam Majid",
   },
@@ -156,7 +160,7 @@ test("groups each visible forum moderator and panellist in the same speaker row"
       title: "Diplomacy and Global Affairs",
       date: "Forum 1 - 2nd Dec 26 (Wed)",
       time: "Time: 11.15 a.m.–12.30 p.m.",
-      panellists: ["H.E. SHIKATA Noriyuki"],
+      panellists: ["H.E. SHIKATA Noriyuki", "H.E. Dr. KAROMIDIN GADOEV"],
     },
     {
       title: "Artificial Intelligence",
@@ -201,8 +205,8 @@ test("groups each visible forum moderator and panellist in the same speaker row"
 });
 
 test("uses a simple committee-style photo directory layout", () => {
-  assert.equal((html.match(/class="committee-profile-card speaker-agenda-card/g) || []).length, 10);
-  assert.equal((html.match(/class="committee-portrait"/g) || []).length, 10);
+  assert.equal((html.match(/class="committee-profile-card speaker-agenda-card/g) || []).length, 11);
+  assert.equal((html.match(/class="committee-portrait"/g) || []).length, 11);
   assert.match(css, /\.speaker-agenda-card\s*\{[^}]*grid-template-columns:\s*112px minmax\(0,\s*1fr\)/s);
   assert.match(css, /\.committee-profile-card\.speaker-agenda-card\s*\{[^}]*max-width:\s*none/s);
   assert.match(css, /\.committee-profile-card\.speaker-agenda-card \.committee-portrait\s*\{[^}]*width:\s*112px/s);
