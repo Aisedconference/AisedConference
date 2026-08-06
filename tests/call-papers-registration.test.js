@@ -466,26 +466,16 @@ test("backend sends the first registration confirmation email without an attachm
   assert.match(registrationWebapp, /const emailStatus = sendConfirmationEmail\(record\);/);
   assert.doesNotMatch(registrationWebapp, /sendConfirmationEmail\(record,\s*pdf\)/);
   assert.doesNotMatch(registrationWebapp, /if \(pdf\) options\.attachments = \[pdf\];/);
-  assert.match(registrationWebapp, /AISED_LETTERHEAD_BACKGROUND/);
-  assert.match(registrationWebapp, /AiSED International Conference 2026 letterhead/);
+  assert.doesNotMatch(registrationWebapp, /function createConfirmationPdf\(record\)/);
+  assert.doesNotMatch(registrationWebapp, /MimeType\.PDF/);
   assert.doesNotMatch(registrationWebapp, /conference-letterhead PDF acknowledgement containing a copy of the information submitted through the registration form/);
   assert.doesNotMatch(registrationWebapp, /pdfNotice/);
   assert.match(registrationWebapp, /replyTo:\s*sender\.replyTo/);
 });
 
-test("backend PDF acknowledgement includes submitted route-specific information", () => {
-  assert.match(registrationWebapp, /function buildConfirmationRows\(record, recipientName\)/);
-  assert.match(registrationWebapp, /\['Paper title', record\.paperTitle \|\| '-'\]/);
-  assert.match(registrationWebapp, /\['Abstract', record\.abstract \|\| '-'\]/);
-  assert.match(registrationWebapp, /\['Paper attachment link', attachmentUrlByField\(record, 'paper_attachment'\) \|\| '-'\]/);
-  assert.match(registrationWebapp, /\['Participant sector', record\.participantSector \|\| '-'\]/);
-  assert.match(registrationWebapp, /\['Company address', record\.companyAddress \|\| '-'\]/);
-  assert.match(registrationWebapp, /\['Participant notes', record\.participantNotes \|\| '-'\]/);
-  assert.match(registrationWebapp, /\['Invited guest role', record\.guestType \|\| '-'\]/);
-  assert.match(registrationWebapp, /\['Invitation notes', record\.invitationNote \|\| '-'\]/);
-  assert.match(registrationWebapp, /\['Speaker portrait link', attachmentUrlByField\(record, 'speaker_photo'\) \|\| '-'\]/);
-  assert.match(registrationWebapp, /\['Partner type', record\.partnerType \|\| '-'\]/);
-  assert.match(registrationWebapp, /\['Partnership interest', record\.partnershipInterest \|\| '-'\]/);
-  assert.match(registrationWebapp, /\['Partner acceptance letter link', attachmentUrlByField\(record, 'partner_acceptance_letter'\) \|\| '-'\]/);
-  assert.match(registrationWebapp, /\['Attachment folder link', folderUrl\(record\)\]/);
+test("backend does not keep a PDF acknowledgement generation path", () => {
+  assert.doesNotMatch(registrationWebapp, /function buildConfirmationRows\(record, recipientName\)/);
+  assert.doesNotMatch(registrationWebapp, /getAs\(MimeType\.PDF\)/);
+  assert.doesNotMatch(registrationWebapp, /Registration Confirmation\.pdf/);
+  assert.doesNotMatch(registrationWebapp, /options\.attachments/);
 });
