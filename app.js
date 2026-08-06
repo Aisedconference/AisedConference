@@ -198,7 +198,6 @@ function updateCallPaperEstimate(form) {
   if (!form) return;
 
   const estimateContainer = form.querySelector("[data-payable-estimate]");
-  const scopusChoice = form.querySelector(".scopus-presentation-choice");
   const scopusModeSelect = form.querySelector("[name='scopus_presentation_mode']");
   const amountInput = form.querySelector("[name='estimated_payable_amount']");
   const breakdownInput = form.querySelector("[name='estimated_fee_breakdown']");
@@ -227,26 +226,17 @@ function updateCallPaperEstimate(form) {
     return;
   }
 
-  const { subsection, type, submitToScopus, scopusMode, baseFee, total } = getCallPaperFeeBreakdown(form);
+  const { subsection, type, submitToScopus, baseFee, total } = getCallPaperFeeBreakdown(form);
 
   if (estimateContainer) estimateContainer.hidden = false;
 
-  if (scopusChoice && scopusModeSelect) {
-    const needsScopusMode = submitToScopus === "Yes";
-    scopusChoice.hidden = !needsScopusMode;
-    scopusModeSelect.required = needsScopusMode;
-    if (!needsScopusMode) scopusModeSelect.value = "";
-  }
+  if (scopusModeSelect) scopusModeSelect.required = true;
 
   const baseText = baseFee
     ? `${subsection} ${type}: RM${baseFee.toLocaleString("en-MY")}`
     : "Please choose who is registering.";
   const totalText = total ? `RM${total.toLocaleString("en-MY")}` : "RM0";
-  const breakdownText = submitToScopus === "Yes" && !scopusMode
-    ? ""
-    : baseFee
-      ? baseText
-      : "";
+  const breakdownText = baseFee ? baseText : "";
 
   if (estimateAmount) estimateAmount.textContent = totalText;
   if (scopusSurchargeNotice) scopusSurchargeNotice.hidden = submitToScopus !== "Yes";
@@ -396,18 +386,18 @@ function renderRegistrationFields() {
     routeFields = `
       ${buildField("paper_title", "Paper title", "text", true, `placeholder="e.g, AI for Sustainable Entrepreneurship in ASEAN"`)}
       <label>Abstract<textarea name="abstract" rows="4" required placeholder="e.g, 250-300 word abstract summary"></textarea></label>
-      <div class="scopus-presentation-choice" hidden>
+      <div class="scopus-presentation-choice">
         <label>Presentation Mode
-          <select name="scopus_presentation_mode">
+          <select name="scopus_presentation_mode" required>
             <option value="">Please select</option>
             <option value="Physical Presentation">Physical Presentation</option>
             <option value="Online Presentation">Online Presentation</option>
             <option value="Without Presentation">Without Presentation</option>
           </select>
         </label>
-        <p class="scopus-fee-note">Publication Fees ranging USD 599 - USD 1500, final amount will be advised.</p>
       </div>
       ${buildRadioGroup("submit_to_scopus", "Submit to SCOPUS / MYCITE", ["Yes", "No"])}
+      <p class="scopus-fee-note">Publication Fees ranging USD 599 - USD 1500, final amount will be advised.</p>
       <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
     `;
   }

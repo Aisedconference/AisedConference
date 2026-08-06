@@ -152,9 +152,10 @@ test("call for papers route uses one submit button and an audience dropdown", ()
 test("call for papers forms register every author as a presenter and collect SCOPUS preference", () => {
   assert.match(appJs, /if \(registrationState\.category === "call-papers"\) \{\s*routeFields =/);
   assert.doesNotMatch(appJs, /attendance_interest/);
-  assert.match(appJs, /<label>Abstract<textarea name="abstract"[\s\S]*?<div class="scopus-presentation-choice" hidden>[\s\S]*?buildRadioGroup\("submit_to_scopus", "Submit to SCOPUS \/ MYCITE", \["Yes", "No"\]\)/);
+  assert.match(appJs, /<label>Abstract<textarea name="abstract"[\s\S]*?<div class="scopus-presentation-choice">[\s\S]*?buildRadioGroup\("submit_to_scopus", "Submit to SCOPUS \/ MYCITE", \["Yes", "No"\]\)[\s\S]*?<p class="scopus-fee-note">Publication Fees ranging USD 599 - USD 1500, final amount will be advised\.<\/p>/);
   assert.match(appJs, /name="scopus_presentation_mode"/);
   assert.match(appJs, /<label>Presentation Mode/);
+  assert.match(appJs, /<select name="scopus_presentation_mode" required>/);
   assert.match(appJs, /Publication Fees ranging USD 599 - USD 1500, final amount will be advised\./);
   assert.match(appJs, /Physical Presentation">\s*Physical Presentation/);
   assert.match(appJs, /Online Presentation">\s*Online Presentation/);
@@ -186,8 +187,9 @@ test("call for papers forms register every author as a presenter and collect SCO
   assert.match(appJs, /const hiddenEstimateCategories = \["invited-guests", "partners"\]/);
   assert.match(appJs, /function updateCallPaperEstimate\(form\)/);
   assert.match(appJs, /registrationState\.category === "participants"[\s\S]*updateParticipantEstimate/);
-  assert.match(appJs, /scopusModeSelect\.required = needsScopusMode/);
-  assert.match(appJs, /submitToScopus === "Yes" && !scopusMode/);
+  assert.match(appJs, /scopusModeSelect\.required = true/);
+  assert.doesNotMatch(appJs, /scopusModeSelect\.required = needsScopusMode/);
+  assert.doesNotMatch(appJs, /submitToScopus === "Yes" && !scopusMode/);
   assert.match(appJs, /Abstract \/ Full paper submission<input name="paper_attachment"/);
   assert.doesNotMatch(appJs, />Paper attachment<input name="paper_attachment"/);
   assert.match(css, /\.radio-group\s*\{/);
