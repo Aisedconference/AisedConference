@@ -56,6 +56,10 @@ const portraits = [
     src: "assets/ts-zehan-teoh-speaker.png",
     alt: "Ts. Zehan Teoh",
   },
+  {
+    src: "assets/ivan-sandjaja-speaker.png",
+    alt: "Ivan Sandjaja",
+  },
 ];
 
 for (const portrait of portraits) {
@@ -190,7 +194,7 @@ test("groups each visible forum moderator and panellist in the same speaker row"
       date: "Forum 4 - 4th Dec 26 (Fri)",
       time: "Time: 9.45 a.m.–11.00 a.m.",
       moderator: "Dr Janeth Emanuel Kigobe",
-      panellists: ["Ts. Zehan Teoh"],
+      panellists: ["Ts. Zehan Teoh", "Ivan Sandjaja"],
     },
   ];
 
@@ -215,8 +219,8 @@ test("groups each visible forum moderator and panellist in the same speaker row"
 });
 
 test("uses a simple committee-style photo directory layout", () => {
-  assert.equal((html.match(/class="committee-profile-card speaker-agenda-card/g) || []).length, 12);
-  assert.equal((html.match(/class="committee-portrait"/g) || []).length, 12);
+  assert.equal((html.match(/class="committee-profile-card speaker-agenda-card/g) || []).length, 13);
+  assert.equal((html.match(/class="committee-portrait"/g) || []).length, 13);
   assert.match(css, /\.speaker-agenda-card\s*\{[^}]*grid-template-columns:\s*112px minmax\(0,\s*1fr\)/s);
   assert.match(css, /\.committee-profile-card\.speaker-agenda-card\s*\{[^}]*max-width:\s*none/s);
   assert.match(css, /\.committee-profile-card\.speaker-agenda-card \.committee-portrait\s*\{[^}]*width:\s*112px/s);
