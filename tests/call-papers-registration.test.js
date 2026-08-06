@@ -152,12 +152,13 @@ test("call for papers route uses one submit button and an audience dropdown", ()
 test("call for papers forms register every author as a presenter and collect SCOPUS preference", () => {
   assert.match(appJs, /if \(registrationState\.category === "call-papers"\) \{\s*routeFields =/);
   assert.doesNotMatch(appJs, /attendance_interest/);
-  assert.match(appJs, /buildRadioGroup\("submit_to_scopus", "Submit to SCOPUS", \["Yes", "No"\]\)/);
+  assert.match(appJs, /<label>Abstract<textarea name="abstract"[\s\S]*?<div class="scopus-presentation-choice" hidden>[\s\S]*?buildRadioGroup\("submit_to_scopus", "Submit to SCOPUS \/ MYCITE", \["Yes", "No"\]\)/);
   assert.match(appJs, /name="scopus_presentation_mode"/);
   assert.match(appJs, /<label>Presentation Mode/);
   assert.match(appJs, /Publication Fees ranging USD 599 - USD 1500, final amount will be advised\./);
   assert.match(appJs, /Physical Presentation">\s*Physical Presentation/);
   assert.match(appJs, /Online Presentation">\s*Online Presentation/);
+  assert.match(appJs, /Without Presentation">\s*Without Presentation/);
   assert.doesNotMatch(appJs, /Physical Presentation \(\+ RM200\)/);
   assert.doesNotMatch(appJs, /Online Presentation \(\+ RM150\)/);
   assert.match(registrationHtml, /name="estimated_payable_amount"/);

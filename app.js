@@ -396,17 +396,18 @@ function renderRegistrationFields() {
     routeFields = `
       ${buildField("paper_title", "Paper title", "text", true, `placeholder="e.g, AI for Sustainable Entrepreneurship in ASEAN"`)}
       <label>Abstract<textarea name="abstract" rows="4" required placeholder="e.g, 250-300 word abstract summary"></textarea></label>
-      ${buildRadioGroup("submit_to_scopus", "Submit to SCOPUS", ["Yes", "No"])}
       <div class="scopus-presentation-choice" hidden>
         <label>Presentation Mode
           <select name="scopus_presentation_mode">
             <option value="">Please select</option>
             <option value="Physical Presentation">Physical Presentation</option>
             <option value="Online Presentation">Online Presentation</option>
+            <option value="Without Presentation">Without Presentation</option>
           </select>
         </label>
         <p class="scopus-fee-note">Publication Fees ranging USD 599 - USD 1500, final amount will be advised.</p>
       </div>
+      ${buildRadioGroup("submit_to_scopus", "Submit to SCOPUS / MYCITE", ["Yes", "No"])}
       <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
     `;
   }
