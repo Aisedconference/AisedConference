@@ -712,16 +712,17 @@ function getEmailBody(record) {
     return [
       greeting,
       '',
-      `Thank you for registering for ${AISED.conferenceName} under Call for Papers.`,
+      `Thank you for your submission for papers to ${AISED.conferenceName}.`,
       acknowledgement,
       '',
       `Reference: ${record.reference}`,
       `Category: ${record.subsection || '-'}`,
       `Type: ${record.type || '-'}`,
       `Paper title: ${record.paperTitle || '-'}`,
-      `Submit to SCOPUS: ${record.submitToScopus || '-'}`,
-      `SCOPUS presentation mode: ${record.scopusPresentationMode || '-'}`,
-      `Estimated payable amount: ${record.estimatedPayableAmount ? `RM${record.estimatedPayableAmount}` : '-'}`,
+      `Presentation mode: ${record.scopusPresentationMode || '-'}`,
+      `SCOPUS / MYCITE submission: ${record.submitToScopus || '-'}`,
+      `Total payment: ${record.estimatedPayableAmount ? `RM${record.estimatedPayableAmount}` : 'RM0'}`,
+      `Payment note: Payment after the full paper submission.`,
       '',
       'We have received your paper registration and submission details. Your paper will be reviewed by the committee, and we will inform you by 29th August 2026 for the next step.',
       closing
@@ -826,7 +827,7 @@ function getEmailDisplayTitle(record) {
 
 function getEmailIntro(record) {
   if (record.route === 'Call for Papers') {
-    return `Thank you for registering for ${AISED.conferenceName} under Call for Papers.`;
+    return `Thank you for your submission for papers to ${AISED.conferenceName}.`;
   }
   if (record.route === 'Participants') {
     return `Thank you for registering for ${AISED.conferenceName}.`;
@@ -847,9 +848,10 @@ function getEmailSummaryRows(record) {
       ['Category', record.subsection || '-'],
       ['Type', record.type || '-'],
       ['Paper Title', record.paperTitle || '-'],
-      ['Submit to SCOPUS', record.submitToScopus || '-'],
-      ['SCOPUS Presentation Mode', record.scopusPresentationMode || '-'],
-      ['Estimated Payable Amount', record.estimatedPayableAmount ? `RM${record.estimatedPayableAmount}` : '-']
+      ['Presentation Mode', record.scopusPresentationMode || '-'],
+      ['SCOPUS / MYCITE Submission', record.submitToScopus || '-'],
+      ['Total Payment', record.estimatedPayableAmount ? `RM${record.estimatedPayableAmount}` : 'RM0'],
+      ['Payment Note', 'Payment after the full paper submission']
     ];
   }
 

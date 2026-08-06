@@ -254,9 +254,13 @@ test("call for papers backend stores SCOPUS choice and sends papers auto reply",
   assert.match(registrationWebapp, /record\.attachmentFolderUrl = submissionFolder\.getUrl\(\);/);
   assert.match(registrationWebapp, /function appendCallForPapers[\s\S]*record\.submitToScopus[\s\S]*attachmentUrlByField\(record, 'paper_attachment'\)[\s\S]*folderUrl\(record\)[\s\S]*record\.scopusPresentationMode[\s\S]*record\.estimatedPayableAmount[\s\S]*record\.estimatedFeeBreakdown/);
   assert.match(registrationWebapp, /route === 'Call for Papers'[\s\S]*from:\s*AISED\.emailFrom[\s\S]*cc:\s*AISED\.papersCc/);
-  assert.match(registrationWebapp, /Submit to SCOPUS:\s*\$\{record\.submitToScopus \|\| '-'\}/);
-  assert.match(registrationWebapp, /SCOPUS presentation mode:\s*\$\{record\.scopusPresentationMode \|\| '-'\}/);
-  assert.match(registrationWebapp, /Estimated payable amount:\s*\$\{record\.estimatedPayableAmount \? `RM\$\{record\.estimatedPayableAmount\}` : '-'\}/);
+  assert.match(registrationWebapp, /Thank you for your submission for papers to \$\{AISED\.conferenceName\}/);
+  assert.match(registrationWebapp, /Presentation mode:\s*\$\{record\.scopusPresentationMode \|\| '-'\}/);
+  assert.match(registrationWebapp, /SCOPUS \/ MYCITE submission:\s*\$\{record\.submitToScopus \|\| '-'\}/);
+  assert.match(registrationWebapp, /Total payment:\s*\$\{record\.estimatedPayableAmount \? `RM\$\{record\.estimatedPayableAmount\}` : 'RM0'\}/);
+  assert.match(registrationWebapp, /Payment note: Payment after the full paper submission/);
+  assert.match(registrationWebapp, /\['SCOPUS \/ MYCITE Submission', record\.submitToScopus \|\| '-'\]/);
+  assert.match(registrationWebapp, /\['Total Payment', record\.estimatedPayableAmount \? `RM\$\{record\.estimatedPayableAmount\}` : 'RM0'\]/);
   assert.match(registrationWebapp, /reviewed by the committee, and we will inform you by 29th August 2026/);
 });
 
