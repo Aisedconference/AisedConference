@@ -23,12 +23,40 @@ const registrationWebapp = fs.readFileSync(
 );
 
 function loadRegistrationBackend() {
+  const createdFolders = [];
   const context = {
     console,
     SpreadsheetApp: {},
     DriveApp: {
       getFolderById(id) {
-        return { getUrl: () => `https://drive.google.com/drive/folders/${id}` };
+        return {
+          getId: () => id,
+          getUrl: () => `https://drive.google.com/drive/folders/${id}`,
+          getFoldersByName() {
+            return {
+              hasNext: () => false,
+              next: () => null
+            };
+          },
+          createFolder(name) {
+            const folder = {
+              id: `child-${name}`,
+              name,
+              description: "",
+              getId() {
+                return this.id;
+              },
+              getUrl() {
+                return `https://drive.google.com/drive/folders/${this.id}`;
+              },
+              setDescription(description) {
+                this.description = description;
+              }
+            };
+            createdFolders.push(folder);
+            return folder;
+          }
+        };
       }
     }
   };
@@ -38,7 +66,10 @@ function loadRegistrationBackend() {
 globalThis.__backend = {
   REGISTRATION_SHEET_HEADERS,
   normaliseRecord,
+  getSubmissionFolder,
+  folderUrl,
   appendRegistrationRows,
+  __createdFolders: ${JSON.stringify([])},
   repairLegacyCallPaperAttachmentLinks:
     typeof repairLegacyCallPaperAttachmentLinks === "function"
       ? repairLegacyCallPaperAttachmentLinks
@@ -46,6 +77,7 @@ globalThis.__backend = {
 };`,
     context
   );
+  context.__backend.__createdFolders = createdFolders;
   return context;
 }
 
@@ -217,7 +249,10 @@ test("call for papers backend stores SCOPUS choice and sends papers auto reply",
   assert.match(registrationWebapp, /estimatedPayableAmount:\s*capturesPayableAmount \? \(payload\.estimated_payable_amount \|\| ''\) : ''/);
   assert.match(registrationWebapp, /estimatedFeeBreakdown:\s*capturesPayableAmount \? \(payload\.estimated_fee_breakdown \|\| ''\) : ''/);
   assert.match(registrationWebapp, /record\.submitToScopus/);
-  assert.match(registrationWebapp, /function appendCallForPapers[\s\S]*record\.submitToScopus[\s\S]*attachmentUrlByField\(record, 'paper_attachment'\)[\s\S]*folderUrl\(getFolderId\(record\)\)[\s\S]*record\.scopusPresentationMode[\s\S]*record\.estimatedPayableAmount[\s\S]*record\.estimatedFeeBreakdown/);
+  assert.match(registrationWebapp, /function getSubmissionFolder\(record\)[\s\S]*parentFolder\.createFolder\(folderName\)/);
+  assert.match(registrationWebapp, /record\.attachmentFolderId = submissionFolder\.getId\(\);/);
+  assert.match(registrationWebapp, /record\.attachmentFolderUrl = submissionFolder\.getUrl\(\);/);
+  assert.match(registrationWebapp, /function appendCallForPapers[\s\S]*record\.submitToScopus[\s\S]*attachmentUrlByField\(record, 'paper_attachment'\)[\s\S]*folderUrl\(record\)[\s\S]*record\.scopusPresentationMode[\s\S]*record\.estimatedPayableAmount[\s\S]*record\.estimatedFeeBreakdown/);
   assert.match(registrationWebapp, /route === 'Call for Papers'[\s\S]*from:\s*AISED\.emailFrom[\s\S]*cc:\s*AISED\.papersCc/);
   assert.match(registrationWebapp, /Submit to SCOPUS:\s*\$\{record\.submitToScopus \|\| '-'\}/);
   assert.match(registrationWebapp, /SCOPUS presentation mode:\s*\$\{record\.scopusPresentationMode \|\| '-'\}/);
@@ -313,6 +348,47 @@ test("backend aligns every answer to the live sheet header, including legacy col
   assert.equal(masterRow.Remark, "");
 });
 
+test("backend creates a registration-id folder and captures that folder link", () => {
+  const context = loadRegistrationBackend();
+  const backend = context.__backend;
+  const master = createSheet(backend.REGISTRATION_SHEET_HEADERS.master);
+  const callPapers = createSheet(backend.REGISTRATION_SHEET_HEADERS.callPapers);
+  const sheets = {
+    "Master Registrations": master,
+    "Call for Papers": callPapers
+  };
+
+  context.SpreadsheetApp.openById = () => ({
+    getSheetByName(name) {
+      return sheets[name];
+    }
+  });
+
+  const record = backend.normaliseRecord({
+    registration_category: "call-papers",
+    registration_subsection: "Academics / Entrepreneurs / Others",
+    registration_type: "Presenter",
+    reference: "REG-TEST-FOLDER",
+    submittedAt: "2026-07-27T00:00:00.000Z",
+    name: "Folder Test",
+    email: "folder@example.com"
+  });
+  const folder = backend.getSubmissionFolder(record);
+  record.attachmentFolderId = folder.getId();
+  record.attachmentFolderUrl = folder.getUrl();
+
+  backend.appendRegistrationRows(record);
+
+  const masterRow = Object.fromEntries(master.headers.map((header, index) => [header, master.appendedRows[0][index] ?? ""]));
+  const callPaperRow = Object.fromEntries(callPapers.headers.map((header, index) => [header, callPapers.appendedRows[0][index] ?? ""]));
+
+  assert.equal(backend.__createdFolders.length, 1);
+  assert.equal(backend.__createdFolders[0].name, "REG-TEST-FOLDER");
+  assert.equal(masterRow["Attachment Folder Link"], "https://drive.google.com/drive/folders/child-REG-TEST-FOLDER");
+  assert.equal(callPaperRow["Attachment Folder Link"], "https://drive.google.com/drive/folders/child-REG-TEST-FOLDER");
+  assert.notEqual(masterRow["Attachment Folder Link"], "https://drive.google.com/drive/folders/1uEBtbqYwbNQ3kdSmHZ7qplq_2-NcnPSO");
+});
+
 test("backend captures the selected academic participant category", () => {
   const context = loadRegistrationBackend();
   const backend = context.__backend;
@@ -386,9 +462,10 @@ test("backend repairs the exact paper file URL without overwriting genuine SCOPU
   );
 });
 
-test("backend attaches a letterhead PDF copy for every registration route", () => {
-  assert.match(registrationWebapp, /const pdf = shouldAttachPdf\(record\) \? createConfirmationPdf\(record\) : null/);
-  assert.match(registrationWebapp, /function shouldAttachPdf\(record\) \{\s*return Boolean\(record\.email\);\s*\}/);
+test("backend sends the first registration confirmation email without an attachment", () => {
+  assert.match(registrationWebapp, /const emailStatus = sendConfirmationEmail\(record\);/);
+  assert.doesNotMatch(registrationWebapp, /sendConfirmationEmail\(record,\s*pdf\)/);
+  assert.doesNotMatch(registrationWebapp, /if \(pdf\) options\.attachments = \[pdf\];/);
   assert.match(registrationWebapp, /AISED_LETTERHEAD_BACKGROUND/);
   assert.match(registrationWebapp, /AiSED International Conference 2026 letterhead/);
   assert.doesNotMatch(registrationWebapp, /conference-letterhead PDF acknowledgement containing a copy of the information submitted through the registration form/);
@@ -410,5 +487,5 @@ test("backend PDF acknowledgement includes submitted route-specific information"
   assert.match(registrationWebapp, /\['Partner type', record\.partnerType \|\| '-'\]/);
   assert.match(registrationWebapp, /\['Partnership interest', record\.partnershipInterest \|\| '-'\]/);
   assert.match(registrationWebapp, /\['Partner acceptance letter link', attachmentUrlByField\(record, 'partner_acceptance_letter'\) \|\| '-'\]/);
-  assert.match(registrationWebapp, /\['Attachment folder link', folderUrl\(getFolderId\(record\)\)\]/);
+  assert.match(registrationWebapp, /\['Attachment folder link', folderUrl\(record\)\]/);
 });

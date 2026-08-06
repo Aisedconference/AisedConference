@@ -156,7 +156,10 @@ function doPost(e) {
   try {
     const payload = JSON.parse(e.postData.contents || '{}');
     const record = normaliseRecord(payload);
-    const attachments = saveAttachments(record);
+    const submissionFolder = getSubmissionFolder(record);
+    record.attachmentFolderId = submissionFolder.getId();
+    record.attachmentFolderUrl = submissionFolder.getUrl();
+    const attachments = saveAttachments(record, submissionFolder);
     if (attachments.length) {
       record.savedAttachments = attachments;
       record.attachmentName = attachments.map((attachment) => `${attachment.label}: ${attachment.name}`).join(' | ');
@@ -164,8 +167,7 @@ function doPost(e) {
     }
 
     appendRegistrationRows(record);
-    const pdf = shouldAttachPdf(record) ? createConfirmationPdf(record) : null;
-    const emailStatus = sendConfirmationEmail(record, pdf);
+    const emailStatus = sendConfirmationEmail(record);
 
     return jsonResponse({
       ok: true,
@@ -235,6 +237,8 @@ function normaliseRecord(payload) {
     attachmentName: payload.attachmentName || '',
     attachment: payload.attachment || null,
     attachmentUrl: '',
+    attachmentFolderId: '',
+    attachmentFolderUrl: '',
     savedAttachments: [],
     status: 'New'
   };
@@ -256,7 +260,25 @@ function getFolderId(record) {
   return AISED.folders.participants;
 }
 
-function saveAttachments(record) {
+function getSubmissionFolder(record) {
+  const parentFolder = DriveApp.getFolderById(getFolderId(record));
+  const folderName = String(record.reference || makeReference()).replace(/[^\w.\- ]/g, '_');
+  const existingFolders = parentFolder.getFoldersByName
+    ? parentFolder.getFoldersByName(folderName)
+    : null;
+
+  if (existingFolders && existingFolders.hasNext()) {
+    return existingFolders.next();
+  }
+
+  const submissionFolder = parentFolder.createFolder(folderName);
+  if (submissionFolder.setDescription) {
+    submissionFolder.setDescription(`${AISED.conferenceName} registration folder for ${record.reference}`);
+  }
+  return submissionFolder;
+}
+
+function saveAttachments(record, submissionFolder) {
   const uploadItems = record.attachments.length
     ? record.attachments
     : (record.attachment && record.attachment.data ? [{ ...record.attachment, label: record.attachmentName || 'Attachment' }] : []);
@@ -265,7 +287,9 @@ function saveAttachments(record) {
     return [];
   }
 
-  const folder = DriveApp.getFolderById(getFolderId(record));
+  const folder = submissionFolder || getSubmissionFolder(record);
+  record.attachmentFolderId = folder.getId ? folder.getId() : record.attachmentFolderId;
+  record.attachmentFolderUrl = folder.getUrl ? folder.getUrl() : record.attachmentFolderUrl;
 
   return uploadItems
     .filter((attachment) => attachment && attachment.data)
@@ -336,7 +360,7 @@ function appendRegistrationRows(record) {
     record.partnershipInterest,
     attachmentUrlByField(record, 'organisation_logo'),
     attachmentUrlByField(record, 'partner_acceptance_letter'),
-    folderUrl(getFolderId(record)),
+    folderUrl(record),
     '',
     record.scopusPresentationMode,
     record.estimatedPayableAmount,
@@ -368,7 +392,7 @@ function appendCallForPapers(ss, record) {
     record.attendanceInterest,
     record.submitToScopus,
     attachmentUrlByField(record, 'paper_attachment'),
-    folderUrl(getFolderId(record)),
+    folderUrl(record),
     record.scopusPresentationMode,
     record.estimatedPayableAmount,
     record.estimatedFeeBreakdown
@@ -401,7 +425,7 @@ function appendParticipants(ss, record) {
     record.companyAddress,
     record.referenceNo,
     record.participantNotes,
-    folderUrl(getFolderId(record)),
+    folderUrl(record),
     record.estimatedPayableAmount,
     record.estimatedFeeBreakdown
   ]);
@@ -423,7 +447,7 @@ function appendInvitedGuests(ss, record) {
     record.invitationNote,
     attachmentUrlByField(record, 'speaker_photo'),
     record.speakerBiography,
-    folderUrl(getFolderId(record))
+    folderUrl(record)
   ]);
 }
 
@@ -443,7 +467,7 @@ function appendPartners(ss, record) {
     record.partnershipInterest,
     attachmentUrlByField(record, 'organisation_logo'),
     attachmentUrlByField(record, 'partner_acceptance_letter'),
-    folderUrl(getFolderId(record))
+    folderUrl(record)
   ]);
 }
 
@@ -803,14 +827,14 @@ function buildConfirmationRows(record, recipientName) {
   }
 
   rows.push(
-    ['Attachment folder link', folderUrl(getFolderId(record))],
+    ['Attachment folder link', folderUrl(record)],
     ['Submitted at', record.submittedAt]
   );
 
   return rows;
 }
 
-function sendConfirmationEmail(record, pdf) {
+function sendConfirmationEmail(record) {
   if (!record.email) {
     return { sent: false, reason: 'No recipient email address provided.' };
   }
@@ -825,7 +849,6 @@ function sendConfirmationEmail(record, pdf) {
     htmlBody
   };
 
-  if (pdf) options.attachments = [pdf];
   if (sender.cc) options.cc = sender.cc;
 
   try {
@@ -845,8 +868,7 @@ function sendConfirmationEmail(record, pdf) {
       name: options.name,
       replyTo: sender.replyTo,
       htmlBody: options.htmlBody,
-      cc: options.cc,
-      attachments: options.attachments
+      cc: options.cc
     });
     return {
       sent: true,
@@ -878,10 +900,6 @@ function getEmailSender(record) {
     replyTo: AISED.replyTo,
     name: 'AiSED Conference Registration'
   };
-}
-
-function shouldAttachPdf(record) {
-  return Boolean(record.email);
 }
 
 function getEmailSubject(record) {
@@ -1251,8 +1269,15 @@ function buildNotes(record) {
   return notes.join(' | ');
 }
 
-function folderUrl(folderId) {
-  return `https://drive.google.com/drive/folders/${folderId}`;
+function folderUrl(recordOrFolderId) {
+  if (recordOrFolderId && typeof recordOrFolderId === 'object') {
+    if (recordOrFolderId.attachmentFolderUrl) return recordOrFolderId.attachmentFolderUrl;
+    if (recordOrFolderId.attachmentFolderId) {
+      return `https://drive.google.com/drive/folders/${recordOrFolderId.attachmentFolderId}`;
+    }
+    return `https://drive.google.com/drive/folders/${getFolderId(recordOrFolderId)}`;
+  }
+  return `https://drive.google.com/drive/folders/${recordOrFolderId}`;
 }
 
 function makeReference() {
