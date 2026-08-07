@@ -41,6 +41,10 @@ const portraits = [
     alt: "H.E. Dr. KAROMIDIN GADOEV",
   },
   {
+    src: "assets/ahmad-faisal-muhammad-speaker.png",
+    alt: "Dato’ Dr. Ahmad Faisal Muhammad",
+  },
+  {
     src: "assets/sam-majid-speaker.jpg",
     alt: "Sam Majid",
   },
@@ -49,8 +53,16 @@ const portraits = [
     alt: "Adj. Prof. Dr Behrang “Hani” Parhizkar",
   },
   {
+    src: "assets/jonathan-chong-speaker.png",
+    alt: "Jonathan Chong",
+  },
+  {
     src: "assets/Committee/Kamarul Hisham Baginda.png",
     alt: "Kamarul Hisham Baginda FCMI",
+  },
+  {
+    src: "assets/noor-azizi-ismail-speaker.png",
+    alt: "YBhg. Prof. Dato’ Dr. Noor Azizi bin Ismail",
   },
   {
     src: "assets/Committee/Dr Janeth Emanuel Kigobe.png",
@@ -162,7 +174,6 @@ test("temporarily hides proposed speaker profiles without photos", () => {
     "Datuk Jojie Samuel",
     "Badzlan Bakar",
     "Dr Pietro Borsano",
-    "Jonathan Chong",
   ]) {
     assert.ok(!html.includes(hiddenName), `Expected ${hiddenName} to be hidden until a photo is available`);
   }
@@ -179,20 +190,20 @@ test("groups each visible forum moderator and panellist in the same speaker row"
       date: "Forum 1 - 2nd Dec 26 (Wed)",
       time: "Time: 11.15 a.m.–12.30 p.m.",
       moderator: "Ambassador Dato’ Aminahtun Karim",
-      panellists: ["H.E. SHIKATA Noriyuki", "H.E. Dr. KAROMIDIN GADOEV"],
+      panellists: ["H.E. SHIKATA Noriyuki", "H.E. Dr. KAROMIDIN GADOEV", "Dato’ Dr. Ahmad Faisal Muhammad"],
     },
     {
       title: "Artificial Intelligence",
       date: "Forum 2 - 2nd Dec 26 (Wed)",
       time: "Time: 3.45 p.m.–5.00 p.m.",
-      panellists: ["Sam Majid", "Adj. Prof. Dr Behrang “Hani” Parhizkar"],
+      panellists: ["Sam Majid", "Adj. Prof. Dr Behrang “Hani” Parhizkar", "Jonathan Chong"],
     },
     {
       title: "Entrepreneurship",
       date: "Forum 3 - 3rd Dec 26 (Thu)",
       time: "Time: 9.45 a.m.–11.00 a.m.",
       moderator: "Kamarul Hisham Baginda FCMI",
-      panellists: [],
+      panellists: ["YBhg. Prof. Dato’ Dr. Noor Azizi bin Ismail"],
     },
     {
       title: "Sustainable Entrepreneurship",
@@ -224,8 +235,8 @@ test("groups each visible forum moderator and panellist in the same speaker row"
 });
 
 test("uses a simple committee-style photo directory layout", () => {
-  assert.equal((html.match(/class="committee-profile-card speaker-agenda-card/g) || []).length, 14);
-  assert.equal((html.match(/class="committee-portrait"/g) || []).length, 14);
+  assert.equal((html.match(/class="committee-profile-card speaker-agenda-card/g) || []).length, 17);
+  assert.equal((html.match(/class="committee-portrait"/g) || []).length, 17);
   assert.match(css, /\.speaker-agenda-card\s*\{[^}]*grid-template-columns:\s*112px minmax\(0,\s*1fr\)/s);
   assert.match(css, /\.committee-profile-card\.speaker-agenda-card\s*\{[^}]*max-width:\s*none/s);
   assert.match(css, /\.committee-profile-card\.speaker-agenda-card \.committee-portrait\s*\{[^}]*width:\s*112px/s);
