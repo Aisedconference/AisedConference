@@ -712,7 +712,7 @@ function getEmailBody(record) {
     return [
       greeting,
       '',
-      `Thank you for your submission for papers to ${AISED.conferenceName}.`,
+      `Thank you for registering for the Call for Papers at ${AISED.conferenceName}.`,
       acknowledgement,
       '',
       `Reference: ${record.reference}`,
@@ -827,7 +827,7 @@ function getEmailDisplayTitle(record) {
 
 function getEmailIntro(record) {
   if (record.route === 'Call for Papers') {
-    return `Thank you for your submission for papers to ${AISED.conferenceName}.`;
+    return `Thank you for registering for the Call for Papers at ${AISED.conferenceName}.`;
   }
   if (record.route === 'Participants') {
     return `Thank you for registering for ${AISED.conferenceName}.`;
