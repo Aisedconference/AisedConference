@@ -93,6 +93,7 @@ test("anchors keynote speaker links to the exact programme rows", () => {
   for (const anchor of [
     "welcome-address-conference-chair",
     "keynote-session-1",
+    "keynote-session-2",
     "keynote-session-3",
   ]) {
     assert.ok(html.includes(`id="${anchor}"`), `Missing programme anchor: ${anchor}`);
