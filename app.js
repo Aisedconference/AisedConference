@@ -396,7 +396,7 @@ function renderRegistrationFields() {
           </select>
         </label>
       </div>
-      ${buildRadioGroup("submit_to_scopus", "Submit to SCOPUS / MYCITE", ["Yes", "No"])}
+      ${buildRadioGroup("submit_to_scopus", "Submit to SCOPUS", ["Yes", "No"])}
       <p class="scopus-fee-note">Publication Fees ranging USD 599 - USD 1500, final amount will be advised.</p>
       <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
     `;
