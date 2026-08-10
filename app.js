@@ -362,7 +362,7 @@ function renderRegistrationFields() {
         <select id="call-paper-audience" name="registration_subsection" required>
           <option value="">Please select</option>
           <option value="Academics / Entrepreneurs / Others"${registrationState.subsection === "Academics / Entrepreneurs / Others" ? " selected" : ""}>Academics / Entrepreneurs / Others</option>
-          <option value="Postgraduate Students"${registrationState.subsection === "Postgraduate Students" ? " selected" : ""}>Postgraduate Students</option>
+          <option value="Postgraduate Students"${registrationState.subsection === "Postgraduate Students" ? " selected" : ""}>Postgraduate Students / Students</option>
         </select>
       </label>`
     : `<input type="hidden" name="registration_subsection" value="${registrationState.subsection}">`;
@@ -397,7 +397,7 @@ function renderRegistrationFields() {
         </label>
       </div>
       ${buildRadioGroup("submit_to_scopus", "Submit to SCOPUS", ["Yes", "No"])}
-      <p class="scopus-fee-note">Publication Fees ranging USD 599 - USD 1500, final amount will be advised.</p>
+      <p class="scopus-fee-note">Publication fees range from USD 599 to USD 1,500, with all applicable fees charged directly by SCOPUS.</p>
       <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
     `;
   }
