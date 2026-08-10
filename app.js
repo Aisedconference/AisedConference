@@ -400,7 +400,7 @@ function renderRegistrationFields() {
         </label>
       </div>
       ${buildRadioGroup("submit_to_scopus", "SCOPUS Publication", ["YES", "NO"])}
-      <p class="scopus-fee-note" data-scopus-remark hidden>REMARK: Opt in for SCOPUS publication—applicable fees (~USD 599 upto USD 2,000) will be charged directly by SCOPUS, and the conference will not collect any upfront payment for this option.</p>
+      <p class="scopus-fee-note" data-scopus-remark hidden>Remark: SCOPUS publication is optional. If you opt in, applicable fees of approximately USD 599–2,000 are charged directly by SCOPUS. The conference does not collect upfront payment for this option.</p>
       <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
     `;
   }
