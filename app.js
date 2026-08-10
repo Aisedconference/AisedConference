@@ -204,6 +204,7 @@ function updateCallPaperEstimate(form) {
   const estimateAmount = form.querySelector("[data-estimate-amount]");
   const estimateBreakdown = form.querySelector("[data-estimate-breakdown]");
   const scopusSurchargeNotice = form.querySelector("[data-scopus-surcharge]");
+  const scopusRemark = form.querySelector("[data-scopus-remark]");
   const paymentNote = form.querySelector("[data-payment-note]");
 
   if (
@@ -222,6 +223,7 @@ function updateCallPaperEstimate(form) {
 
   if (registrationState.category === "participants") {
     if (scopusSurchargeNotice) scopusSurchargeNotice.hidden = true;
+    if (scopusRemark) scopusRemark.hidden = true;
     updateParticipantEstimate(form, estimateContainer, amountInput, breakdownInput, estimateAmount, estimateBreakdown);
     return;
   }
@@ -240,6 +242,7 @@ function updateCallPaperEstimate(form) {
 
   if (estimateAmount) estimateAmount.textContent = totalText;
   if (scopusSurchargeNotice) scopusSurchargeNotice.hidden = submitToScopus !== "Yes";
+  if (scopusRemark) scopusRemark.hidden = submitToScopus !== "Yes";
   if (estimateBreakdown) estimateBreakdown.textContent = breakdownText;
   if (amountInput) amountInput.value = total ? String(total) : "";
   if (breakdownInput) breakdownInput.value = breakdownText;
@@ -396,8 +399,8 @@ function renderRegistrationFields() {
           </select>
         </label>
       </div>
-      ${buildRadioGroup("submit_to_scopus", "Submit to SCOPUS", ["Yes", "No"])}
-      <p class="scopus-fee-note">Publication fees range from USD 599 to USD 1,500, with all applicable fees charged directly by SCOPUS.</p>
+      ${buildRadioGroup("submit_to_scopus", "SCOPUS Publication", ["Yes", "No"])}
+      <p class="scopus-fee-note" data-scopus-remark hidden>REMARK: Opt in for SCOPUS publication—applicable fees (~USD 599 upto USD 2,000) will be charged directly by SCOPUS, and the conference will not collect any upfront payment for this option.</p>
       <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
     `;
   }
