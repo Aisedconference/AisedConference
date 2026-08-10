@@ -242,7 +242,7 @@ function updateCallPaperEstimate(form) {
 
   if (estimateAmount) estimateAmount.textContent = totalText;
   if (scopusSurchargeNotice) scopusSurchargeNotice.hidden = submitToScopus !== "Yes";
-  if (scopusRemark) scopusRemark.hidden = submitToScopus !== "Yes";
+    if (scopusRemark) scopusRemark.hidden = submitToScopus.toUpperCase() !== "YES";
   if (estimateBreakdown) estimateBreakdown.textContent = breakdownText;
   if (amountInput) amountInput.value = total ? String(total) : "";
   if (breakdownInput) breakdownInput.value = breakdownText;
@@ -399,7 +399,7 @@ function renderRegistrationFields() {
           </select>
         </label>
       </div>
-      ${buildRadioGroup("submit_to_scopus", "SCOPUS Publication", ["Yes", "No"])}
+      ${buildRadioGroup("submit_to_scopus", "SCOPUS Publication", ["YES", "NO"])}
       <p class="scopus-fee-note" data-scopus-remark hidden>REMARK: Opt in for SCOPUS publication—applicable fees (~USD 599 upto USD 2,000) will be charged directly by SCOPUS, and the conference will not collect any upfront payment for this option.</p>
       <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
     `;
