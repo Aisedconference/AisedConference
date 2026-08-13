@@ -11,7 +11,8 @@
     <a class="brand" href="index.html" aria-label="AiSED home">
       <img src="assets/aised-logo-wide.png" alt="AiSED">
     </a>
-    <nav aria-label="Main navigation">
+    <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="main-navigation">Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation">
       <a href="index.html#conference-overview">Home</a>
       <a href="submission.html#submission-guidelines">Paper Submission</a>
       <div class="nav-group">
@@ -313,5 +314,23 @@
       </div>
     </div>
   </footer>
+  <script>
+    (() => {
+      const toggle = document.querySelector('.mobile-menu-toggle');
+      const nav = document.getElementById('main-navigation');
+      const programme = document.querySelector('.nav-parent');
+      const group = document.querySelector('.nav-group');
+      if (!toggle || !nav || !programme || !group) return;
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        nav.classList.toggle('mobile-nav-open', !expanded);
+      });
+      programme.addEventListener('click', () => {
+        group.classList.toggle('mobile-submenu-open');
+        programme.setAttribute('aria-expanded', String(group.classList.contains('mobile-submenu-open')));
+      });
+    })();
+  </script>
 </body>
 </html>
