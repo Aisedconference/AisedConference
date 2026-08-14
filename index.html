@@ -16,7 +16,7 @@
       <a href="index.html#conference-overview">Home</a>
       <a href="submission.html#submission-guidelines">Paper Submission</a>
       <div class="nav-group">
-        <button class="nav-parent" type="button" aria-haspopup="true">Programme</button>
+        <button class="nav-parent" type="button" aria-haspopup="true" aria-expanded="false">Programme</button>
         <div class="nav-dropdown" aria-label="Programme submenu">
           <a href="programme.html#conference-agenda">Conference Schedule</a>
           <a href="speakers.html#featured-speakers">Speakers</a>
@@ -107,53 +107,6 @@
       </div>
     </section>
 
-    <section class="section alt">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Conference theme</p>
-          <h2>Harnessing AI, Empowering Innovation, Advancing Sustainable Futures Through Entrepreneurship and Diplomacy.</h2>
-        </div>
-      </div>
-      <div class="highlight-grid">
-        <article class="highlight-card"><strong>Royal Opening Ceremony</strong><p>By DYTM Raja Muda Selangor.</p></article>
-        <article class="highlight-card"><strong>Keynote & Plenary Sessions</strong><p>Global thought leaders sharing future-focused insights.</p></article>
-        <article class="highlight-card"><strong>Expert Workshops & Industry Panel</strong><p>Practical sessions and industry perspectives.</p></article>
-        <article class="highlight-card"><strong>Roundtable Discussions</strong><p>Strategic dialogue across research, policy and enterprise.</p></article>
-        <article class="highlight-card"><strong>Networking & Cultural Experiences</strong><p>Connect with local and international participants.</p></article>
-        <article class="highlight-card"><strong>Gala Dinner & Awards Presentation</strong><p>Recognising papers, presentations, innovation and partnerships.</p></article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Portal</p>
-          <h2>Start here.</h2>
-          <p class="section-intro">Use the conference portal to register, review the programme, submit your work, or explore partnership options.</p>
-        </div>
-      </div>
-      <div class="portal-grid">
-        <a class="portal-card" href="registration.html">
-          <span>Participate</span>
-          <strong>Registration</strong>
-          <p>Choose Visitor, Speaker or Partner, then open the correct Google Form for your category.</p>
-          <b>Register now</b>
-        </a>
-        <a class="portal-card" href="programme.html">
-          <span>Programme</span>
-          <strong>Schedule</strong>
-          <p>Review the three-day conference matrix for keynotes, forums, academic sessions and closing events.</p>
-          <b>View schedule</b>
-        </a>
-        <a class="portal-card" href="submission.html">
-          <span>Academic</span>
-          <strong>Paper Submission</strong>
-          <p>Submit abstracts, papers and session proposals for AI, sustainability, entrepreneurship and diplomacy tracks.</p>
-          <b>Submit paper</b>
-        </a>
-      </div>
-    </section>
-
     <section class="section">
       <div class="section-head">
         <div>
@@ -177,66 +130,6 @@
           <span>Programme</span>
           <strong>2-4 Dec 2026</strong>
           <p>Opening, forums, academic sessions, collaboration meetings and awards.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section alt">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Featured voices</p>
-          <h2>Programme leaders.</h2>
-          <p class="section-intro">The programme brings together voices in AI, sustainability, entrepreneurship, diplomacy, education and policy to share practical insights and future-focused perspectives.</p>
-        </div>
-        <a class="text-link" href="speakers.html">View speakers</a>
-      </div>
-      <div class="speaker-grid">
-        <article class="speaker-card">
-          <div class="speaker-avatar">AI</div>
-          <h3>Global AI Keynote</h3>
-          <p>AI policy, ethics and sustainable transformation.</p>
-        </article>
-        <article class="speaker-card">
-          <div class="speaker-avatar">SD</div>
-          <h3>Sustainability Expert</h3>
-          <p>Green economy, ESG and future-ready institutions.</p>
-        </article>
-        <article class="speaker-card">
-          <div class="speaker-avatar">DP</div>
-          <h3>Diplomacy Forum</h3>
-          <p>International collaboration in the AI era.</p>
-        </article>
-        <article class="speaker-card">
-          <div class="speaker-avatar">ED</div>
-          <h3>Education Panel</h3>
-          <p>AI in higher education and research ecosystems.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Schedule</p>
-          <h2>Three-day programme.</h2>
-        </div>
-        <a class="text-link" href="programme.html">Explore full schedule</a>
-      </div>
-      <div class="portal-grid">
-        <article class="portal-card">
-          <span>Day 1</span>
-          <strong>Opening, Keynotes and Diplomacy Forum</strong>
-          <p>Official opening ceremony, keynote sessions, diplomacy forum and AI in higher education forum.</p>
-        </article>
-        <article class="portal-card">
-          <span>Day 2</span>
-          <strong>Entrepreneurship and Academic Sessions</strong>
-          <p>International entrepreneurial talks and parallel academic sessions across conference tracks.</p>
-        </article>
-        <article class="portal-card">
-          <span>Day 3</span>
-          <strong>Collaboration, Closing and Awards</strong>
-          <p>Future collaboration panel, strategic meetings, MoU ceremony, closing session and awards.</p>
         </article>
       </div>
     </section>
@@ -329,6 +222,14 @@
       programme.addEventListener('click', () => {
         group.classList.toggle('mobile-submenu-open');
         programme.setAttribute('aria-expanded', String(group.classList.contains('mobile-submenu-open')));
+      });
+      nav.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          nav.classList.remove('mobile-nav-open');
+          toggle.setAttribute('aria-expanded', 'false');
+          group.classList.remove('mobile-submenu-open');
+          programme.setAttribute('aria-expanded', 'false');
+        });
       });
     })();
   </script>
