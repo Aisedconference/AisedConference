@@ -38,7 +38,7 @@ test("shows publication logos and refined publication card wording", () => {
   assert.match(html, /<strong>MyCITE-indexed publication<\/strong>/);
   assert.match(html, /<span class="publication-logo"><img src="assets\/publications\/scopus\.png" alt="Scopus logo"><\/span>/);
   assert.match(html, /<strong>SCOPUS publication<\/strong>/);
-  assert.match(html, /Selected papers may be considered for SCOPUS publication opportunities\./);
+  assert.match(html, /Selected papers may be considered for SCOPUS-indexed publication opportunities\./);
   assert.ok(fs.existsSync(path.join(root, "assets", "publications", "mycite.png")));
   assert.ok(fs.existsSync(path.join(root, "assets", "publications", "scopus.png")));
   assert.match(css, /\.publication-logo img\s*\{[^}]*max-width:\s*150px;[^}]*max-height:\s*46px/s);
