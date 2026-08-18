@@ -506,7 +506,6 @@ function renderRegistrationFields() {
       <label>Partnership interest<textarea name="partnership_interest" rows="4" placeholder="e.g, strategic collaboration, media support or ecosystem partnership" required></textarea></label>
       <div class="form-divider"><strong>Partner Documents</strong><span>Please upload the files required for partnership confirmation.</span></div>
       <label>Organisation Logo<input name="organisation_logo" type="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/svg+xml,.svg" required></label>
-      <label>Partner Acceptance Letter<input name="partner_acceptance_letter" type="file" accept=".pdf,.doc,.docx,image/png,image/jpeg,image/jpg" required></label>
     `;
   }
 
