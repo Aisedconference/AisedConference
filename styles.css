@@ -1091,6 +1091,46 @@ h3 {
   grid-template-columns: minmax(0, 1fr);
 }
 
+#featured-speakers > .section-head {
+  justify-content: center;
+  text-align: center;
+}
+
+#featured-speakers .royal-grid {
+  justify-items: center;
+}
+
+#featured-speakers .featured-speaker {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  justify-items: center;
+  text-align: center;
+}
+
+#featured-speakers .featured-speaker > .speaker-role,
+#featured-speakers .featured-speaker .committee-portrait,
+#featured-speakers .featured-speaker .committee-profile-copy {
+  grid-column: 1;
+}
+
+#featured-speakers .featured-speaker > .speaker-role {
+  grid-row: 1;
+  justify-self: center;
+}
+
+#featured-speakers .featured-speaker .committee-portrait {
+  grid-row: 2;
+}
+
+#featured-speakers .featured-speaker .committee-profile-copy {
+  grid-row: 3;
+  text-align: center;
+}
+
+#featured-speakers .featured-speaker .committee-profile-copy strong {
+  text-align: center;
+}
+
 .featured-speaker {
   min-height: 260px;
   border-color: rgba(244, 182, 63, 0.6);
@@ -4287,5 +4327,14 @@ label {
     width: 88px;
     height: 88px;
   }
+}
+#featured-speakers .featured-speaker .committee-profile-copy {
+  justify-items: center;
+  text-align: center;
+}
+
+#featured-speakers .featured-speaker .committee-profile-copy strong,
+#featured-speakers .featured-speaker .committee-profile-copy p {
+  text-align: center;
 }
 
