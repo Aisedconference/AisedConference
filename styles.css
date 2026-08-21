@@ -3423,6 +3423,22 @@ label {
   z-index: 1;
 }
 
+/* Keep the shared hero photograph visibly above the base panel, with content above it. */
+.page-hero:not(.submission-hero) {
+  background: #061d16;
+}
+
+.page-hero:not(.submission-hero)::before {
+  z-index: 0;
+  opacity: 1;
+  background-image:
+    linear-gradient(90deg, rgba(4, 18, 15, 0.78), rgba(8, 31, 24, 0.42) 52%, rgba(8, 31, 24, 0.14)),
+    url("/assets/speakers-hero-2026.png?v=20260824");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .page-hero h1 {
   max-width: 900px;
   font-size: clamp(2.8rem, 7vw, 6.4rem);
