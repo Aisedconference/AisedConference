@@ -4386,7 +4386,7 @@ label {
 .proposal .op-hero {
   background:
     linear-gradient(90deg, rgba(4, 18, 15, 0.78), rgba(8, 31, 24, 0.48) 52%, rgba(8, 31, 24, 0.18)),
-    url("assets/conference-hero-universal-2026.png?v=20260821") center / cover no-repeat !important;
+    url("assets/submission-hero-2026.png?v=20260821") center / cover no-repeat !important;
 }
 
 .page-hero::before {
