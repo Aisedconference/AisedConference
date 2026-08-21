@@ -3064,3 +3064,8 @@ label {
     min-height: 0;
   }
 }
+
+
+/* Standardize partnership hero height. */
+.proposal .op-hero{min-height:420px;padding:64px 6vw}
+@media(max-width:800px){.proposal .op-hero{min-height:420px;padding:52px 20px}}
