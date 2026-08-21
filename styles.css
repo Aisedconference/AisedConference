@@ -3405,7 +3405,7 @@ label {
   color: #ffffff;
   background:
     linear-gradient(90deg, rgba(4, 18, 15, 0.94) 0%, rgba(8, 31, 24, 0.78) 48%, rgba(8, 31, 24, 0.34) 100%),
-    url("assets/conference-title-bar.png") center / cover no-repeat;
+    url("assets/conference-title-bar.png?v=20260821") center / cover no-repeat;
 }
 
 .page-hero::before {
