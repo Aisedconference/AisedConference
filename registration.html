@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Registration | AiSED International Conference 2026</title>
-  <link rel="stylesheet" href="styles.css?v=20260724-registration-v2">
+  <link rel="stylesheet" href="styles.css?v=20260821-registration-hero-fix">
 </head>
 <body>
   <header class="site-header">
@@ -23,6 +23,7 @@
         </div>
       </div>
       <a href="registration.html#registration-options">Registration</a>
+      <a href="partners-executive.html#partnership-overview">Partnership</a>
     </nav>
   </header>
 
@@ -43,7 +44,7 @@
       <div class="registration-wizard" id="registration-wizard">
         <div class="wizard-panel" id="registration-options" data-step="category">
           <h3>How would you like to join?</h3>
-          <div class="wizard-options">
+          <div class="wizard-options registration-route-options">
             <button type="button" data-category="call-papers"><span>01</span><strong>CALL FOR PAPERS</strong><p>For academics and postgraduate students submitting academic paper sessions.</p><em>Choose this to submit an academic paper.</em></button>
             <button type="button" data-category="participants"><span>02</span><strong>PARTICIPANTS</strong><p>For HRD Corp Claimable, General Admission, Government Agencies and academic delegates.</p><em>Choose this for professional conference participation.</em></button>
             <button type="button" data-category="invited-guests"><span>03</span><strong>INVITED GUESTS</strong><p>For invited dignitaries, VIPs, special guests and official guests of the conference.</p><em>Choose this for invitation-based registration.</em></button>
@@ -132,10 +133,10 @@
           <button class="text-link wizard-back" type="button" data-back="category">Back</button>
           <h3>Choose participant category</h3>
           <div class="wizard-options">
-            <button type="button" data-participant-type="HRD Corp Claimable"><strong>HRD Corp Claimable</strong><em>2-day conference participation fee: RM1,800</em></button>
-            <button type="button" data-participant-type="General Admission"><strong>General Admission</strong><em>2-day conference participation fee: RM1,800</em></button>
-            <button type="button" data-participant-type="Government Agencies"><strong>Government Agencies</strong><em>2-day conference participation fee: RM1,800</em></button>
-            <button type="button" data-participant-type="Academics / Students / Postgraduate Students"><strong>Academics / Students / Postgraduate Students</strong></button>
+            <button type="button" data-participant-type="General Admission"><strong>General Admission</strong><em>3 Days Conference Access</em></button>
+            <button type="button" data-participant-type="Academics / Students / Postgraduate Students"><strong>Academic/ Lecturer / Educator / Student / Postgraduate Student</strong><em>3 Days Conference Access</em></button>
+            <button type="button" data-participant-type="Government Agencies"><strong>Government Agencies</strong><em>3 Days Conference Access</em></button>
+            <button type="button" data-participant-type="HRD Corp Claimable"><strong>HRD Corp Claimable</strong><em>3 Days Conference Access</em></button>
           </div>
         </div>
 
@@ -182,14 +183,16 @@
             <input type="hidden" name="estimated_fee_breakdown" value="">
             <div class="registration-submit-row">
               <div class="payable-estimate" data-payable-estimate hidden>
-                <strong>Payment to be made after Final Paper draft is accepted.</strong>
+                <strong data-payment-note>Payment to be made after Final Paper draft is accepted.</strong>
                 <div class="payable-amount-line">
                   <span data-estimate-amount>RM0</span>
-                  <em data-scopus-surcharge hidden>SCOPUS Additional surcharge will be advised (~ USD 599 - USD 1500)</em>
                 </div>
                 <small data-estimate-breakdown></small>
+                <label class="discount-code-field" data-discount-code-field hidden>Discount Code (If applicable)
+                  <input name="discount_code" type="text" placeholder="Enter discount code">
+                </label>
               </div>
-              <button class="primary-button registration-submit-button" type="submit">Submit</button>
+              <button class="primary-button registration-submit-button" type="submit">Proceed to Submit Application</button>
             </div>
             <p class="form-status" id="registration-status" aria-live="polite"></p>
           </form>
@@ -202,7 +205,7 @@
     <div class="footer-grid">
       <div><strong>AiSED International Conference 2026</strong><span>For enquiries, please contact info@aisedconference.org</span></div>
       <div><strong>Conference</strong><a href="programme.html">Programme</a><a href="speakers.html">Speakers</a><a href="committee.html">Conference Leadership</a></div>
-      <div><strong>Participate</strong><a href="registration.html">Registration</a><a href="submission.html">Paper Submission</a></div>
+      <div><strong>Participate</strong><a href="registration.html">Registration</a><a href="submission.html">Paper Submission</a><a href="payment.html">Payment Method</a></div>
       <div><strong>Partners</strong><a href="partners.html">Partnership</a><a href="venue.html">Venue</a></div>
     </div>
   </footer>
@@ -243,3 +246,4 @@
   </script>
 </body>
 </html>
+
