@@ -4493,3 +4493,11 @@ label {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Speaker forums: moderators share the standard three-card flow. */
+.forum-speaker-row .moderator-card {
+  grid-column: auto;
+  width: auto;
+  justify-self: stretch;
+}
