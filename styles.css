@@ -2551,7 +2551,7 @@ label {
   position: relative;
   overflow: hidden;
   color: #ffffff;
-  background: linear-gradient(135deg, rgba(31, 52, 40, 0.96), rgba(36, 88, 58, 0.94));
+  background-image: url("/assets/submission-hero-2026.png?v=20260821");\n  background-position: center;\n  background-size: cover;\n  background-repeat: no-repeat;
 }
 
 .page-hero::before {
