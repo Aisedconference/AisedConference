@@ -3403,9 +3403,7 @@ label {
   position: relative;
   overflow: hidden;
   color: #ffffff;
-  background-image:
-    linear-gradient(90deg, rgba(4, 18, 15, 0.86) 0%, rgba(8, 31, 24, 0.62) 48%, rgba(8, 31, 24, 0.22) 100%),
-    url("/assets/speakers-hero-2026.png?v=20260824");
+  background-image: url("/assets/speakers-hero-2026.png?v=20260824");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -3415,7 +3413,7 @@ label {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0.28));
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.1));
   opacity: 1;
   pointer-events: none;
 }
