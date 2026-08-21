@@ -4418,3 +4418,57 @@ label {
   }
 }
 
+
+
+/* Partnership page: match the standard Programme title-banner geometry. */
+.proposal .op-hero {
+  height: auto;
+  min-height: 0;
+  padding: 76px clamp(18px, 6vw, 86px);
+  display: block;
+}
+
+.proposal .op-hero-inner > div:first-child {
+  width: auto;
+  max-width: none;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  display: block;
+  border-left: 0;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.proposal .op-hero h1 {
+  max-width: 900px;
+  font-size: clamp(2.8rem, 7vw, 6.4rem);
+  line-height: 0.94;
+  overflow-wrap: normal;
+}
+
+.proposal .op-hero p:not(.op-kicker) {
+  max-width: 720px;
+  color: #dbeafe;
+  font-size: 1.12rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 800px) {
+  .proposal .op-hero {
+    height: auto;
+    min-height: 0;
+    padding: 36px 18px;
+  }
+
+  .proposal .op-hero-inner > div:first-child {
+    width: 100%;
+    min-height: 0;
+    padding: 0;
+  }
+
+  .proposal .op-hero h1 {
+    font-size: 1.9rem;
+    line-height: 1.08;
+  }
+}
