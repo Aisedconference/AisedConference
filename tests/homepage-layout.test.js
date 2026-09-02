@@ -5,7 +5,19 @@ const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
 const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+const homeHtml = fs.readFileSync(path.join(root, "home", "index.html"), "utf8");
 const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
+
+test("links View More to the current conference brochure on both homepage routes", () => {
+  const brochureUrl = "https://drive.google.com/file/d/1tM9fE-IOH1UpUCLIw8pbswL6Q9AzEvZa/view?usp=drive_link";
+
+  for (const page of [html, homeHtml]) {
+    assert.match(
+      page,
+      new RegExp(`<a class="secondary-button" href="${brochureUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}" target="_blank" rel="noopener">View More<\\/a>`)
+    );
+  }
+});
 
 test("uses centered head-to-chest audience portrait crops", () => {
   assert.match(

@@ -212,7 +212,7 @@ test("call for papers forms register every author as a presenter and collect SCO
   assert.doesNotMatch(appJs, /const scopusPublicationFees/);
   assert.match(appJs, /const total = baseFee;/);
   assert.match(appJs, /const participantFees = \{[\s\S]*"HRD Corp Claimable":\s*1800[\s\S]*"General Admission":\s*1800[\s\S]*"Government Agencies":\s*1800/);
-  assert.match(appJs, /const academicParticipantFees = \{[\s\S]*"Academician \/ Educator \/ Lecturer":\s*700[\s\S]*"Student \/ Postgraduate Student":\s*500/);
+  assert.match(appJs, /const academicParticipantFees = \{[\s\S]*"Academician \/ Educator \/ Lecturer":\s*700[\s\S]*"Student \/ Postgraduate Student":\s*350/);
   assert.match(appJs, /name="academic_participant_category"/);
   assert.match(appJs, /selectedParticipantType === "Academics \/ Students \/ Postgraduate Students"/);
   assert.match(appJs, /const payableEstimateCategories = \["call-papers", "participants"\]/);

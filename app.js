@@ -31,7 +31,7 @@ const participantFees = {
 
 const academicParticipantFees = {
   "Academician / Educator / Lecturer": 700,
-  "Student / Postgraduate Student": 500
+  "Student / Postgraduate Student": 350
 };
 
 const payableEstimateCategories = ["call-papers", "participants"];
