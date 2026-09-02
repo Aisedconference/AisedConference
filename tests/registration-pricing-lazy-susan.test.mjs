@@ -84,6 +84,13 @@ test('student pricing is RM350 on the homepage', () => {
   assert.match(section, /Student \/ Postgraduate Student<\/span>[\s\S]*?<strong>RM350<\/strong>/);
 });
 
+test('paper submission pricing is labelled for academics and students on both homepage routes', () => {
+  for (const pageSection of [section, homeSection]) {
+    assert.match(pageSection, /Paper Submission<\/span>[\s\S]*?<small>Academics \/ Students<\/small>/);
+    assert.doesNotMatch(pageSection, /<small>Presenter \/ non-presenter<\/small>/);
+  }
+});
+
 test('HRD Corp benefits explain the assisted claim process professionally', () => {
   assert.match(html, /Enjoy a seamless HRD Corp claim process\./);
   assert.match(html, /Our team will assist with the submission/);
