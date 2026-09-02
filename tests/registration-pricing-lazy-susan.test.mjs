@@ -3,8 +3,19 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+const homeHtml = readFileSync(new URL('../home/index.html', import.meta.url), 'utf8');
 const css = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
 const section = html.match(/<section class="section registration-section">([\s\S]*?)<\/section>/)?.[1] ?? '';
+const homeSection = homeHtml.match(/<section class="section registration-section">([\s\S]*?)<\/section>/)?.[1] ?? '';
+
+test('the /home route includes the complete interactive pricing carousel', () => {
+  assert.equal([...homeSection.matchAll(/<article class="registration-fee-card(?: featured)?"/g)].length, 5);
+  assert.match(homeSection, /class="susan-arrow susan-arrow-prev"/);
+  assert.match(homeSection, /class="susan-arrow susan-arrow-next"/);
+  assert.match(homeHtml, /classList\.add\('lazy-susan'\)/);
+  assert.match(homeHtml, /previousButton\.addEventListener\('click'/);
+  assert.match(homeHtml, /nextButton\.addEventListener\('click'/);
+});
 
 test('lazy Susan keeps all five pricing cards in one accessible carousel', () => {
   assert.equal([...section.matchAll(/<article class="registration-fee-card(?: featured)?"/g)].length, 5);

@@ -130,8 +130,58 @@
     <section class="section registration-section">
       <p class="eyebrow">Registration</p>
       <h2>Ready to participate?</h2>
-      <div class="section-actions">
-        <a class="primary-button" href="../registration/">Register Now</a>
+      <div class="registration-fee-table-wrap">
+        <p class="registration-fee-heading">3-day participation fees</p>
+        <div class="registration-fee-grid" aria-label="3-day participation fees">
+          <article class="registration-fee-card featured" data-registration-type="General Admission" data-benefit-key="general" tabindex="0">
+            <div class="registration-fee-summary">
+              <span>General Admission</span>
+              <strong>RM1,800</strong>
+              <small>3-day access</small>
+            </div>
+            <ul class="registration-benefit-list" aria-label="Conference participation benefits">
+              <li>Three days of conference access</li>
+              <li>Keynotes from global leaders and industry experts</li>
+              <li>AI, sustainability, entrepreneurship and diplomacy sessions</li>
+              <li>Professional networking and partnership opportunities</li>
+              <li>Academic forums and practical discussions</li>
+              <li>Conference materials and participation certificate</li>
+            </ul>
+          </article>
+          <article class="registration-fee-card" data-registration-type="Academics / Students / Postgraduate Students" data-benefit-key="academic" tabindex="0">
+            <div class="registration-fee-summary">
+              <span>Academician / Educator / Lecturer</span>
+              <strong>RM700</strong>
+              <small>3-day access</small>
+            </div>
+          </article>
+          <article class="registration-fee-card" data-registration-type="Academics / Students / Postgraduate Students" data-benefit-key="student" tabindex="0">
+            <div class="registration-fee-summary">
+              <span>Student / Postgraduate Student</span>
+              <strong>RM350</strong>
+              <small>3-day access</small>
+            </div>
+          </article>
+          <article class="registration-fee-card" data-registration-type="HRD Corp Claimable" data-benefit-key="hrdc" tabindex="0">
+            <div class="registration-fee-summary">
+              <span>HRD Corp Claimable</span>
+              <strong>RM1,800</strong>
+              <small>3-day access</small>
+            </div>
+          </article>
+          <article class="registration-fee-card" data-registration-type="Presenter" data-benefit-key="paper" tabindex="0">
+            <div class="registration-fee-summary">
+              <span>Paper Submission</span>
+              <strong>RM1,000 <em> / </em> RM850</strong>
+              <small>Presenter / non-presenter</small>
+            </div>
+          </article>
+        </div>
+        <button class="susan-arrow susan-arrow-prev" type="button" aria-label="Show previous pricing option">&#8592;</button>
+        <button class="susan-arrow susan-arrow-next" type="button" aria-label="Show next pricing option">&#8594;</button>
+      </div>
+      <div class="section-actions registration-cta">
+        <a class="primary-button" data-registration-cta href="../registration/?category=participants&amp;type=General%20Admission">Register Now</a>
       </div>
     </section>
 
@@ -201,6 +251,149 @@
     </div>
   </footer>
   <script>
+    (() => {
+      const carousel = document.querySelector('.registration-fee-grid');
+      const cards = [...document.querySelectorAll('.registration-fee-card')];
+      const cta = document.querySelector('[data-registration-cta]');
+      const benefits = document.querySelector('.registration-benefit-list');
+      const previousButton = document.querySelector('.susan-arrow-prev');
+      const nextButton = document.querySelector('.susan-arrow-next');
+      if (!carousel || cards.length < 2) return;
+
+      const benefitsByType = {
+        general: [
+          'Three days of conference access',
+          'Keynotes and plenary sessions',
+          'Professional networking opportunities',
+          'Conference materials and participation certificate'
+        ],
+        academic: [
+          'Academician-rate three-day access',
+          'Academic forums and research exchange',
+          'Connect with researchers and industry experts',
+          'Conference materials and participation certificate'
+        ],
+        student: [
+          'Student-rate three-day access',
+          'Research exposure and learning sessions',
+          'Meet academics, mentors and future collaborators',
+          'Conference materials and participation certificate'
+        ],
+        hrdc: [
+          'HRD Corp claimable participation fee',
+          'Professional development sessions',
+          'Enjoy a seamless HRD Corp claim process. Our team will assist with the submission—simply provide the required particulars, and we will guide you through the next steps.',
+          'Conference materials and participation certificate'
+        ],
+        paper: [
+          'Conference presentation opportunity',
+          'Full-paper submission',
+          'Journal publication consideration',
+          'Peer-review process',
+          'Presenter and non-presenter options'
+        ]
+      };
+
+      let activeIndex = 0;
+      let pointerStartX = null;
+      let pointerId = null;
+      let dragged = false;
+      const DRAG_THRESHOLD = 42;
+
+      const updateCta = () => {
+        if (!cta) return;
+        const type = cards[activeIndex].dataset.registrationType;
+        cta.href = type === 'Presenter'
+          ? '../registration/?category=call-papers&subsection=Academics%20%2F%20Entrepreneurs%20%2F%20Others&type=Presenter'
+          : `../registration/?category=participants&type=${encodeURIComponent(type)}`;
+      };
+
+      const render = () => {
+        cards.forEach((card, index) => {
+          card.className = card.className.replace(/ susan-pos-\d+/g, '');
+          const position = (index - activeIndex + cards.length) % cards.length;
+          card.classList.add(`susan-pos-${position}`);
+          card.setAttribute('aria-current', position === 0 ? 'true' : 'false');
+        });
+        if (benefits) {
+          const benefitKey = cards[activeIndex].dataset.benefitKey;
+          const items = benefitsByType[benefitKey] || benefitsByType.general;
+          benefits.replaceChildren(...items.map((item) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = item;
+            return listItem;
+          }));
+          cards[activeIndex].append(benefits);
+        }
+        updateCta();
+      };
+
+      const rotateTo = (index) => {
+        activeIndex = (index + cards.length) % cards.length;
+        render();
+      };
+
+      const rotateBy = (direction) => rotateTo(activeIndex + direction);
+
+      if (previousButton) previousButton.addEventListener('click', () => rotateBy(-1));
+      if (nextButton) nextButton.addEventListener('click', () => rotateBy(1));
+
+      carousel.classList.add('lazy-susan');
+      carousel.setAttribute('role', 'listbox');
+      carousel.setAttribute('aria-label', 'Participation fee options');
+      render();
+
+      cards.forEach((card, index) => {
+        card.setAttribute('role', 'option');
+        card.addEventListener('click', () => {
+          if (!dragged) rotateTo(index);
+        });
+      });
+
+      carousel.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          rotateBy(-1);
+        }
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          rotateBy(1);
+        }
+      });
+
+      carousel.addEventListener('pointerdown', (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        pointerStartX = event.clientX;
+        pointerId = event.pointerId;
+        dragged = false;
+        carousel.classList.add('is-dragging');
+      });
+
+      carousel.addEventListener('pointermove', (event) => {
+        if (pointerStartX === null || event.pointerId !== pointerId) return;
+        const distance = Math.max(-90, Math.min(90, event.clientX - pointerStartX));
+        if (!dragged && Math.abs(distance) > 6) {
+          dragged = true;
+          if (carousel.setPointerCapture) carousel.setPointerCapture(event.pointerId);
+        }
+        carousel.style.setProperty('--susan-drag', `${distance}px`);
+      });
+
+      const finishDrag = (event) => {
+        if (pointerStartX === null || event.pointerId !== pointerId) return;
+        const distance = event.clientX - pointerStartX;
+        pointerStartX = null;
+        pointerId = null;
+        carousel.classList.remove('is-dragging');
+        carousel.style.removeProperty('--susan-drag');
+        if (Math.abs(distance) >= DRAG_THRESHOLD) rotateBy(distance < 0 ? 1 : -1);
+        window.setTimeout(() => { dragged = false; }, 0);
+      };
+
+      carousel.addEventListener('pointerup', finishDrag);
+      carousel.addEventListener('pointercancel', finishDrag);
+    })();
+
     (() => {
       const toggle = document.querySelector('.mobile-menu-toggle');
       const nav = document.getElementById('main-navigation');
