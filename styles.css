@@ -651,7 +651,7 @@ h2 {
 }
 
 .section.alt {
-  background: #ffffff;
+  background: var(--paper);
 }
 
 .section-head {
@@ -1040,7 +1040,7 @@ h3 {
   justify-items: start;
   gap: 12px;
   min-width: 0;
-  text-align: left;
+  text-align: center;
 }
 
 .profile-copy h3 {
@@ -2238,9 +2238,7 @@ h3 {
 
 .registration-section {
   color: var(--ink);
-  background:
-    linear-gradient(135deg, rgba(255, 250, 241, 0.98), rgba(244, 237, 218, 0.94)),
-    url("assets/aised-watermark.png") right clamp(18px, 6vw, 86px) bottom 52px / min(72vw, 760px) auto no-repeat;
+  background: #faf8f2;
 }
 
 .registration-section .section-intro,
@@ -2248,10 +2246,761 @@ h3 {
   color: var(--muted);
 }
 
+.registration-fee-table-wrap {
+  position: relative;
+  width: min(1100px, 100%);
+  max-width: 1100px;
+  margin: 59px 0 28px -5px;
+}
+
+.susan-arrow {
+  position: absolute;
+  top: 57%;
+  z-index: 8;
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  color: var(--green);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 8px 20px rgba(39, 49, 44, 0.13);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.susan-arrow:hover,
+.susan-arrow:focus-visible {
+  color: #fff;
+  background: var(--green);
+  outline: 2px solid rgba(199, 161, 45, 0.45);
+  outline-offset: 3px;
+  transform: translateY(-50%) scale(1.06);
+}
+
+.susan-arrow-prev {
+  left: -18px;
+}
+
+.susan-arrow-next {
+  right: -18px;
+}
+
+.registration-fee-heading {
+  padding: 0 0 10px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.registration-section .registration-fee-grid {
+  position: relative;
+  height: 290px;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.registration-fee-grid::after {
+  content: "";
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  width: min(78%, 720px);
+  height: 150px;
+  border: 1px solid rgba(199, 161, 45, 0.28);
+  border-radius: 50%;
+  box-shadow: 0 0 0 12px rgba(199, 161, 45, 0.04), inset 0 0 30px rgba(199, 161, 45, 0.06);
+  transform: translateX(-50%) rotateX(58deg) translateZ(-160px);
+  pointer-events: none;
+}
+
+.registration-fee-card {
+  position: relative;
+  display: grid;
+  gap: 7px;
+  min-height: 116px;
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--gold);
+  border-radius: 14px;
+  background: rgba(255, 251, 240, 0.92);
+  box-shadow: 0 10px 24px rgba(39, 49, 44, 0.08);
+  text-align: center;
+  transform: rotateX(0) rotateY(0) translateZ(0);
+  transition: transform 780ms cubic-bezier(0.16, 1, 0.3, 1), opacity 780ms cubic-bezier(0.16, 1, 0.3, 1), filter 780ms ease, box-shadow 780ms ease;
+  transform-style: preserve-3d;
+}
+
+.pricing-belt .registration-fee-card {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 34%;
+  transform: translateX(0) scale(0.78);
+  opacity: 0.35;
+  filter: saturate(0.65);
+  cursor: pointer;
+}
+
+.pricing-belt {
+  perspective: none;
+  transform-style: flat;
+}
+
+.pricing-belt .registration-fee-card.belt-active {
+  z-index: 3;
+  left: 33%;
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  filter: none;
+}
+
+.pricing-belt .registration-fee-card.belt-left {
+  z-index: 1;
+  left: 0;
+  transform: translateX(0) scale(0.78) rotateY(12deg);
+}
+
+.pricing-belt .registration-fee-card.belt-right {
+  z-index: 1;
+  left: 66%;
+  transform: translateX(0) scale(0.78) rotateY(-12deg);
+}
+
+.pricing-belt .registration-fee-card.belt-rear {
+  z-index: 0;
+  left: 33%;
+  transform: translateX(0) scale(0.58) translateZ(-80px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Pricing cards form a visible 3D disc: the front card is prominent while
+   the remaining cards stay visible around its rear arc. */
+.pricing-belt .registration-fee-card {
+  top: 10px;
+  left: 50%;
+  width: 30%;
+  opacity: 0.58;
+  filter: saturate(0.7) brightness(0.9);
+  transform-origin: 50% 120%;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-0 {
+  z-index: 4;
+  width: 38%;
+  border-color: var(--gold);
+  background: linear-gradient(145deg, #24583a, #173d2b);
+  transform: translateX(-50%) translateY(86px) scale(1.08) translateZ(80px);
+  opacity: 1;
+  filter: none;
+  box-shadow: 0 24px 42px rgba(39, 49, 44, 0.22), 0 0 0 2px rgba(199, 161, 45, 0.35);
+}
+
+.pricing-belt .registration-fee-card.belt-pos-0 span {
+  color: #f7f4e9;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-0 strong {
+  color: #f4df8a;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-0 small {
+  color: rgba(247, 244, 233, 0.78);
+}
+
+.pricing-belt .registration-fee-card.belt-pos-1 {
+  z-index: 2;
+  transform: translateX(60%) translateY(4px) scale(0.78) rotateY(-12deg) translateZ(-20px);
+}
+
+.pricing-belt .registration-fee-card.belt-pos-2 {
+  z-index: 1;
+  transform: translateX(-50%) translateY(10px) scale(0.62) translateZ(-90px);
+  opacity: 0.18;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-3 {
+  z-index: 2;
+  transform: translateX(-160%) translateY(4px) scale(0.78) rotateY(12deg) translateZ(-20px);
+}
+
+.pricing-belt .registration-fee-card.belt-pos-4 {
+  z-index: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(28px) scale(0.5) translateZ(-150px);
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+/* Disc composition: one front card, two middle cards, two rear cards. */
+.pricing-belt .registration-fee-card.belt-pos-0 {
+  transform: translateX(-50%) translateY(142px) scale(1.08) rotateY(0) translateZ(100px);
+}
+
+.pricing-belt .registration-fee-card.belt-pos-1,
+.pricing-belt .registration-fee-card.belt-pos-3 {
+  top: 82px;
+  width: 30%;
+  opacity: 0.52;
+  transform: translateX(-50%) translateY(0) scale(0.8) rotateY(0) translateZ(0);
+}
+
+.pricing-belt .registration-fee-card.belt-pos-1 {
+  left: 22%;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-3 {
+  left: 78%;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-2,
+.pricing-belt .registration-fee-card.belt-pos-4 {
+  top: 42px;
+  width: 26%;
+  opacity: 0.3;
+  transform: translateX(-50%) translateY(0) scale(0.68) rotateY(0) translateZ(-100px);
+}
+
+.pricing-belt .registration-fee-card.belt-pos-2 {
+  left: 30%;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-4 {
+  left: 70%;
+  transform: translateX(-50%) translateY(0) scale(0.68) rotateY(12deg) translateZ(-100px);
+}
+
+/* Keep the full five-card queue visible behind the active card. */
+.pricing-belt .registration-fee-card.belt-pos-1 {
+  z-index: 2;
+  opacity: 0.48;
+  transform: translateX(-50%) translateY(42px) scale(0.82) translateZ(10px);
+}
+
+.pricing-belt .registration-fee-card.belt-pos-2 {
+  z-index: 1;
+  opacity: 0.3;
+  transform: translateX(-50%) translateY(4px) scale(0.66) translateZ(-100px);
+  pointer-events: auto;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-3 {
+  z-index: 2;
+  opacity: 0.48;
+  transform: translateX(-50%) translateY(42px) scale(0.82) translateZ(10px);
+}
+
+.pricing-belt .registration-fee-card.belt-pos-4 {
+  z-index: 1;
+  opacity: 0.3;
+  transform: translateX(-50%) translateY(4px) scale(0.66) translateZ(-100px);
+  pointer-events: auto;
+}
+
+.registration-fee-card:hover,
+.registration-fee-card:focus-within {
+  box-shadow: 0 18px 30px rgba(39, 49, 44, 0.15);
+}
+
+.registration-fee-card.featured {
+  border-color: rgba(199, 161, 45, 0.7);
+  box-shadow: 0 12px 26px rgba(199, 161, 45, 0.14);
+}
+
+.registration-fee-card span {
+  color: var(--green);
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.registration-fee-card strong {
+  color: var(--ink);
+  font-size: 1.8rem;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.registration-fee-card strong em {
+  font-size: 1rem;
+  font-style: normal;
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+.registration-fee-card small {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.registration-cta {
+  justify-content: center;
+}
+
+@media (max-width: 700px) {
+  .registration-fee-table-wrap {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .registration-fee-grid {
+    height: 230px;
+  }
+
+  .registration-fee-card {
+    min-height: 124px;
+    padding: 18px 16px 14px;
+  }
+}
+
+/* Final clean carousel overrides. */
+.pricing-belt {
+  height: 250px;
+  overflow: visible;
+  isolation: isolate;
+}
+
+.pricing-belt .registration-fee-card {
+  top: 0;
+  left: 50%;
+  width: 32%;
+  min-height: 116px;
+  transition: transform 760ms cubic-bezier(0.22, 1, 0.36, 1), opacity 760ms ease, box-shadow 760ms ease, filter 760ms ease;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-0 {
+  z-index: 5;
+  width: 40%;
+  transform: translate(-50%, 128px) scale(1.06) rotateY(0deg);
+  opacity: 1;
+  filter: none;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-1 {
+  z-index: 3;
+  left: 98%;
+  transform: translate(-100%, 54px) scale(0.8) rotateY(-8deg);
+  opacity: 0.62;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-3 {
+  z-index: 3;
+  left: 2%;
+  transform: translate(0, 54px) scale(0.8) rotateY(8deg);
+  opacity: 0.62;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-2,
+.pricing-belt .registration-fee-card.belt-pos-4 {
+  z-index: 1;
+  transform: translate(-50%, 12px) scale(0.68) rotateY(0deg);
+  opacity: 0.42;
+}
+
+@media (max-width: 700px) {
+  .pricing-belt {
+    height: 235px;
+  }
+
+  .pricing-belt .registration-fee-card {
+    width: 52%;
+  }
+
+  .pricing-belt .registration-fee-card.belt-pos-0 {
+    width: 68%;
+    transform: translate(-50%, 112px) scale(1.02);
+  }
+}
+
+@media (max-width: 480px) {
+  .registration-fee-grid {
+    height: 160px;
+  }
+}
+
+/* Classic carousel presentation: front, adjacent, and recessed positions. */
+.pricing-belt .registration-fee-card {
+  top: 28px;
+  left: 50%;
+  width: 34%;
+  opacity: 0.28;
+  filter: saturate(0.72) brightness(0.92);
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1), opacity 700ms ease, filter 700ms ease, box-shadow 700ms ease;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-0 {
+  z-index: 4;
+  transform: translateX(-50%) translateY(64px) scale(1.08) translateZ(80px);
+  opacity: 1;
+  filter: none;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-1 {
+  z-index: 2;
+  transform: translateX(62%) translateY(20px) scale(0.78) rotateY(-12deg) translateZ(-20px);
+  opacity: 0.62;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-2 {
+  z-index: 1;
+  transform: translateX(-50%) translateY(0) scale(0.64) translateZ(-120px);
+  opacity: 0.24;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-3 {
+  z-index: 2;
+  transform: translateX(-162%) translateY(20px) scale(0.78) rotateY(12deg) translateZ(-20px);
+  opacity: 0.62;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-4 {
+  z-index: 1;
+  transform: translateX(-50%) translateY(-8px) scale(0.54) translateZ(-180px);
+  opacity: 0.16;
+}
+
+@media (max-width: 700px) {
+  .pricing-belt .registration-fee-card {
+    width: 58%;
+  }
+
+  .pricing-belt .registration-fee-card.belt-pos-1 {
+    transform: translateX(38%) translateY(20px) scale(0.72) rotateY(-10deg) translateZ(-20px);
+  }
+
+  .pricing-belt .registration-fee-card.belt-pos-3 {
+    transform: translateX(-138%) translateY(20px) scale(0.72) rotateY(10deg) translateZ(-20px);
+  }
+}
+
 .registration-wizard {
   display: grid;
   gap: 18px;
   margin-top: 30px;
+}
+
+/* Direct three-card swap: selected side card slides forward as the main moves aside. */
+.pricing-belt {
+  overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.pricing-belt .registration-fee-card {
+  top: 0;
+  left: 50%;
+  width: 40%;
+  transform-origin: center center;
+  backface-visibility: hidden;
+  translate: var(--drag-x, 0) 0;
+  transition: transform 720ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 420ms ease, translate 180ms ease;
+  will-change: transform, opacity, translate;
+}
+
+.pricing-belt.is-dragging .registration-fee-card {
+  transition: none;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-0 {
+  z-index: 5;
+  transform: translateX(-50%) translateY(106px) translateZ(50px) scale(1);
+  opacity: 1;
+  filter: none;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-1 {
+  z-index: 3;
+  left: 96%;
+  transform: translateX(-100%) translateY(78px) translateZ(-30px) scale(0.78);
+  opacity: 0.5;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-3 {
+  z-index: 3;
+  left: 4%;
+  transform: translateX(0) translateY(78px) translateZ(-30px) scale(0.78);
+  opacity: 0.5;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-2 {
+  z-index: 1;
+  left: 135%;
+  transform: translateX(-100%) translateY(78px) translateZ(-30px) scale(0.78);
+  opacity: 0;
+}
+
+.pricing-belt .registration-fee-card.belt-pos-4 {
+  z-index: 1;
+  left: -35%;
+  transform: translateX(0) translateY(78px) translateZ(-30px) scale(0.78);
+  opacity: 0;
+}
+
+/* Keep the presentation focused: only the active card and its two neighbours are visible. */
+.pricing-belt .registration-fee-card.belt-pos-2,
+.pricing-belt .registration-fee-card.belt-pos-4 {
+  pointer-events: none;
+}
+
+@media (max-width: 700px) {
+  .pricing-belt .registration-fee-card {
+    width: 72%;
+  }
+
+  .pricing-belt .registration-fee-card.belt-pos-0 {
+    transform: translateX(-50%) translateY(88px) translateZ(40px) scale(1);
+  }
+
+  .pricing-belt .registration-fee-card.belt-pos-1 {
+    left: 108%;
+    transform: translateX(-100%) translateY(70px) translateZ(-20px) scale(0.78);
+  }
+
+  .pricing-belt .registration-fee-card.belt-pos-3 {
+    left: -8%;
+    transform: translateX(0) translateY(70px) translateZ(-20px) scale(0.78);
+  }
+
+  .pricing-belt .registration-fee-card.belt-pos-2 {
+    left: 155%;
+    transform: translateX(-100%) translateY(70px) translateZ(-20px) scale(0.78);
+    opacity: 0;
+  }
+
+  .pricing-belt .registration-fee-card.belt-pos-4 {
+    left: -55%;
+    transform: translateX(0) translateY(70px) translateZ(-20px) scale(0.78);
+    opacity: 0;
+  }
+}
+
+/* Registration pricing baseline: static, readable, and free of carousel effects. */
+.registration-fee-table-wrap {
+  width: min(1100px, 100%);
+  max-width: 1100px;
+  margin: 42px auto 28px;
+}
+
+.registration-section .registration-fee-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  height: auto;
+  perspective: none;
+  transform-style: flat;
+}
+
+.registration-fee-grid::after {
+  content: none;
+}
+
+.registration-section .registration-fee-card,
+.registration-section .registration-fee-card.featured {
+  position: relative;
+  inset: auto;
+  width: auto;
+  min-height: 142px;
+  padding: 22px 20px;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--gold);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(39, 49, 44, 0.08);
+  opacity: 1;
+  filter: none;
+  transform: none;
+  transition: none;
+}
+
+.registration-section .lazy-susan {
+  position: relative;
+  display: block;
+  height: 330px;
+  overflow: hidden;
+  perspective: 1100px;
+  transform-style: preserve-3d;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.registration-section .lazy-susan .registration-fee-card {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 38%;
+  min-height: 138px;
+  cursor: pointer;
+  backface-visibility: hidden;
+  translate: var(--susan-drag, 0) 0;
+  transition: transform 680ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 680ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 480ms ease,
+    filter 480ms ease,
+    background-color 480ms ease,
+    box-shadow 680ms cubic-bezier(0.22, 1, 0.36, 1),
+    translate 180ms ease;
+  will-change: transform, opacity;
+}
+
+.registration-fee-summary {
+  display: grid;
+  align-content: center;
+  gap: 7px;
+  text-align: center;
+}
+
+.registration-benefit-list {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.78rem;
+  line-height: 1.35;
+  list-style: none;
+  text-align: left;
+}
+
+.registration-benefit-list li {
+  position: relative;
+  padding-left: 18px;
+}
+
+.registration-benefit-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #f4df8a;
+  font-weight: 900;
+}
+
+.registration-section .lazy-susan.is-dragging .registration-fee-card {
+  transition: none;
+}
+
+.lazy-susan .registration-fee-card.susan-pos-0 {
+  z-index: 5;
+  grid-template-columns: minmax(150px, 0.8fr) minmax(220px, 1.2fr);
+  align-items: center;
+  gap: 22px;
+  width: 64%;
+  border-color: var(--gold);
+  background: var(--green);
+  box-shadow: 0 24px 46px rgba(22, 55, 34, 0.24);
+  opacity: 1;
+  filter: none;
+  transform: translateX(-50%) translateY(98px) translateZ(80px) scale(1.08);
+}
+
+.lazy-susan .registration-fee-card.susan-pos-0 span,
+.lazy-susan .registration-fee-card.susan-pos-0 small {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.lazy-susan .registration-fee-card.susan-pos-0 strong {
+  color: #f4df8a;
+}
+
+.lazy-susan .registration-fee-card.susan-pos-1 {
+  z-index: 3;
+  width: 30%;
+  opacity: 0.56;
+  filter: saturate(0.72);
+  transform: translateX(66%) translateY(58px) translateZ(-40px) rotateY(-13deg) scale(0.82);
+}
+
+.lazy-susan .registration-fee-card.susan-pos-2 {
+  z-index: 1;
+  width: 24%;
+  opacity: 0.28;
+  filter: saturate(0.55);
+  transform: translateX(112%) translateY(16px) translateZ(-130px) rotateY(-18deg) scale(0.68);
+}
+
+.lazy-susan .registration-fee-card.susan-pos-3 {
+  z-index: 1;
+  width: 24%;
+  opacity: 0.28;
+  filter: saturate(0.55);
+  transform: translateX(-212%) translateY(16px) translateZ(-130px) rotateY(18deg) scale(0.68);
+}
+
+.lazy-susan .registration-fee-card.susan-pos-4 {
+  z-index: 3;
+  width: 30%;
+  opacity: 0.56;
+  filter: saturate(0.72);
+  transform: translateX(-166%) translateY(58px) translateZ(-40px) rotateY(13deg) scale(0.82);
+}
+
+@media (max-width: 700px) {
+  .registration-fee-table-wrap {
+    margin: 32px auto 24px;
+  }
+
+  .susan-arrow {
+    top: 60%;
+    width: 34px;
+    height: 34px;
+  }
+
+  .susan-arrow-prev {
+    left: 2px;
+  }
+
+  .susan-arrow-next {
+    right: 2px;
+  }
+
+  .registration-fee-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .registration-section .lazy-susan {
+    height: 360px;
+  }
+
+  .registration-section .lazy-susan .registration-fee-card {
+    width: 62%;
+  }
+
+  .lazy-susan .registration-fee-card.susan-pos-0 {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    width: 82%;
+    transform: translateX(-50%) translateY(82px) translateZ(60px) scale(1.02);
+  }
+
+  .lazy-susan .registration-fee-card.susan-pos-1 {
+    transform: translateX(36%) translateY(52px) translateZ(-30px) rotateY(-10deg) scale(0.74);
+  }
+
+  .lazy-susan .registration-fee-card.susan-pos-4 {
+    transform: translateX(-136%) translateY(52px) translateZ(-30px) rotateY(10deg) scale(0.74);
+  }
+
+  .lazy-susan .registration-fee-card.susan-pos-2 {
+    transform: translateX(86%) translateY(12px) translateZ(-110px) rotateY(-14deg) scale(0.58);
+  }
+
+  .lazy-susan .registration-fee-card.susan-pos-3 {
+    transform: translateX(-186%) translateY(12px) translateZ(-110px) rotateY(14deg) scale(0.58);
+  }
 }
 
 .wizard-panel {
