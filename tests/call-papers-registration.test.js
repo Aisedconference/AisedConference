@@ -174,10 +174,10 @@ test("call for papers route uses one submit button and an audience dropdown", ()
   assert.match(appJs, /event\.target\.name === "registration_subsection"/);
   assert.match(appJs, /registrationState\.type = "Presenter"/);
   assert.match(appJs, /registrationState\.category === "call-papers"[\s\S]*showStep\("subsection"\)/);
-  assert.match(registrationHtml, /<div class="flow-step-head"><span>01<\/span><strong>15th August 2026<\/strong><\/div><p><b>Submit Abstract<\/b>/);
+  assert.match(registrationHtml, /<div class="flow-step-head"><span>01<\/span><strong>15th September 2026<\/strong><\/div><p><b>Submit Abstract<\/b>/);
   assert.match(registrationHtml, /Papers Council Reviewer/);
-  assert.match(registrationHtml, /<div class="flow-step-head"><span>03<\/span><strong>29th August 2026<\/strong><\/div>/);
-  assert.match(registrationHtml, /<div class="flow-step-head"><span>04<\/span><strong>31st October 2026<\/strong><\/div><p><b>Full paper submission<\/b>/);
+  assert.match(registrationHtml, /<div class="flow-step-head"><span>03<\/span><strong>30th September 2026<\/strong><\/div>/);
+  assert.match(registrationHtml, /<div class="flow-step-head"><span>04<\/span><strong>18th November 2026<\/strong><\/div><p><b>Full paper submission<\/b> Submit the full paper/);
   assert.match(css, /\.call-paper-flow \.flow-step-head\s*\{/);
 });
 
