@@ -13,7 +13,7 @@ test("shows the updated submission deadline timeline", () => {
     assert.match(page, /15 September 2026/);
     assert.match(page, /Abstract Submission Deadline/);
     assert.match(page, /30 September 2026/);
-    assert.match(page, /Notification of Acceptance/);
+    assert.match(page, /<span class="timeline-date">30 September 2026<\/span><strong>Full Payment and Acceptance notification<\/strong>/);
     assert.match(page, /18 November 2026/);
     assert.match(page, /Full Paper Submission/);
   }
@@ -29,7 +29,7 @@ test("does not show the old submission timeline wording", () => {
 test("shows the submission guidelines as a timeline chart", () => {
   assert.match(html, /<div class="highlight-grid submission-timeline">/);
   assert.match(html, /<span class="timeline-date">15 September 2026<\/span><strong>Abstract submission deadline<\/strong>/);
-  assert.match(html, /<span class="timeline-date">30 September 2026<\/span><strong>Acceptance notification<\/strong>/);
+  assert.match(html, /<span class="timeline-date">30 September 2026<\/span><strong>Full Payment and Acceptance notification<\/strong>/);
   assert.match(html, /<span class="timeline-date">18 November 2026<\/span><strong>Full paper deadline<\/strong>/);
   assert.doesNotMatch(html, /Full paper deadline and payment|Full paper submission and payment/);
   assert.match(css, /\.submission-timeline::before\s*\{/);
