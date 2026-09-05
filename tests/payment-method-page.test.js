@@ -57,6 +57,14 @@ test("payment method page publishes the AeU guideline details", () => {
   assert.match(html, /registration@aisedconference\.org/);
 });
 
+test("clean payment route forwards to the existing payment page", () => {
+  const routeHtml = read("payment/index.html");
+
+  assert.match(routeHtml, /<title>Payment Method \| AiSED International Conference 2026<\/title>/);
+  assert.match(routeHtml, /window\.location\.replace\("\.\.\/payment\.html" \+ window\.location\.search \+ window\.location\.hash\)/);
+  assert.match(routeHtml, /href="\.\.\/payment\.html">Continue to Payment Method<\/a>/);
+});
+
 test("registration page links participants to the payment method page", () => {
   const registrationHtml = read("registration.html");
   const appJs = read("app.js");
