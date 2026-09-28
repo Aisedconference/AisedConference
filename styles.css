@@ -533,6 +533,11 @@ h2 {
   box-shadow: var(--shadow);
 }
 
+.hero-video {
+  display: block;
+  background: #071d16;
+}
+
 .quick-panel,
 .portal-grid,
 .date-grid,
