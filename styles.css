@@ -535,6 +535,10 @@ h2 {
 
 .hero-video {
   display: block;
+  width: min(100%, 420px);
+  max-height: min(66vh, 560px);
+  justify-self: center;
+  object-fit: contain;
   background: #071d16;
 }
 
@@ -4482,6 +4486,12 @@ label {
     max-height: 420px;
   }
 
+  .hero-video {
+    order: 0;
+    width: min(100%, 360px);
+    max-height: 500px;
+  }
+
   .quick-panel,
   .portal-grid,
   .highlight-grid,
@@ -4741,6 +4751,12 @@ label {
     max-height: none;
     object-fit: contain;
     border-radius: 16px;
+  }
+
+  .hero-video {
+    aspect-ratio: auto;
+    width: min(100%, 320px);
+    max-height: 440px;
   }
 
   .hero-copy {
