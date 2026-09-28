@@ -596,7 +596,8 @@ h2 {
   align-items: center;
 }
 
-.venue-summary-panel img {
+.venue-summary-panel img,
+.venue-summary-panel video {
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
@@ -5037,7 +5038,8 @@ label {
     padding: 24px 18px;
   }
 
-  .venue-summary-panel img {
+  .venue-summary-panel img,
+  .venue-summary-panel video {
     aspect-ratio: 16 / 9;
   }
 
