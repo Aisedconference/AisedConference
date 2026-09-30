@@ -4363,13 +4363,13 @@ label {
 }
 
 /* Keep organiser logos in three columns and centre any incomplete final row. */
-.partner-group:first-child .logo-wall {
+.partner-group.organisers .logo-wall {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.partner-group:first-child .logo-wall .logo-card {
+.partner-group.organisers .logo-wall .logo-card {
   flex: 0 1 calc((100% - 24px) / 3);
 }
 
@@ -4396,13 +4396,30 @@ label {
   max-height: 68px;
 }
 
-.partner-group:first-child .logo-card {
+.partner-group.organisers .logo-card {
   min-height: 132px;
 }
 
-.partner-group:first-child .logo-card img {
+.partner-group.organisers .logo-card img {
   width: min(100%, 176px);
   max-height: 92px;
+}
+
+.partner-group.supported-by {
+  grid-column: 1 / -1;
+}
+
+.partner-group.supported-by .logo-wall {
+  grid-template-columns: minmax(150px, 240px);
+}
+
+.partner-group.supported-by .logo-card {
+  min-height: 164px;
+}
+
+.partner-group.supported-by .logo-card img {
+  width: min(100%, 150px);
+  max-height: 126px;
 }
 
 .partner-groups .hotel-logo-home {
@@ -4961,7 +4978,8 @@ label {
     padding: 14px;
   }
 
-  .partner-group:first-child {
+  .partner-group.supported-by,
+  .partner-group.organisers {
     grid-column: 1 / -1;
   }
 
@@ -4991,11 +5009,11 @@ label {
     gap: 8px;
   }
 
-  .partner-group:first-child .logo-wall {
+  .partner-group.organisers .logo-wall {
     gap: 8px;
   }
 
-  .partner-group:first-child .logo-wall .logo-card {
+  .partner-group.organisers .logo-wall .logo-card {
     flex-basis: calc((100% - 16px) / 3);
   }
 
@@ -5017,13 +5035,23 @@ label {
     max-height: 48px;
   }
 
-  .partner-group:first-child .logo-card {
+  .partner-group.organisers .logo-card,
+  .partner-group.supported-by .logo-card {
     min-height: 96px;
   }
 
-  .partner-group:first-child .logo-card img {
+  .partner-group.organisers .logo-card img {
     width: 100%;
     max-height: 64px;
+  }
+
+  .partner-group.supported-by .logo-wall {
+    grid-template-columns: minmax(112px, 164px);
+  }
+
+  .partner-group.supported-by .logo-card img {
+    width: 100%;
+    max-height: 80px;
   }
 
   .hotel-partner-home-card {
