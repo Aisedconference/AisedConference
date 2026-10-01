@@ -3123,11 +3123,24 @@ h3 {
 
 @media (max-width: 700px) {
   .registration-section .lazy-susan {
-    height: 460px;
+    height: 540px;
   }
 
   .lazy-susan .registration-fee-card.susan-pos-0 {
     transform: translateX(-50%) translateY(126px) translateZ(60px) scale(1.02);
+  }
+
+  .lazy-susan .registration-fee-card.hrdc-fee-card.susan-pos-0 {
+    min-height: 250px;
+    transform: translateX(-50%) translateY(132px) translateZ(60px) scale(0.98);
+  }
+
+  .lazy-susan .hrdc-fee-summary {
+    gap: 5px;
+  }
+
+  .lazy-susan .hrdc-fee-summary p {
+    font-size: 0.66rem;
   }
 }
 
@@ -5211,7 +5224,7 @@ label {
   .partner-group.strategic,
   .partner-group.outreach-partner,
   .partner-group.hotel-partner-home {
-    grid-column: 1 / span 2;
+    grid-column: 1 / -1;
   }
 
   .partner-group.outreach-partner {
@@ -5219,10 +5232,16 @@ label {
   }
 
   .partner-group.hotel-partner-home {
-    grid-column: 5 / span 2;
+    grid-column: 1 / -1;
   }
 
   .partner-group h3 {
+    font-size: 0.76rem;
+    letter-spacing: 0.12em;
+  }
+
+  .partner-group.supported-by h3,
+  .partner-group.hotel-partner-home h3 {
     font-size: 0.76rem;
     letter-spacing: 0.12em;
   }
@@ -5235,11 +5254,13 @@ label {
   }
 
   .partner-group.organisers .logo-wall {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
   }
 
   .partner-group.organisers .logo-wall .logo-card {
-    flex-basis: calc((100% - 16px) / 3);
+    min-width: 0;
   }
 
   .partner-group.strategic .logo-wall {
@@ -5253,11 +5274,14 @@ label {
   .partner-groups .logo-card {
     min-height: 74px;
     padding: 8px;
+    justify-items: start;
+    text-align: left;
   }
 
   .partner-groups .logo-card img {
     width: 100%;
     max-height: 48px;
+    object-position: left center;
   }
 
   .partner-group.organisers .logo-card,
@@ -5271,7 +5295,7 @@ label {
   }
 
   .partner-group.supported-by .logo-wall {
-    grid-template-columns: minmax(112px, 164px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .partner-group.supported-by .logo-card img {
@@ -5287,6 +5311,20 @@ label {
     width: 100%;
     max-height: 48px;
     padding: 6px;
+  }
+
+  .partner-group.hotel-partner-home .hotel-logo-home {
+    width: min(100%, 112px);
+    min-height: 74px;
+    padding: 8px;
+    justify-self: start;
+    margin-inline: 0;
+  }
+
+  .partner-group.hotel-partner-home .hotel-logo-home img {
+    width: 100%;
+    max-height: 48px;
+    padding: 0;
   }
 
   .hotel-partner-home-card .text-link {
