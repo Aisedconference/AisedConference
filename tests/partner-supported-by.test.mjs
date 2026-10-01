@@ -17,4 +17,6 @@ test('the MyCEB supported-by group comes before the partner logos', async () => 
   assert.match(home, /assets\/myceb-logo\.png/, 'homepage references the MyCEB logo asset');
   assert.match(styles, /\.partner-group\.supported-by/, 'styles lay out the Supported By group');
   assert.match(styles, /\.partner-group\.organisers/, 'styles preserve the Organisers layout');
+  assert.match(styles, /\.partner-group\.supported-by\s*\{\s*grid-column:\s*1\s*\/\s*span\s*2;/, 'Supported By occupies the first row beside Organisers');
+  assert.match(styles, /\.partner-group\.organisers\s*\{\s*grid-column:\s*3\s*\/\s*-1;/, 'Organisers shares the first row with Supported By');
 });

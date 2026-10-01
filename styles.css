@@ -591,7 +591,7 @@ h2 {
 
 .venue-summary-panel {
   display: grid;
-  grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+  grid-template-columns: minmax(480px, 1.2fr) minmax(0, 1fr);
   gap: 22px;
   align-items: center;
 }
@@ -4305,7 +4305,7 @@ label {
 
 .partner-groups {
   display: grid;
-  grid-template-columns: minmax(0, 2.2fr) repeat(3, minmax(190px, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 24px;
   align-items: stretch;
 }
@@ -4406,7 +4406,23 @@ label {
 }
 
 .partner-group.supported-by {
-  grid-column: 1 / -1;
+  grid-column: 1 / span 2;
+}
+
+.partner-group.organisers {
+  grid-column: 3 / -1;
+}
+
+.partner-group.strategic {
+  grid-column: 1 / span 2;
+}
+
+.partner-group.outreach-partner {
+  grid-column: 3 / span 2;
+}
+
+.partner-group.hotel-partner-home {
+  grid-column: 5 / span 2;
 }
 
 .partner-group.supported-by .logo-wall {
