@@ -4598,23 +4598,29 @@ label {
 }
 
 .partner-group.supported-by .logo-card {
-  min-height: 112px;
+  min-height: 115px;
+  padding: 12px;
 }
 
 .partner-group.supported-by .logo-card img {
-  width: min(100%, 190px);
-  max-height: 76px;
+  width: min(100%, 180px);
+  max-height: 72px;
 }
 
 .partner-group.supported-by .logo-card:first-child img {
-  width: min(100%, 108px);
+  width: min(100%, 106px);
   max-height: 82px;
 }
 
 .partner-group.supported-by .logo-card:nth-child(3) img {
-  width: min(100%, 200px);
-  max-height: 84px;
+  width: min(100%, 192px);
+  max-height: 82px;
   transform: none;
+}
+
+.partner-group.supported-by h3,
+.partner-group.hotel-partner-home h3 {
+  font-size: 1rem;
 }
 
 .partner-groups .hotel-logo-home {
@@ -4632,15 +4638,16 @@ label {
 
 /* Keep the smaller second-row hotel mark level with the Supported By cards beside it. */
 .partner-group.hotel-partner-home .hotel-logo-home {
-  width: min(100%, 220px);
-  min-height: 112px;
+  width: min(100%, 216px);
+  min-height: 115px;
+  padding: 12px;
   justify-self: center;
   margin-inline: auto;
 }
 
 .partner-group.hotel-partner-home .hotel-logo-home img {
-  width: min(100%, 190px);
-  max-height: 76px;
+  width: min(100%, 180px);
+  max-height: 72px;
   padding: 0;
 }
 
