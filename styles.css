@@ -2940,6 +2940,13 @@ h3 {
   gap: 4px;
 }
 
+.hrdc-fee-badges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
 .hrdc-fee-badge {
   width: 42px;
   height: 42px;
@@ -4432,62 +4439,114 @@ label {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.expandable-partner {
-  position: relative;
+.partner-modal-trigger {
   cursor: pointer;
 }
 
-.expandable-partner summary {
-  display: grid;
-  width: 100%;
-  min-height: inherit;
-  place-items: center;
-  list-style: none;
-}
-
-.expandable-partner summary::-webkit-details-marker {
-  display: none;
-}
-
-.expandable-partner summary::after {
-  content: "+";
-  position: absolute;
-  right: 8px;
-  top: 6px;
-  color: var(--gold);
-  font-size: 1.1rem;
-  font-weight: 900;
-  line-height: 1;
-}
-
-.expandable-partner[open] summary::after {
-  content: "−";
-}
-
-.expandable-partner summary:focus-visible {
+.partner-modal-trigger:focus-visible {
   outline: 3px solid var(--gold);
   outline-offset: 4px;
 }
 
-.expandable-partner p {
+.partner-modal-open {
+  overflow: hidden;
+}
+
+.partner-modal[hidden] {
+  display: none;
+}
+
+.partner-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.partner-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 45, 34, 0.68);
+  backdrop-filter: blur(3px);
+}
+
+.partner-modal-panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 28px;
+  width: min(720px, 100%);
+  max-height: min(620px, 90vh);
+  overflow: auto;
+  padding: 34px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: #fffdf7;
+  box-shadow: 0 28px 80px rgba(18, 54, 37, 0.3);
+}
+
+.partner-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  border: 0;
+  background: transparent;
+  color: var(--blue-dark);
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.partner-modal-logo {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 16px;
+  background: #f3f5f2;
+}
+
+.partner-modal-copy {
+  align-self: center;
+}
+
+.partner-modal-copy h2 {
+  margin: 8px 0 16px;
+  color: var(--blue-dark);
+  font-size: 2rem;
+}
+
+.partner-modal-copy > p:not(.eyebrow) {
   margin: 8px 0 0;
   color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 750;
-  line-height: 1.35;
-  text-align: center;
+  line-height: 1.6;
 }
 
-.hotel-partner-home-card.expandable-partner {
-  width: 100%;
+.partner-modal-action {
+  margin-top: 18px;
 }
 
-.hotel-partner-home-card.expandable-partner summary {
-  position: relative;
+.partner-modal-action[hidden] {
+  display: none;
 }
 
-.hotel-partner-home-card.expandable-partner p {
-  max-width: 320px;
+@media (max-width: 640px) {
+  .partner-modal-panel {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 28px 22px 22px;
+  }
+
+  .partner-modal-logo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .partner-modal-copy h2 {
+    font-size: 1.6rem;
+  }
 }
 
 .partner-group.outreach-partner .logo-wall {
@@ -4571,11 +4630,15 @@ label {
   background: #ffffff;
 }
 
-/* The wider second-row card gives the official hotel mark readable prominence. */
+/* Keep the hotel mark visually level with the Supported By logo cards beside it. */
+.partner-group.hotel-partner-home .hotel-logo-home {
+  min-height: 150px;
+}
+
 .partner-group.hotel-partner-home .hotel-logo-home img {
-  width: min(100%, 260px);
-  max-height: 130px;
-  padding: 12px;
+  width: min(100%, 220px);
+  max-height: 112px;
+  padding: 0;
 }
 
 .partner-groups .hotel-logo-home span {
