@@ -375,7 +375,7 @@ nav a:focus-visible,
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(300px, 0.55fr);
   gap: clamp(28px, 5vw, 70px);
-  align-items: center;
+  align-items: start;
   overflow: hidden;
   min-height: auto;
   padding: 62px clamp(18px, 6vw, 86px);
@@ -531,6 +531,46 @@ h2 {
   object-fit: contain;
   border-radius: 10px;
   box-shadow: var(--shadow);
+}
+
+.hero-visual {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 12px;
+  align-self: start;
+}
+
+.hrd-support {
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  padding: 0 6px;
+}
+
+.hrd-badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hrd-badges img {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+}
+
+.hrd-support p {
+  max-width: none;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.hrd-support strong {
+  color: var(--ink);
 }
 
 .hero-video {
@@ -2895,6 +2935,29 @@ h3 {
   text-align: center;
 }
 
+.hrdc-fee-summary {
+  justify-items: center;
+  gap: 4px;
+}
+
+.hrdc-fee-badge {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.hrdc-fee-summary p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.61rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.lazy-susan .registration-fee-card.susan-pos-0 .hrdc-fee-summary p {
+  color: rgba(247, 244, 233, 0.82);
+}
+
 .registration-benefit-list {
   display: grid;
   gap: 7px;
@@ -4329,14 +4392,6 @@ label {
   text-transform: uppercase;
 }
 
-.partner-group.strategic h3,
-.partner-group.hotel-partner-home h3 {
-  text-align: center;
-  font-size: 0.68rem;
-  line-height: 1.25;
-  letter-spacing: 0.1em;
-}
-
 .partner-group.outreach-partner h3 {
   display: grid;
   min-height: 3.2em;
@@ -4374,7 +4429,65 @@ label {
 }
 
 .partner-group.strategic .logo-wall {
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.expandable-partner {
+  position: relative;
+  cursor: pointer;
+}
+
+.expandable-partner summary {
+  display: grid;
+  width: 100%;
+  min-height: inherit;
+  place-items: center;
+  list-style: none;
+}
+
+.expandable-partner summary::-webkit-details-marker {
+  display: none;
+}
+
+.expandable-partner summary::after {
+  content: "+";
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  color: var(--gold);
+  font-size: 1.1rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.expandable-partner[open] summary::after {
+  content: "−";
+}
+
+.expandable-partner summary:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 4px;
+}
+
+.expandable-partner p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 750;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.hotel-partner-home-card.expandable-partner {
+  width: 100%;
+}
+
+.hotel-partner-home-card.expandable-partner summary {
+  position: relative;
+}
+
+.hotel-partner-home-card.expandable-partner p {
+  max-width: 320px;
 }
 
 .partner-group.outreach-partner .logo-wall {
@@ -4406,19 +4519,15 @@ label {
 }
 
 .partner-group.supported-by {
-  grid-column: 1 / span 2;
+  grid-column: 1 / span 4;
 }
 
 .partner-group.organisers {
-  grid-column: 3 / -1;
+  grid-column: 1 / span 3;
 }
 
 .partner-group.strategic {
-  grid-column: 1 / span 2;
-}
-
-.partner-group.outreach-partner {
-  grid-column: 3 / span 2;
+  grid-column: 4 / span 3;
 }
 
 .partner-group.hotel-partner-home {
@@ -4426,16 +4535,27 @@ label {
 }
 
 .partner-group.supported-by .logo-wall {
-  grid-template-columns: minmax(150px, 240px);
+  grid-template-columns: minmax(130px, 0.8fr) repeat(2, minmax(180px, 1.5fr));
 }
 
 .partner-group.supported-by .logo-card {
-  min-height: 164px;
+  min-height: 132px;
 }
 
 .partner-group.supported-by .logo-card img {
-  width: min(100%, 150px);
-  max-height: 126px;
+  width: min(100%, 230px);
+  max-height: 96px;
+}
+
+.partner-group.supported-by .logo-card:first-child img {
+  width: min(100%, 140px);
+  max-height: 106px;
+}
+
+.partner-group.supported-by .logo-card:nth-child(3) img {
+  width: min(100%, 300px);
+  max-height: 120px;
+  transform: scale(1.25);
 }
 
 .partner-groups .hotel-logo-home {
@@ -4451,11 +4571,24 @@ label {
   background: #ffffff;
 }
 
+/* The wider second-row card gives the official hotel mark readable prominence. */
+.partner-group.hotel-partner-home .hotel-logo-home img {
+  width: min(100%, 260px);
+  max-height: 130px;
+  padding: 12px;
+}
+
 .partner-groups .hotel-logo-home span {
   color: var(--green);
   font-size: 0.9rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.partner-group.hotel-partner-home .text-link {
+  width: 100%;
+  min-width: 0;
+  max-width: 160px;
 }
 
 .hotel-partner-home-card p {
@@ -4563,8 +4696,11 @@ label {
     min-height: auto;
   }
 
-  .hero-art {
+  .hero-visual {
     order: -1;
+  }
+
+  .hero-art {
     max-height: 420px;
   }
 
@@ -5034,7 +5170,7 @@ label {
   }
 
   .partner-group.strategic .logo-wall {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .partner-group.outreach-partner .logo-wall {
