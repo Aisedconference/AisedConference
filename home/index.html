@@ -66,6 +66,18 @@
         <span>Venue</span>
         <strong>Shah Alam Convention Centre, Malaysia</strong>
         <p>4, Persiaran Dato Menteri, Seksyen 14, 40000 Shah Alam, Selangor</p>
+        <div class="conference-countdown" data-countdown-target="2026-12-02T00:00:00+08:00" aria-label="Countdown to the conference">
+          <span class="conference-countdown-label">Countdown</span>
+          <div class="countdown-units" role="timer" aria-live="polite">
+            <div class="countdown-unit"><strong data-countdown-days>00</strong><span>Days</span></div>
+            <div class="countdown-separator" aria-hidden="true">:</div>
+            <div class="countdown-unit"><strong data-countdown-hours>00</strong><span>Hours</span></div>
+            <div class="countdown-separator" aria-hidden="true">:</div>
+            <div class="countdown-unit"><strong data-countdown-minutes>00</strong><span>Minutes</span></div>
+            <div class="countdown-separator" aria-hidden="true">:</div>
+            <div class="countdown-unit"><strong data-countdown-seconds>00</strong><span>Seconds</span></div>
+          </div>
+        </div>
         <a class="text-link venue-map-button" href="https://maps.google.com/maps?vet=10CAAQoqAOahcKEwjY28Os06OVAxUAAAAAHQAAAAAQDw..i&pvq=CgsvZy8xdjNkcG12YiIKCgRzYWNjEAIYAw&lqi=CgRzYWNjSMqeq7bogICACFoKEAAYACIEc2FjY5IBEWNvbnZlbnRpb25fY2VudGVymgFEQ2k5RFFVbFJRVU52WkVOb2RIbGpSamx2VDJ3NVVrNUhPVkpqVmpsRVkwaEtZV1JWTkhoUFV6RXpaRzVrVG1OVlJSQUL6AQQIABA8&fvr=1&cs=0&um=1&ie=UTF-8&fb=1&gl=my&sa=X&ftid=0x31cc5286a92ff299:0xaced7a9e6e7e3265" target="_blank" rel="noopener">Location</a>
       </div>
     </section>
@@ -454,6 +466,40 @@
           programme.setAttribute('aria-expanded', 'false');
         });
       });
+    })();
+
+    (() => {
+      const countdown = document.querySelector('.conference-countdown');
+      if (!countdown) return;
+
+      const target = Date.parse(countdown.dataset.countdownTarget);
+      const label = countdown.querySelector('.conference-countdown-label');
+      const fields = {
+        days: countdown.querySelector('[data-countdown-days]'),
+        hours: countdown.querySelector('[data-countdown-hours]'),
+        minutes: countdown.querySelector('[data-countdown-minutes]'),
+        seconds: countdown.querySelector('[data-countdown-seconds]')
+      };
+      if (!Number.isFinite(target) || Object.values(fields).some((field) => !field)) return;
+
+      const updateCountdown = () => {
+        const now = new Date();
+        const remaining = Math.max(0, target - now.getTime());
+        const days = Math.floor(remaining / 86400000);
+        const hours = Math.floor((remaining % 86400000) / 3600000);
+        const minutes = Math.floor((remaining % 3600000) / 60000);
+        const seconds = Math.floor((remaining % 60000) / 1000);
+
+        fields.days.textContent = String(days).padStart(2, '0');
+        fields.hours.textContent = String(hours).padStart(2, '0');
+        fields.minutes.textContent = String(minutes).padStart(2, '0');
+        fields.seconds.textContent = String(seconds).padStart(2, '0');
+
+        if (remaining === 0) label.textContent = 'The conference has begun';
+      };
+
+      updateCountdown();
+      if (Date.now() < target) window.setInterval(updateCountdown, 1000);
     })();
 
     (() => {
