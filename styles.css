@@ -541,38 +541,6 @@ h2 {
   align-self: start;
 }
 
-.hrd-support {
-  display: grid;
-  justify-items: center;
-  gap: 7px;
-  padding: 0 6px;
-}
-
-.hrd-badges {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.hrd-badges img {
-  width: 58px;
-  height: 58px;
-  object-fit: contain;
-}
-
-.hrd-support p {
-  max-width: none;
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.68rem;
-  line-height: 1.4;
-  text-align: center;
-}
-
-.hrd-support strong {
-  color: var(--ink);
-}
-
 .hero-video {
   display: block;
   width: min(100%, 420px);
