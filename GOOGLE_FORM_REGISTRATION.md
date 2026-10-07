@@ -9,7 +9,7 @@ AiSED International Conference 2026 Registration
 ## Form description
 
 2-4 December 2026  
-Shah Alam Convention Centre, Malaysia
+Selangor International Trade Centre (SITC), Malaysia
 
 ## Questions
 

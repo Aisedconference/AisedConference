@@ -23,7 +23,9 @@ test('the partner groups use the requested two-row sequence', async () => {
   assert.match(home, /assets\/eon-mobility-partner\.jpg/, 'homepage references the EON mobility partner logo');
   assert.match(home, /data-partner-role="Mobility Partner"/, 'homepage identifies EON as the mobility partner');
   assert.match(home, /data-partner-role="Strategic Media &amp; MSME Outreach Partner"/, 'homepage identifies Malaysia SME’s outreach role');
-  assert.equal((home.match(/class="logo-card partner-modal-trigger"/g) ?? []).length, 9, 'every non-hotel partner logo opens a modal');
+  assert.match(home, /assets\/sitc-venue-partner-logo\.png/, 'homepage references the SITC venue partner logo');
+  assert.match(home, /data-partner-role="Venue Partner"/, 'homepage identifies SITC as the venue partner');
+  assert.equal((home.match(/class="logo-card partner-modal-trigger"/g) ?? []).length, 10, 'every non-hotel partner logo opens a modal');
   assert.match(home, /class="hotel-partner-home-card partner-modal-trigger"/, 'the hotel opens a modal instead of expanding in place');
   assert.match(home, /id="partner-modal"/, 'homepage defines the shared partner modal');
   assert.match(home, /data-partner-link="\.\.\/hotel\.html"/, 'the hotel reservation link is held for the modal only');
