@@ -36,6 +36,10 @@ test("hotel logo links to the Mardhiyyah website and QR asset is available", () 
   );
   assert.match(hotelHtml, /src="assets\/mardhiyyah-hotel-logo\.png" alt="Mardhiyyah Hotel &amp; Suites logo"/);
   assert.match(hotelHtml, /src="assets\/mardhiyyah-whatsapp-reservation\.png" alt="Reservation Mardhiyyah WhatsApp business account QR code"/);
+  assert.match(
+    hotelHtml,
+    /<a class="hotel-qr-card" href="https:\/\/wa\.me\/message\/AUDIPT3KMCIZN1\?src=qr" target="_blank" rel="noopener" aria-label="Open Mardhiyyah Hotel WhatsApp reservation">[\s\S]*?mardhiyyah-whatsapp-reservation\.png[\s\S]*?<\/a>/
+  );
   assert.match(indexHtml, /<a class="logo-card hotel-logo-home" href="hotel\.html"[^>]*>[\s\S]*?src="assets\/mardhiyyah-hotel-logo\.png"[\s\S]*?<\/a>[\s\S]*?href="hotel\.html">Reservation<\/a>/);
   assert.ok(fs.existsSync(path.join(root, "assets/mardhiyyah-hotel-logo.png")));
   assert.ok(fs.existsSync(path.join(root, "assets/mardhiyyah-whatsapp-reservation.png")));
