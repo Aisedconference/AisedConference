@@ -3078,6 +3078,14 @@ h3 {
   transform: translateX(-166%) translateY(58px) translateZ(-40px) rotateY(13deg) scale(0.82);
 }
 
+.lazy-susan.three-pricing-cards .registration-fee-card.susan-pos-2 {
+  z-index: 3;
+  width: 30%;
+  opacity: 0.56;
+  filter: saturate(0.72);
+  transform: translateX(-166%) translateY(58px) translateZ(-40px) rotateY(13deg) scale(0.82);
+}
+
 @media (max-width: 700px) {
   .registration-fee-table-wrap {
     margin: 32px auto 24px;
@@ -3127,6 +3135,10 @@ h3 {
 
   .lazy-susan .registration-fee-card.susan-pos-2 {
     transform: translateX(86%) translateY(12px) translateZ(-110px) rotateY(-14deg) scale(0.58);
+  }
+
+  .lazy-susan.three-pricing-cards .registration-fee-card.susan-pos-2 {
+    transform: translateX(-136%) translateY(52px) translateZ(-30px) rotateY(10deg) scale(0.74);
   }
 
   .lazy-susan .registration-fee-card.susan-pos-3 {

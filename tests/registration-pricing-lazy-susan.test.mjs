@@ -9,12 +9,20 @@ const section = html.match(/<section class="section registration-section">([\s\S
 const homeSection = homeHtml.match(/<section class="section registration-section">([\s\S]*?)<\/section>/)?.[1] ?? '';
 
 test('the /home route includes the complete interactive pricing carousel', () => {
-  assert.equal([...homeSection.matchAll(/<article class="registration-fee-card(?: featured)?"/g)].length, 5);
+  assert.equal([...homeSection.matchAll(/<article class="registration-fee-card(?: featured)?"/g)].length, 3);
   assert.match(homeSection, /class="susan-arrow susan-arrow-prev"/);
   assert.match(homeSection, /class="susan-arrow susan-arrow-next"/);
   assert.match(homeHtml, /classList\.add\('lazy-susan'\)/);
   assert.match(homeHtml, /previousButton\.addEventListener\('click'/);
   assert.match(homeHtml, /nextButton\.addEventListener\('click'/);
+});
+
+test('the /home route presents the three requested conference pass categories', () => {
+  assert.equal([...homeSection.matchAll(/<article class="registration-fee-card(?: featured)?"/g)].length, 3);
+  assert.match(homeSection, /General Admission Conference Pass<\/span>[\s\S]*?<strong>RM1,800<\/strong>[\s\S]*?3 Days Conference Access/);
+  assert.match(homeSection, /Special Admission Conference Pass for Academics, Educators, Lecturers and Postgraduate Students<\/span>[\s\S]*?<strong>RM700<\/strong>[\s\S]*?3 Days Conference Access/);
+  assert.match(homeSection, /Conference Pass for Paper Presentation &amp; Publication<\/span>[\s\S]*?RM1,000[\s\S]*?RM850[\s\S]*?Academics \/ Postgraduate Students/);
+  assert.match(homeHtml, /2 Days Conference Access for HRD Corp Claimable/);
 });
 
 test('lazy Susan keeps all five pricing cards in one accessible carousel', () => {
@@ -80,15 +88,13 @@ test('each pricing category supplies its own benefit set', () => {
   assert.match(html, /benefitsByType\[benefitKey\]/);
 });
 
-test('student pricing is RM350 on the homepage', () => {
-  assert.match(section, /Student \/ Postgraduate Student<\/span>[\s\S]*?<strong>RM350<\/strong>/);
+test('the homepage does not present a separate student or HRD Corp pricing card', () => {
+  assert.doesNotMatch(homeSection, /Student \/ Postgraduate Student Conference Pass/);
+  assert.doesNotMatch(homeSection, /<span>HRD Corp Claimable<\/span>/);
 });
 
-test('paper submission pricing is labelled for academics and students on both homepage routes', () => {
-  for (const pageSection of [section, homeSection]) {
-    assert.match(pageSection, /Paper Submission<\/span>[\s\S]*?<small>Academics \/ Students<\/small>/);
-    assert.doesNotMatch(pageSection, /<small>Presenter \/ non-presenter<\/small>/);
-  }
+test('paper presentation and publication pricing is labelled for academics and postgraduate students on the /home route', () => {
+  assert.match(homeSection, /Conference Pass for Paper Presentation &amp; Publication<\/span>[\s\S]*?<small>Academics \/ Postgraduate Students · 3 Days Conference Access<\/small>/);
 });
 
 test('HRD Corp benefits explain the assisted claim process professionally', () => {
