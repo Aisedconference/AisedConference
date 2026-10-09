@@ -19,9 +19,9 @@ test('the /home route includes the complete interactive pricing carousel', () =>
 
 test('the /home route presents the three requested conference pass categories', () => {
   assert.equal([...homeSection.matchAll(/<article class="registration-fee-card(?: featured)?"/g)].length, 3);
-  assert.match(homeSection, /General Admission Conference Pass<\/span>[\s\S]*?<strong>RM1,800<\/strong>[\s\S]*?3 Days Conference Access/);
-  assert.match(homeSection, /Special Admission Conference Pass for Academics, Educators, Lecturers and Postgraduate Students<\/span>[\s\S]*?<strong>RM700<\/strong>[\s\S]*?3 Days Conference Access/);
-  assert.match(homeSection, /Conference Pass for Paper Presentation &amp; Publication<\/span>[\s\S]*?RM1,000[\s\S]*?RM850[\s\S]*?Academics \/ Postgraduate Students/);
+  assert.match(homeSection, /General Admission Conference Pass<\/span>[\s\S]*?<strong>RM1,800<\/strong>[\s\S]*?<\/div>\s*<ul/);
+  assert.match(homeSection, /<span>Special Admission Pass<\/span>[\s\S]*?<strong>RM700<\/strong>[\s\S]*?<small>For academics, educators, lecturers and postgraduate students<\/small>/);
+  assert.match(homeSection, /Paper Presentation &amp; Publication Pass<\/span>[\s\S]*?RM1,000[\s\S]*?RM850[\s\S]*?Academics \/ Postgraduate Students/);
   assert.match(homeHtml, /2 Days Conference Access for HRD Corp Claimable/);
 });
 
@@ -94,7 +94,7 @@ test('the homepage does not present a separate student or HRD Corp pricing card'
 });
 
 test('paper presentation and publication pricing is labelled for academics and postgraduate students on the /home route', () => {
-  assert.match(homeSection, /Conference Pass for Paper Presentation &amp; Publication<\/span>[\s\S]*?<small>Academics \/ Postgraduate Students · 3 Days Conference Access<\/small>/);
+  assert.match(homeSection, /Paper Presentation &amp; Publication Pass<\/span>[\s\S]*?<small>Academics \/ Postgraduate Students<\/small>/);
 });
 
 test('HRD Corp benefits explain the assisted claim process professionally', () => {
