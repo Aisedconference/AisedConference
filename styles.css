@@ -2964,6 +2964,22 @@ h3 {
   text-align: center;
 }
 
+.general-hrdc-badges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.general-hrdc-badges img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #fff;
+}
+
 .hrdc-fee-summary {
   justify-items: center;
   gap: 4px;
@@ -3046,6 +3062,11 @@ h3 {
   color: #f4df8a;
 }
 
+.lazy-susan.three-pricing-cards .registration-fee-card.susan-pos-0 {
+  grid-template-columns: minmax(290px, 1.1fr) minmax(180px, 0.9fr);
+  gap: 16px;
+}
+
 .lazy-susan .registration-fee-card.susan-pos-1 {
   z-index: 3;
   width: 30%;
@@ -3123,6 +3144,10 @@ h3 {
     gap: 14px;
     width: 82%;
     transform: translateX(-50%) translateY(82px) translateZ(60px) scale(1.02);
+  }
+
+  .lazy-susan.three-pricing-cards .registration-fee-card.susan-pos-0 {
+    grid-template-columns: 1fr;
   }
 
   .lazy-susan .registration-fee-card.susan-pos-1 {

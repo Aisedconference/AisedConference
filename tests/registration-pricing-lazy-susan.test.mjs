@@ -102,6 +102,12 @@ test('academic conference-pass eligibility is presented as a benefit', () => {
   assert.match(homeHtml, /academic: \[\s*'For academics, educators, lecturers and postgraduate students',\s*'3 Days Conference Access'\s*\]/);
 });
 
+test('general admission displays the HRD Corp accreditation badges without crowding the benefits', () => {
+  assert.match(homeSection, /class="general-hrdc-badges"[\s\S]*?hrd-corp-registered-training-provider\.jpeg[\s\S]*?hrd-corp-claimable\.jpeg/);
+  assert.match(css, /\.general-hrdc-badges\s*\{/);
+  assert.match(css, /three-pricing-cards[\s\S]*?minmax\(290px,\s*1\.1fr\) minmax\(180px,\s*0\.9fr\)/);
+});
+
 test('HRD Corp benefits explain the assisted claim process professionally', () => {
   assert.match(html, /Enjoy a seamless HRD Corp claim process\./);
   assert.match(html, /Our team will assist with the submission/);
