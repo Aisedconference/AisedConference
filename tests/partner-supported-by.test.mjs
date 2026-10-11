@@ -33,6 +33,6 @@ test('the partner groups combine Mardhiyyah with strategic and event partners', 
   assert.match(styles, /\.partner-modal\s*\{/, 'styles define the partner modal overlay');
   assert.match(styles, /\.partner-group\.supported-by/, 'styles lay out the Supported By group');
   assert.match(styles, /\.partner-group\.organisers/, 'styles preserve the Organisers layout');
-  assert.match(styles, /\.partner-group\.supported-by\s*\{\s*grid-column:\s*1\s*\/\s*span\s*4;/, 'Supported By occupies the left side of the second row');
+  assert.match(styles, /\.partner-group\.supported-by\s*\{\s*grid-column:\s*1\s*\/\s*span\s*3;/, 'Supported By sits below Organisers in the left-hand second row');
   assert.match(styles, /\.partner-group\.organisers\s*\{\s*grid-column:\s*1\s*\/\s*span\s*3;/, 'Organisers leads the primary partner row');
 });
