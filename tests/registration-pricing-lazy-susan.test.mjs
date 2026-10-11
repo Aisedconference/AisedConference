@@ -108,6 +108,15 @@ test('general admission displays the HRD Corp accreditation badges without crowd
   assert.match(css, /three-pricing-cards[\s\S]*?minmax\(290px,\s*1\.1fr\) minmax\(180px,\s*0\.9fr\)/);
 });
 
+test('Mardhiyyah is grouped with strategic and event partners instead of appearing in a separate hotel card', () => {
+  const partners = homeHtml.match(/<div class="partner-groups"[\s\S]*?<\/div>\s*<\/section>/)?.[0] ?? '';
+
+  assert.match(partners, /<h3>Strategic &amp; Event Partners<\/h3>/);
+  assert.match(partners, /class="partner-group strategic"[\s\S]*?mardhiyyah-hotel-logo\.png/);
+  assert.match(partners, /data-partner-role="Official Hotel Partner"[\s\S]*?data-partner-link="\.\.\/hotel\.html"/);
+  assert.doesNotMatch(partners, /class="partner-group hotel-partner-home"/);
+});
+
 test('HRD Corp benefits explain the assisted claim process professionally', () => {
   assert.match(html, /Enjoy a seamless HRD Corp claim process\./);
   assert.match(html, /Our team will assist with the submission/);
