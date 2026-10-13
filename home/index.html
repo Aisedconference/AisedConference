@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AiSED International Conference 2026</title>
-  <link rel="stylesheet" href="../styles.css?v=partner-panel-preview">
+  <link rel="stylesheet" href="../styles.css?v=pricing-paper-spacing">
 </head>
 <body>
   <header class="site-header">
@@ -149,9 +149,9 @@
       <div class="registration-fee-table-wrap">
         <p class="registration-fee-heading">Conference pass fees</p>
         <div class="registration-fee-grid" aria-label="Conference pass fees">
-          <article class="registration-fee-card featured" data-registration-type="General Admission" data-benefit-key="general" tabindex="0">
+            <article class="registration-fee-card featured" data-registration-type="HRD Corp Claimable" data-benefit-key="hrdc" tabindex="0">
             <div class="registration-fee-summary">
-              <span>General Admission Conference Pass</span>
+                <span>HRD Claimable</span>
               <strong>RM1,800</strong>
               <div class="general-hrdc-badges" aria-label="HRD Corp accreditation badges">
                 <img src="../assets/hrd-corp-registered-training-provider.jpeg" alt="HRD Corp Registered Training Provider">
@@ -159,10 +159,16 @@
               </div>
             </div>
             <ul class="registration-benefit-list" aria-label="Conference participation benefits">
-              <li>3 Days Conference Access</li>
-              <li>2 Days Conference Access for HRD Corp Claimable</li>
-            </ul>
-          </article>
+                <li>2 Days Conference Access</li>
+                <li>HRD Corp Claimable</li>
+              </ul>
+            </article>
+            <article class="registration-fee-card" data-registration-type="General Admission" data-benefit-key="general" tabindex="0">
+              <div class="registration-fee-summary">
+                <span>General Admission Pass</span>
+                <strong>RM1,800</strong>
+              </div>
+            </article>
           <article class="registration-fee-card" data-registration-type="Academics / Students / Postgraduate Students" data-benefit-key="academic" tabindex="0">
             <div class="registration-fee-summary">
               <span>Academic Conference Pass</span>
@@ -280,17 +286,23 @@
       if (!carousel || cards.length < 2) return;
 
       const benefitsByType = {
+        hrdc: [
+          '2 Days Conference Access',
+          'HRD Corp Claimable'
+        ],
         general: [
-          '3 Days Conference Access',
-          '2 Days Conference Access for HRD Corp Claimable'
+          '3 Days Conference Pass',
+          'Opening ceremony and full access to all parallel sessions',
+          'Inclusive Lunch'
         ],
         academic: [
           'For academics, educators, lecturers and postgraduate students',
-          '3 Days Conference Access'
+          '3 Days Conference Access',
+          'MyCITE Publication'
         ],
         paper: [
           'Paper Publication',
-          'Access to Conference'
+          'Physical Presentation or Online Presentation Mode'
         ]
       };
 

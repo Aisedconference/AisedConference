@@ -2961,6 +2961,7 @@ h3 {
   display: grid;
   align-content: center;
   gap: 7px;
+  min-width: 0;
   text-align: center;
 }
 
@@ -3015,6 +3016,7 @@ h3 {
   gap: 7px;
   margin: 0;
   padding: 0;
+  min-width: 0;
   color: rgba(255, 255, 255, 0.86);
   font-size: 0.78rem;
   line-height: 1.35;
@@ -3051,6 +3053,17 @@ h3 {
   opacity: 1;
   filter: none;
   transform: translateX(-50%) translateY(98px) translateZ(80px) scale(1.08);
+}
+
+/* The paper-pass price and eligibility line need a little more room than the
+   other cards, so reserve a wider left column and a clear gutter for benefits. */
+.lazy-susan .registration-fee-card[data-benefit-key="paper"].susan-pos-0 {
+  grid-template-columns: minmax(270px, 0.95fr) minmax(220px, 1.05fr);
+  gap: 36px;
+}
+
+.lazy-susan .registration-fee-card[data-benefit-key="paper"].susan-pos-0 strong {
+  font-size: 1.55rem;
 }
 
 .lazy-susan .registration-fee-card.susan-pos-0 span,

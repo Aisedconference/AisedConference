@@ -9,7 +9,7 @@ const section = html.match(/<section class="section registration-section">([\s\S
 const homeSection = homeHtml.match(/<section class="section registration-section">([\s\S]*?)<\/section>/)?.[1] ?? '';
 
 test('the /home route includes the complete interactive pricing carousel', () => {
-  assert.equal([...homeSection.matchAll(/<article class="registration-fee-card(?: featured)?"/g)].length, 3);
+  assert.equal([...homeSection.matchAll(/<article class="registration-fee-card(?: featured)?"/g)].length, 4);
   assert.match(homeSection, /class="susan-arrow susan-arrow-prev"/);
   assert.match(homeSection, /class="susan-arrow susan-arrow-next"/);
   assert.match(homeHtml, /classList\.add\('lazy-susan'\)/);
@@ -17,12 +17,15 @@ test('the /home route includes the complete interactive pricing carousel', () =>
   assert.match(homeHtml, /nextButton\.addEventListener\('click'/);
 });
 
-test('the /home route presents the three requested conference pass categories', () => {
-  assert.equal([...homeSection.matchAll(/<article class="registration-fee-card(?: featured)?"/g)].length, 3);
-  assert.match(homeSection, /General Admission Conference Pass<\/span>[\s\S]*?<strong>RM1,800<\/strong>[\s\S]*?<\/div>\s*<ul/);
+test('the /home route separates the HRD Claimable and General Admission passes', () => {
+  assert.equal([...homeSection.matchAll(/<article class="registration-fee-card(?: featured)?"/g)].length, 4);
+  assert.match(homeSection, /HRD Claimable<\/span>[\s\S]*?<strong>RM1,800<\/strong>[\s\S]*?<\/div>\s*<ul/);
+  assert.match(homeSection, /General Admission Pass<\/span>[\s\S]*?<strong>RM1,800<\/strong>/);
   assert.match(homeSection, /<span>Academic Conference Pass<\/span>[\s\S]*?<strong>RM700<\/strong>[\s\S]*?<\/div>\s*<\/article>/);
   assert.match(homeSection, /Paper Presentation &amp; Publication Pass<\/span>[\s\S]*?RM1,000[\s\S]*?RM850[\s\S]*?Academics \/ Postgraduate Students/);
-  assert.match(homeHtml, /2 Days Conference Access for HRD Corp Claimable/);
+  assert.match(homeHtml, /hrdc:\s*\[\s*'2 Days Conference Access',\s*'HRD Corp Claimable'\s*\]/);
+  assert.match(homeHtml, /Opening ceremony and full access to all parallel sessions/);
+  assert.match(homeHtml, /Inclusive Lunch/);
 });
 
 test('lazy Susan keeps all five pricing cards in one accessible carousel', () => {
@@ -88,18 +91,19 @@ test('each pricing category supplies its own benefit set', () => {
   assert.match(html, /benefitsByType\[benefitKey\]/);
 });
 
-test('the homepage does not present a separate student or HRD Corp pricing card', () => {
+test('the homepage does not present a separate student pricing card', () => {
   assert.doesNotMatch(homeSection, /Student \/ Postgraduate Student Conference Pass/);
-  assert.doesNotMatch(homeSection, /<span>HRD Corp Claimable<\/span>/);
+  assert.match(homeSection, /<span>HRD Claimable<\/span>/);
 });
 
 test('paper presentation and publication pricing is labelled for academics and postgraduate students on the /home route', () => {
   assert.match(homeSection, /Paper Presentation &amp; Publication Pass<\/span>[\s\S]*?<small>Academics \/ Postgraduate Students<\/small>/);
-  assert.match(homeHtml, /paper: \[\s*'Paper Publication',\s*'Access to Conference'\s*\]/);
+  assert.match(homeHtml, /paper: \[\s*'Paper Publication',\s*'Physical Presentation or Online Presentation Mode'\s*\]/);
+  assert.match(css, /data-benefit-key="paper"\]\.susan-pos-0[\s\S]*?gap:\s*36px/);
 });
 
 test('academic conference-pass eligibility is presented as a benefit', () => {
-  assert.match(homeHtml, /academic: \[\s*'For academics, educators, lecturers and postgraduate students',\s*'3 Days Conference Access'\s*\]/);
+  assert.match(homeHtml, /academic: \[\s*'For academics, educators, lecturers and postgraduate students',\s*'3 Days Conference Access',\s*'MyCITE Publication'\s*\]/);
 });
 
 test('general admission displays the HRD Corp accreditation badges without crowding the benefits', () => {
@@ -112,7 +116,7 @@ test('Mardhiyyah is grouped with strategic and event partners instead of appeari
   const partners = homeHtml.match(/<div class="partner-groups"[\s\S]*?<\/div>\s*<\/section>/)?.[0] ?? '';
 
   assert.match(partners, /<h3>Strategic &amp; Event Partners<\/h3>/);
-  assert.match(partners, /class="partner-group strategic"[\s\S]*?mardhiyyah-hotel-logo\.png/);
+  assert.match(partners, /class="partner-row strategic"[\s\S]*?mardhiyyah-hotel-logo\.png/);
   assert.match(partners, /data-partner-role="Official Hotel Partner"[\s\S]*?data-partner-link="\.\.\/hotel\.html"/);
   assert.doesNotMatch(partners, /class="partner-group hotel-partner-home"/);
 });
