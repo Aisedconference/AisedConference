@@ -22,6 +22,36 @@ const registrationWebapp = fs.readFileSync(
   "utf8"
 );
 
+function getCallPaperFeeBreakdownForTest(values) {
+  const start = appJs.indexOf("function getCallPaperFeeBreakdown(form) {");
+  const end = appJs.indexOf("\nfunction hidePaymentEstimate", start);
+  assert.notEqual(start, -1, "paper fee calculation should exist");
+  assert.notEqual(end, -1, "paper fee calculation should end before estimate helpers");
+
+  const context = {
+    registrationState: {
+      subsection: "",
+      type: "Presenter"
+    },
+    callPaperFees: {
+      "Academics / Entrepreneurs / Others": 1000,
+      "Postgraduate Students": 850
+    }
+  };
+  vm.createContext(context);
+  vm.runInContext(`${appJs.slice(start, end)}\nglobalThis.__getBreakdown = getCallPaperFeeBreakdown;`, context);
+
+  return context.__getBreakdown({
+    querySelector(selector) {
+      const name = selector.match(/name='([^']+)'/)?.[1];
+      if (name === "submit_to_scopus") return values.submitToScopus ? { value: values.submitToScopus } : null;
+      if (name === "scopus_presentation_mode") return { value: values.presentationMode || "" };
+      if (name === "registration_subsection") return { value: values.subsection || "" };
+      return null;
+    }
+  });
+}
+
 function loadRegistrationBackend() {
   const createdFolders = [];
   const context = {
@@ -210,7 +240,6 @@ test("call for papers forms register every author as a presenter and collect SCO
   assert.match(appJs, /"Academics \/ Entrepreneurs \/ Others":\s*1000/);
   assert.match(appJs, /"Postgraduate Students":\s*850/);
   assert.doesNotMatch(appJs, /const scopusPublicationFees/);
-  assert.match(appJs, /const total = baseFee;/);
   assert.match(appJs, /const participantFees = \{[\s\S]*"HRD Corp Claimable":\s*1800[\s\S]*"General Admission":\s*1800[\s\S]*"Government Agencies":\s*1800/);
   assert.match(appJs, /const academicParticipantFees = \{[\s\S]*"Academician \/ Educator \/ Lecturer":\s*700[\s\S]*"Student \/ Postgraduate Student":\s*350/);
   assert.match(appJs, /name="academic_participant_category"/);
@@ -231,6 +260,24 @@ test("call for papers forms register every author as a presenter and collect SCO
   assert.match(css, /\.discount-code-field\[hidden\]\s*\{\s*display:\s*none;/);
   assert.match(css, /\.registration-submit-row\s*\{/);
   assert.match(css, /\.action-form \.registration-submit-button\s*\{/);
+});
+
+test("online paper presentation deducts 30 percent from the registration fee", () => {
+  const academic = getCallPaperFeeBreakdownForTest({
+    subsection: "Academics / Entrepreneurs / Others",
+    presentationMode: "Online Presentation"
+  });
+  const postgraduate = getCallPaperFeeBreakdownForTest({
+    subsection: "Postgraduate Students",
+    presentationMode: "Online Presentation"
+  });
+
+  assert.equal(academic.baseFee, 1000);
+  assert.equal(academic.onlinePresentationDiscount, 300);
+  assert.equal(academic.total, 700);
+  assert.equal(postgraduate.baseFee, 850);
+  assert.equal(postgraduate.onlinePresentationDiscount, 255);
+  assert.equal(postgraduate.total, 595);
 });
 
 test("call for papers backend stores SCOPUS choice and sends papers auto reply", () => {

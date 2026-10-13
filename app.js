@@ -162,9 +162,20 @@ function getCallPaperFeeBreakdown(form) {
   const submitToScopus = form.querySelector("[name='submit_to_scopus']:checked")?.value || "";
   const scopusMode = form.querySelector("[name='scopus_presentation_mode']")?.value || "";
   const baseFee = callPaperFees[subsection] || 0;
-  const total = baseFee;
+  const onlinePresentationDiscount = scopusMode === "Online Presentation"
+    ? Math.round(baseFee * 0.3)
+    : 0;
+  const total = baseFee - onlinePresentationDiscount;
 
-  return { subsection, type, submitToScopus, scopusMode, baseFee, total };
+  return {
+    subsection,
+    type,
+    submitToScopus,
+    scopusMode,
+    baseFee,
+    onlinePresentationDiscount,
+    total
+  };
 }
 
 function hidePaymentEstimate({ estimateContainer, amountInput, breakdownInput }) {
@@ -228,7 +239,14 @@ function updateCallPaperEstimate(form) {
     return;
   }
 
-  const { subsection, type, submitToScopus, baseFee, total } = getCallPaperFeeBreakdown(form);
+  const {
+    subsection,
+    type,
+    submitToScopus,
+    baseFee,
+    onlinePresentationDiscount,
+    total
+  } = getCallPaperFeeBreakdown(form);
 
   if (estimateContainer) estimateContainer.hidden = false;
 
@@ -238,7 +256,11 @@ function updateCallPaperEstimate(form) {
     ? `${subsection} ${type}: RM${baseFee.toLocaleString("en-MY")}`
     : "Please choose who is registering.";
   const totalText = total ? `RM${total.toLocaleString("en-MY")}` : "RM0";
-  const breakdownText = baseFee ? baseText : "";
+  const breakdownText = baseFee
+    ? onlinePresentationDiscount
+      ? `${baseText} · Online presentation discount (30%): -RM${onlinePresentationDiscount.toLocaleString("en-MY")}`
+      : baseText
+    : "";
 
   if (estimateAmount) estimateAmount.textContent = totalText;
   if (scopusSurchargeNotice) scopusSurchargeNotice.hidden = submitToScopus !== "Yes";
