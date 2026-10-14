@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AiSED International Conference 2026</title>
-  <link rel="stylesheet" href="../styles.css?v=pricing-paper-spacing">
+  <link rel="stylesheet" href="../styles.css?v=prospectus-book">
 </head>
 <body>
   <header class="site-header">
@@ -97,11 +97,13 @@
           </div>
         </div>
         <div class="intro-prospectus" data-prospectus-pages="14">
-          <iframe id="prospectus-viewer" title="AiSED International Conference 2026 prospectus, page 1" src="https://drive.google.com/file/d/1tM9fE-IOH1UpUCLIw8pbswL6Q9AzEvZa/preview#page=1" loading="lazy" allow="autoplay"></iframe>
-          <div class="prospectus-controls" aria-label="Prospectus page navigation">
-            <button class="secondary-button prospectus-page-button" type="button" data-prospectus-previous aria-controls="prospectus-viewer">Previous page</button>
-            <span class="prospectus-page-status" data-prospectus-page-status aria-live="polite">Page 1 of 14</span>
-            <button class="primary-button prospectus-page-button" type="button" data-prospectus-next aria-controls="prospectus-viewer">Next page</button>
+          <div class="prospectus-stage">
+            <iframe id="prospectus-viewer" title="AiSED International Conference 2026 prospectus, page 1" src="https://drive.google.com/file/d/1tM9fE-IOH1UpUCLIw8pbswL6Q9AzEvZa/preview#page=1" loading="lazy" allow="autoplay"></iframe>
+            <div class="prospectus-controls" aria-label="Prospectus page navigation">
+              <button class="prospectus-page-button prospectus-previous" type="button" data-prospectus-previous aria-controls="prospectus-viewer" aria-label="Previous prospectus page"><span aria-hidden="true">‹</span></button>
+              <span class="prospectus-page-status" data-prospectus-page-status aria-live="polite">1 / 14</span>
+              <button class="prospectus-page-button prospectus-next" type="button" data-prospectus-next aria-controls="prospectus-viewer" aria-label="Next prospectus page"><span aria-hidden="true">›</span></button>
+            </div>
           </div>
           <a class="prospectus-open-link" href="https://drive.google.com/file/d/1tM9fE-IOH1UpUCLIw8pbswL6Q9AzEvZa/view?usp=drive_link" target="_blank" rel="noopener">Open full prospectus in a new tab</a>
         </div>
@@ -488,7 +490,7 @@
       const renderPage = () => {
         viewer.src = `${previewUrl}#page=${page}`;
         viewer.title = `AiSED International Conference 2026 prospectus, page ${page}`;
-        status.textContent = `Page ${page} of ${pageCount}`;
+        status.textContent = `${page} / ${pageCount}`;
         previous.disabled = page === 1;
         next.disabled = page === pageCount;
       };
