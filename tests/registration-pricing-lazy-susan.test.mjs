@@ -98,12 +98,12 @@ test('the homepage does not present a separate student pricing card', () => {
 
 test('paper presentation and publication pricing is labelled for academics and postgraduate students on the /home route', () => {
   assert.match(homeSection, /Paper Presentation &amp; Publication Pass<\/span>[\s\S]*?<small>Academics \/ Postgraduate Students<\/small>/);
-  assert.match(homeHtml, /paper: \[\s*'Paper Publication',\s*'Physical Presentation or Online Presentation Mode'\s*\]/);
+  assert.match(homeHtml, /paper: \[\s*'Paper Publication',\s*'MyCITE Publication',\s*'Physical Presentation or Online Presentation Mode'\s*\]/);
   assert.match(css, /data-benefit-key="paper"\]\.susan-pos-0[\s\S]*?gap:\s*36px/);
 });
 
-test('academic conference-pass eligibility is presented as a benefit', () => {
-  assert.match(homeHtml, /academic: \[\s*'For academics, educators, lecturers and postgraduate students',\s*'3 Days Conference Access',\s*'MyCITE Publication'\s*\]/);
+test('academic conference-pass eligibility is presented as a benefit without publication entitlement', () => {
+  assert.match(homeHtml, /academic: \[\s*'For academics, educators, lecturers and postgraduate students',\s*'3 Days Conference Access'\s*\]/);
 });
 
 test('general admission displays the HRD Corp accreditation badges without crowding the benefits', () => {
