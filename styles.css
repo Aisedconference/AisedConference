@@ -3126,15 +3126,21 @@ h3 {
   transform: translateX(-50%) translateY(98px) translateZ(80px) scale(1.08);
 }
 
-/* The paper-pass price and eligibility line need a little more room than the
-   other cards, so reserve a wider left column and a clear gutter for benefits. */
+/* Keep the Call for Papers checklist inside its card when the longer
+   presentation-mode item wraps on narrower desktop screens. */
 .lazy-susan .registration-fee-card[data-benefit-key="paper"].susan-pos-0 {
-  grid-template-columns: minmax(270px, 0.95fr) minmax(220px, 1.05fr);
-  gap: 36px;
+  grid-template-columns: minmax(220px, 0.95fr) minmax(0, 1.05fr);
+  gap: 18px;
 }
 
 .lazy-susan .registration-fee-card[data-benefit-key="paper"].susan-pos-0 strong {
   font-size: 1.55rem;
+}
+
+.lazy-susan .registration-fee-card[data-benefit-key="paper"].susan-pos-0 .registration-benefit-list {
+  gap: 5px;
+  font-size: 0.74rem;
+  line-height: 1.28;
 }
 
 .lazy-susan .registration-fee-card.susan-pos-0 span,

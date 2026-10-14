@@ -99,7 +99,8 @@ test('the homepage does not present a separate student pricing card', () => {
 test('paper presentation and publication pricing is labelled for academics and postgraduate students on the /home route', () => {
   assert.match(homeSection, /Paper Presentation &amp; Publication Pass<\/span>[\s\S]*?<small>Academics \/ Postgraduate Students<\/small>/);
   assert.match(homeHtml, /paper: \[\s*'Paper Publication',\s*'MyCITE Publication',\s*'Physical Presentation or Online Presentation Mode'\s*\]/);
-  assert.match(css, /data-benefit-key="paper"\]\.susan-pos-0[\s\S]*?gap:\s*36px/);
+  assert.match(css, /data-benefit-key="paper"\]\.susan-pos-0[\s\S]*?grid-template-columns:\s*minmax\(220px,\s*0\.95fr\)\s*minmax\(0,\s*1\.05fr\)[\s\S]*?gap:\s*18px/);
+  assert.match(css, /data-benefit-key="paper"\]\.susan-pos-0 \.registration-benefit-list[\s\S]*?font-size:\s*0\.74rem/);
 });
 
 test('academic conference-pass eligibility is presented as a benefit without publication entitlement', () => {
