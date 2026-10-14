@@ -30,6 +30,7 @@ test("payment method page publishes the AeU guideline details", () => {
   assert.match(html, /data-payment-panel="method-2" hidden/);
   assert.match(html, /Step 2: Upload your receipt/);
   assert.match(html, /class="primary-button" href="https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLSeW7uztPA9Kuye_yrjRSPuhDIFCfOql8hz1v8IN8Obxf1cJYA\/viewform" target="_blank" rel="noopener noreferrer">Upload Receipt<\/a>/);
+  assert.match(html, /Or email your receipt to <a href="mailto:registration@aisedconference\.org">registration@aisedconference\.org<\/a>\./);
   assert.doesNotMatch(html, /Step 2: Email your receipt/);
   assert.doesNotMatch(html, /data-payment-confirmation/);
   assert.doesNotMatch(html, /data-payment-step-two-title/);
@@ -52,7 +53,7 @@ test("payment method page publishes the AeU guideline details", () => {
   assert.match(html, /8000-28-3319/);
   assert.match(html, /CIMB Bank Berhad/);
   assert.match(html, /CIBBMYKL/);
-  assert.doesNotMatch(html, /mailto:registration@aisedconference\.org/);
+  assert.match(html, /class="payment-receipt-card"/);
 });
 
 test("clean payment route forwards to the existing payment page", () => {

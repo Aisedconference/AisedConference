@@ -3908,6 +3908,54 @@ h3 {
   margin: 0;
 }
 
+.payment-receipt-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 20px;
+  width: min(100%, 760px);
+  padding: 20px 24px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.payment-receipt-number {
+  display: grid;
+  width: 70px;
+  height: 70px;
+  place-items: center;
+  border-radius: 18px;
+  color: #ffffff;
+  background: var(--green);
+  font-size: 1.55rem;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+}
+
+.payment-receipt-copy {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+}
+
+.payment-receipt-copy strong {
+  color: var(--blue-dark);
+  font-size: 1.28rem;
+  line-height: 1.25;
+}
+
+.payment-receipt-copy p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.payment-receipt-copy p a {
+  color: var(--green);
+  font-weight: 850;
+}
+
 .payment-method-head {
   display: grid;
   grid-template-columns: 1fr;
