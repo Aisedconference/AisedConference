@@ -23,4 +23,8 @@ test('public venue copy identifies SITC as previously known as SACC', async () =
   assert.match(home, /aised-hero-sitc\.png/);
   assert.match(home, /class="intro-layout intro-layout-single"/);
   assert.doesNotMatch(home, /prospectus-viewer/);
+  assert.match(home, /Conference highlights/);
+  assert.match(home, /Official Opening Ceremony/);
+  assert.match(home, /Entrepreneurship 5\.0 Forum/);
+  assert.match(home, /MoU signing ceremonies/);
 });

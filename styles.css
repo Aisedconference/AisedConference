@@ -795,7 +795,9 @@ h3 {
 }
 
 .intro-layout-single {
-  grid-template-columns: minmax(0, 780px);
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.78fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: stretch;
 }
 
 .intro-copy {
@@ -808,6 +810,71 @@ h3 {
   color: var(--muted);
   font-size: 1.02rem;
   line-height: 1.58;
+}
+
+.conference-highlights {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  padding: clamp(22px, 3vw, 30px);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: var(--shadow);
+}
+
+.conference-highlights h3 {
+  margin: 0;
+  color: var(--green-dark);
+  font-size: clamp(1.45rem, 2vw, 1.9rem);
+}
+
+.conference-highlights ol {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: highlights;
+}
+
+.conference-highlights li {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  min-height: 58px;
+  padding-left: 48px;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.45;
+  counter-increment: highlights;
+}
+
+.conference-highlights li::before {
+  content: counter(highlights, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 50%;
+  background: #f8edc4;
+  color: var(--green-dark);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.conference-highlights li strong {
+  color: var(--green-dark);
+  font-size: 0.98rem;
+}
+
+.conference-highlights .text-link {
+  min-width: 0;
+  width: fit-content;
+  margin-top: 4px;
 }
 
 .intro-image {
