@@ -21,9 +21,6 @@ test('public venue copy identifies SITC as previously known as SACC', async () =
   assert.match(home, /data-partner-name="Selangor International Trade Centre \(SITC\) \(Previously known as SACC\)"/);
   assert.match(home, /sitc-venue-partner-logo\.png/);
   assert.match(home, /aised-hero-sitc\.png/);
-  assert.match(home, /class="intro-prospectus"/);
-  assert.match(home, /data-prospectus-previous/);
-  assert.match(home, /data-prospectus-next/);
-  assert.match(home, /prospectus-pages\/page-01\.jpg/);
-  assert.match(home, /String\(page\)\.padStart\(2, '0'\)/);
+  assert.match(home, /class="intro-layout intro-layout-single"/);
+  assert.doesNotMatch(home, /prospectus-viewer/);
 });

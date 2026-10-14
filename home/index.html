@@ -83,7 +83,7 @@
     </div>
 
     <section class="section alt" id="conference-overview">
-      <div class="intro-layout">
+      <div class="intro-layout intro-layout-single">
         <div class="intro-copy">
           <p class="eyebrow">Introduction</p>
           <h2>AiSED International Conference 2026.</h2>
@@ -95,17 +95,6 @@
           <div class="section-actions compact-actions">
             <a class="secondary-button" href="https://drive.google.com/file/d/1tM9fE-IOH1UpUCLIw8pbswL6Q9AzEvZa/view?usp=drive_link" target="_blank" rel="noopener">Download Prospectus</a>
           </div>
-        </div>
-        <div class="intro-prospectus" data-prospectus-pages="14">
-          <div class="prospectus-stage">
-            <img id="prospectus-viewer" src="../assets/prospectus-pages/page-01.jpg" alt="AiSED International Conference 2026 prospectus, page 1" loading="eager">
-            <div class="prospectus-controls" aria-label="Prospectus page navigation">
-              <button class="prospectus-page-button prospectus-previous" type="button" data-prospectus-previous aria-controls="prospectus-viewer" aria-label="Previous prospectus page"><span aria-hidden="true">‹</span></button>
-              <span class="prospectus-page-status" data-prospectus-page-status aria-live="polite">1 / 14</span>
-              <button class="prospectus-page-button prospectus-next" type="button" data-prospectus-next aria-controls="prospectus-viewer" aria-label="Next prospectus page"><span aria-hidden="true">›</span></button>
-            </div>
-          </div>
-          <a class="prospectus-open-link" href="https://drive.google.com/file/d/1tM9fE-IOH1UpUCLIw8pbswL6Q9AzEvZa/view?usp=drive_link" target="_blank" rel="noopener">Open full prospectus in a new tab</a>
         </div>
       </div>
     </section>
@@ -474,42 +463,6 @@
 
       updateCountdown();
       if (Date.now() < target) window.setInterval(updateCountdown, 1000);
-    })();
-
-    (() => {
-      const viewer = document.getElementById('prospectus-viewer');
-      const panel = viewer?.closest('.intro-prospectus');
-      const stage = viewer?.closest('.prospectus-stage');
-      const previous = panel?.querySelector('[data-prospectus-previous]');
-      const next = panel?.querySelector('[data-prospectus-next]');
-      const status = panel?.querySelector('[data-prospectus-page-status]');
-      let pageCount = Number(panel?.dataset.prospectusPages || 1);
-      let page = 1;
-      if (!viewer || !stage || !previous || !next || !status || !Number.isFinite(pageCount)) return;
-
-      const updateControls = () => {
-        viewer.alt = `AiSED International Conference 2026 prospectus, page ${page}`;
-        status.textContent = `${page} / ${pageCount}`;
-        previous.disabled = page === 1;
-        next.disabled = page === pageCount;
-      };
-
-      const renderPage = () => {
-        stage.classList.add('is-loading');
-        updateControls();
-        viewer.src = `../assets/prospectus-pages/page-${String(page).padStart(2, '0')}.jpg`;
-      };
-
-      previous.addEventListener('click', () => {
-        page = Math.max(1, page - 1);
-        renderPage();
-      });
-      next.addEventListener('click', () => {
-        page = Math.min(pageCount, page + 1);
-        renderPage();
-      });
-      viewer.addEventListener('load', () => stage.classList.remove('is-loading'));
-      updateControls();
     })();
 
     (() => {
