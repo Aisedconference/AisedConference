@@ -11,7 +11,7 @@ const registrationIndexHtml = fs.readFileSync(path.join(root, "registration", "i
 test("academic participant dropdown appears before Title and submits the correct fee", () => {
   assert.match(
     appJs,
-    /const academicParticipantFees = \{[\s\S]*"Academician \/ Educator \/ Lecturer":\s*700[\s\S]*"Student \/ Postgraduate Student":\s*350/
+    /const academicParticipantFees = \{[\s\S]*"Academician \/ Educator \/ Lecturer":\s*700[\s\S]*"Student \/ Postgraduate Student":\s*700/
   );
   assert.match(appJs, /<label>Participant category\s*<select id="participant-registration-type" name="academic_participant_category" required>/);
   assert.match(appJs, /<option value="Academician \/ Educator \/ Lecturer">Academician \/ Educator \/ Lecturer<\/option>/);
@@ -39,7 +39,7 @@ test("country field is included where required and excluded for HRDC and Governm
   assert.match(appJs, /registrationState\.category === "partners"[\s\S]*buildField\("country", "Country of Origin", "text", true, `placeholder="e\.g, Malaysia"`\)/);
 });
 
-test("registration pages load the RM350 fee logic with a fresh asset version", () => {
-  assert.match(registrationHtml, /app\.js\?v=20260902-student350/);
-  assert.match(registrationIndexHtml, /\.\.\/app\.js\?v=20260902-student350/);
+test("registration pages load the RM700 academic fee logic with a fresh asset version", () => {
+  assert.match(registrationHtml, /app\.js\?v=20261014-academic700/);
+  assert.match(registrationIndexHtml, /\.\.\/app\.js\?v=20261014-academic700/);
 });
