@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Payment Method | AiSED International Conference 2026</title>
-  <link rel="stylesheet" href="styles.css?v=20260724-registration-v2">
+  <link rel="stylesheet" href="styles.css?v=payment-upload-receipt">
 </head>
 <body>
   <header class="site-header">
@@ -32,7 +32,7 @@
     <section class="page-hero">
       <p class="eyebrow">Payment method</p>
       <h1>Payment guidelines.</h1>
-      <p>Complete payment using one of the methods below, then email your receipt for verification.</p>
+      <p>Complete payment using one of the methods below, then upload your receipt for verification.</p>
       <div class="section-actions">
         <a class="secondary-button" href="registration.html#registration-options" data-back-link>Back to Previous Page</a>
       </div>
@@ -86,16 +86,9 @@
         </article>
       </div>
 
-      <h2 class="payment-step-two-title" data-payment-step-two-title hidden>Step 2: Email your receipt</h2>
-      <div class="payment-confirmation-card" data-payment-confirmation hidden>
-        <div>
-          <p>Send receipt to <a href="mailto:registration@aisedconference.org">registration@aisedconference.org</a>.</p>
-        </div>
-        <p class="payment-include-note"><strong>Please include the information below:</strong></p>
-        <div class="payment-reference-grid" aria-label="Payment reference details">
-          <div><strong>Reference</strong><span>Registration ID and Name<br><small>Example: REG-XXXXXX-XXXXX</small></span></div>
-          <div><strong>Also include</strong><span>Payment Date and Amount Paid</span></div>
-        </div>
+      <div class="payment-receipt-action">
+        <h2>Step 2: Upload your receipt</h2>
+        <a class="primary-button" href="https://docs.google.com/forms/d/e/1FAIpQLSeW7uztPA9Kuye_yrjRSPuhDIFCfOql8hz1v8IN8Obxf1cJYA/viewform" target="_blank" rel="noopener noreferrer">Upload Receipt</a>
       </div>
     </section>
   </main>
@@ -113,8 +106,6 @@
       const backLink = document.querySelector("[data-back-link]");
       const choices = document.querySelectorAll("[data-payment-choice]");
       const panels = document.querySelectorAll("[data-payment-panel]");
-      const confirmation = document.querySelector("[data-payment-confirmation]");
-      const stepTwoTitle = document.querySelector("[data-payment-step-two-title]");
       const paymentMethods = document.getElementById("payment-methods");
 
       if (paymentMethods && !window.location.hash) {
@@ -153,13 +144,6 @@
             panel.hidden = panel.dataset.paymentPanel !== selected;
           });
 
-          if (confirmation) {
-            confirmation.hidden = false;
-          }
-
-          if (stepTwoTitle) {
-            stepTwoTitle.hidden = false;
-          }
         });
       });
     })();

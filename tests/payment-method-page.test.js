@@ -28,17 +28,15 @@ test("payment method page publishes the AeU guideline details", () => {
   assert.match(html, /data-payment-choice="method-2"/);
   assert.match(html, /data-payment-panel="method-1" hidden/);
   assert.match(html, /data-payment-panel="method-2" hidden/);
-  assert.match(html, /data-payment-confirmation hidden/);
-  assert.match(html, /data-payment-step-two-title hidden/);
-  assert.match(html, /Step 2/);
-  assert.match(html, /Step 2: Email your receipt/);
-  assert.match(html, /Send receipt to <a href="mailto:registration@aisedconference\.org">registration@aisedconference\.org<\/a>\./);
-  assert.match(html, /Please include the information below:/);
+  assert.match(html, /Step 2: Upload your receipt/);
+  assert.match(html, /class="primary-button" href="https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLSeW7uztPA9Kuye_yrjRSPuhDIFCfOql8hz1v8IN8Obxf1cJYA\/viewform" target="_blank" rel="noopener noreferrer">Upload Receipt<\/a>/);
+  assert.doesNotMatch(html, /Step 2: Email your receipt/);
+  assert.doesNotMatch(html, /data-payment-confirmation/);
+  assert.doesNotMatch(html, /data-payment-step-two-title/);
   assert.doesNotMatch(html, /data-selected-payment-method/);
   assert.doesNotMatch(html, /METHOD 01 ONLINE PAYMENT/);
-  assert.match(html, /Registration ID and Name/);
-  assert.match(html, /REG-XXXXXX-XXXXX/);
-  assert.match(html, /class="payment-reference-grid"/);
+  assert.doesNotMatch(html, /Registration ID and Name/);
+  assert.doesNotMatch(html, /class="payment-reference-grid"/);
   assert.match(html, /class="payment-method-number">01<\/span>/);
   assert.match(html, /class="payment-method-number">02<\/span>/);
   assert.doesNotMatch(html, /<div class="payment-method-head">\s*<span class="payment-method-number">/);
@@ -54,7 +52,7 @@ test("payment method page publishes the AeU guideline details", () => {
   assert.match(html, /8000-28-3319/);
   assert.match(html, /CIMB Bank Berhad/);
   assert.match(html, /CIBBMYKL/);
-  assert.match(html, /registration@aisedconference\.org/);
+  assert.doesNotMatch(html, /mailto:registration@aisedconference\.org/);
 });
 
 test("clean payment route forwards to the existing payment page", () => {

@@ -48,16 +48,10 @@ test("removes the redundant conference badge", () => {
   assert.doesNotMatch(heroMeta, />International Conference<\/span>/);
 });
 
-test("adds a committee members hero action", () => {
-  assert.match(
-    html,
-    /<div class="hero-actions">[\s\S]*?<a class="secondary-button" href="committee\.html">Committee Members<\/a>[\s\S]*?<\/div>/
-  );
-});
-
-test("uses the concise registration hero action label", () => {
-  assert.match(html, /<a class="primary-button" href="registration\.html">Registration<\/a>/);
-  assert.doesNotMatch(html, />Registration Portal<\/a>/);
+test("keeps the clean homepage hero free of action buttons and presents the venue in a structured label", () => {
+  assert.doesNotMatch(homeHtml, /<div class="hero-actions">/);
+  assert.match(homeHtml, /<span class="hero-venue">[\s\S]*?<small>Venue<\/small>[\s\S]*?<strong>Selangor International Trade Centre \(SITC\)<\/strong>[\s\S]*?<em>Previously known as SACC<\/em>/);
+  assert.match(css, /\.hero-meta \.hero-venue\s*\{[^}]*display:\s*grid;[^}]*width:\s*min\(100%,\s*440px\)/s);
 });
 
 test("removes excess full-viewport hero height", () => {
