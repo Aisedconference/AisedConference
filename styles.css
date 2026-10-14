@@ -823,15 +823,24 @@ h3 {
 .prospectus-stage {
   position: relative;
   overflow: hidden;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1 / 1.414;
   background: #1d211f;
 }
 
-.intro-prospectus iframe {
+.intro-prospectus img {
   display: block;
   width: 100%;
-  min-height: 640px;
-  border: 0;
-  background: #f4f4f4;
+  height: 100%;
+  object-fit: contain;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.prospectus-stage.is-loading img {
+  opacity: 0.35;
+  transform: scale(0.985);
 }
 
 .prospectus-controls {
@@ -4967,8 +4976,8 @@ label {
     order: -1;
   }
 
-  .intro-prospectus iframe {
-    min-height: 560px;
+  .prospectus-stage {
+    min-height: 500px;
   }
 
   .hero-art {
