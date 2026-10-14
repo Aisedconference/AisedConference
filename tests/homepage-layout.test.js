@@ -48,10 +48,12 @@ test("removes the redundant conference badge", () => {
   assert.doesNotMatch(heroMeta, />International Conference<\/span>/);
 });
 
-test("keeps the clean homepage hero free of action buttons and presents the venue in a structured label", () => {
+test("keeps the clean homepage hero free of action buttons and event-meta labels", () => {
+  const hero = homeHtml.match(/<section class="hero" id="home">([\s\S]*?)<\/section>/)?.[1] || "";
+
   assert.doesNotMatch(homeHtml, /<div class="hero-actions">/);
-  assert.match(homeHtml, /<span class="hero-venue">[\s\S]*?<small>Venue<\/small>[\s\S]*?<strong>Selangor International Trade Centre \(SITC\)<\/strong>[\s\S]*?<em>Previously known as SACC<\/em>/);
-  assert.match(css, /\.hero-meta \.hero-venue\s*\{[^}]*display:\s*grid;[^}]*width:\s*min\(100%,\s*440px\)/s);
+  assert.doesNotMatch(hero, /<div class="hero-meta"/);
+  assert.doesNotMatch(hero, /Selangor International Trade Centre \(SITC\)/);
 });
 
 test("removes excess full-viewport hero height", () => {
