@@ -23,4 +23,7 @@ test('public venue copy identifies SITC as previously known as SACC', async () =
   assert.match(home, /aised-hero-sitc\.png/);
   assert.match(home, /class="intro-prospectus"/);
   assert.match(home, /1tM9fE-IOH1UpUCLIw8pbswL6Q9AzEvZa\/preview/);
+  assert.match(home, /data-prospectus-previous/);
+  assert.match(home, /data-prospectus-next/);
+  assert.match(home, /#page=\$\{page\}/);
 });

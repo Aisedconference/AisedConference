@@ -96,9 +96,14 @@
             <a class="secondary-button" href="https://drive.google.com/file/d/1tM9fE-IOH1UpUCLIw8pbswL6Q9AzEvZa/view?usp=drive_link" target="_blank" rel="noopener">Download Prospectus</a>
           </div>
         </div>
-        <div class="intro-prospectus">
-          <iframe title="AiSED International Conference 2026 prospectus" src="https://drive.google.com/file/d/1tM9fE-IOH1UpUCLIw8pbswL6Q9AzEvZa/preview" loading="lazy" allow="autoplay"></iframe>
-          <p>Browse the prospectus using the page controls, or <a href="https://drive.google.com/file/d/1tM9fE-IOH1UpUCLIw8pbswL6Q9AzEvZa/view?usp=drive_link" target="_blank" rel="noopener">open it in a new tab</a>.</p>
+        <div class="intro-prospectus" data-prospectus-pages="14">
+          <iframe id="prospectus-viewer" title="AiSED International Conference 2026 prospectus, page 1" src="https://drive.google.com/file/d/1tM9fE-IOH1UpUCLIw8pbswL6Q9AzEvZa/preview#page=1" loading="lazy" allow="autoplay"></iframe>
+          <div class="prospectus-controls" aria-label="Prospectus page navigation">
+            <button class="secondary-button prospectus-page-button" type="button" data-prospectus-previous aria-controls="prospectus-viewer">Previous page</button>
+            <span class="prospectus-page-status" data-prospectus-page-status aria-live="polite">Page 1 of 14</span>
+            <button class="primary-button prospectus-page-button" type="button" data-prospectus-next aria-controls="prospectus-viewer">Next page</button>
+          </div>
+          <a class="prospectus-open-link" href="https://drive.google.com/file/d/1tM9fE-IOH1UpUCLIw8pbswL6Q9AzEvZa/view?usp=drive_link" target="_blank" rel="noopener">Open full prospectus in a new tab</a>
         </div>
       </div>
     </section>
@@ -467,6 +472,36 @@
 
       updateCountdown();
       if (Date.now() < target) window.setInterval(updateCountdown, 1000);
+    })();
+
+    (() => {
+      const viewer = document.getElementById('prospectus-viewer');
+      const panel = viewer?.closest('.intro-prospectus');
+      const previous = panel?.querySelector('[data-prospectus-previous]');
+      const next = panel?.querySelector('[data-prospectus-next]');
+      const status = panel?.querySelector('[data-prospectus-page-status]');
+      const pageCount = Number(panel?.dataset.prospectusPages || 1);
+      const previewUrl = 'https://drive.google.com/file/d/1tM9fE-IOH1UpUCLIw8pbswL6Q9AzEvZa/preview';
+      let page = 1;
+      if (!viewer || !previous || !next || !status || !Number.isFinite(pageCount)) return;
+
+      const renderPage = () => {
+        viewer.src = `${previewUrl}#page=${page}`;
+        viewer.title = `AiSED International Conference 2026 prospectus, page ${page}`;
+        status.textContent = `Page ${page} of ${pageCount}`;
+        previous.disabled = page === 1;
+        next.disabled = page === pageCount;
+      };
+
+      previous.addEventListener('click', () => {
+        page = Math.max(1, page - 1);
+        renderPage();
+      });
+      next.addEventListener('click', () => {
+        page = Math.min(pageCount, page + 1);
+        renderPage();
+      });
+      renderPage();
     })();
 
     (() => {
