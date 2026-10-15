@@ -828,7 +828,7 @@ h3 {
 .intro-layout-single {
   grid-template-columns: minmax(0, 1fr) minmax(300px, 0.78fr);
   gap: clamp(24px, 4vw, 56px);
-  align-items: stretch;
+  align-items: start;
 }
 
 .intro-copy {
