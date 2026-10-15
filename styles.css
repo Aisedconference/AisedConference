@@ -3910,7 +3910,7 @@ h3 {
 
 .payment-receipt-card {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
   gap: 20px;
   width: min(100%, 760px);
@@ -3918,19 +3918,6 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 18px;
   background: #ffffff;
-}
-
-.payment-receipt-number {
-  display: grid;
-  width: 70px;
-  height: 70px;
-  place-items: center;
-  border-radius: 18px;
-  color: #ffffff;
-  background: var(--green);
-  font-size: 1.55rem;
-  font-weight: 950;
-  letter-spacing: 0.04em;
 }
 
 .payment-receipt-copy {
@@ -4083,6 +4070,20 @@ h3 {
 
 .payment-direct-button:hover,
 .payment-direct-button:focus-visible {
+  color: #ffffff;
+  border-color: #9f7113;
+  background: #9f7113;
+}
+
+.payment-upload-button {
+  color: #ffffff;
+  border-color: var(--gold);
+  background: #b98518;
+  box-shadow: 0 10px 22px rgba(185, 133, 24, 0.22);
+}
+
+.payment-upload-button:hover,
+.payment-upload-button:focus-visible {
   color: #ffffff;
   border-color: #9f7113;
   background: #9f7113;

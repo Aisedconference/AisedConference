@@ -29,7 +29,8 @@ test("payment method page publishes the AeU guideline details", () => {
   assert.match(html, /data-payment-panel="method-1" hidden/);
   assert.match(html, /data-payment-panel="method-2" hidden/);
   assert.match(html, /Step 2: Upload your receipt/);
-  assert.match(html, /class="primary-button" href="https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLSeW7uztPA9Kuye_yrjRSPuhDIFCfOql8hz1v8IN8Obxf1cJYA\/viewform" target="_blank" rel="noopener noreferrer">Upload Receipt<\/a>[\s\S]*?Or email your receipt to <a href="mailto:registration@aisedconference\.org">registration@aisedconference\.org<\/a>\./);
+  assert.match(html, /class="primary-button payment-upload-button" href="https:\/\/docs\.google\.com\/forms\/d\/e\/1FAIpQLSeW7uztPA9Kuye_yrjRSPuhDIFCfOql8hz1v8IN8Obxf1cJYA\/viewform" target="_blank" rel="noopener noreferrer">Upload Receipt<\/a>[\s\S]*?Or email your receipt to <a href="mailto:registration@aisedconference\.org">registration@aisedconference\.org<\/a>\./);
+  assert.doesNotMatch(html, /payment-receipt-number/);
   assert.doesNotMatch(html, /Step 2: Email your receipt/);
   assert.doesNotMatch(html, /data-payment-confirmation/);
   assert.doesNotMatch(html, /data-payment-step-two-title/);
