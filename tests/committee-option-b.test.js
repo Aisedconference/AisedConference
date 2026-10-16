@@ -88,7 +88,7 @@ test("adds Beh XiaoQing to the Committee Members section with matched portrait",
 test("preserves the current committee roster", () => {
   for (const name of [
     "Dato’ Steve Cheah",
-    "Pn. Sharliza Shamsuddin",
+    "Sharliza Shamsuddin",
     "Assoc. Prof. Dr. Hartini Ahmad",
     "Priscilla Selvaraju",
     "Juliana Shaharudin",
