@@ -18,11 +18,11 @@ const portraits = [
   },
   {
     src: "assets/Committee/Dato’ Professor Dr Nik Maheran Nik Muhammad.png",
-    alt: "Dato’ Professor Dr. Nik Maheran Nik Muhammad",
+    alt: "Dato’ Prof. Dr. Nik Maheran Nik Muhammad",
   },
   {
     src: "assets/Committee/Prof Dato' Dr Ansary Ahmed.png",
-    alt: "Prof Dato’ Dr. Ansary Ahmed",
+    alt: "Prof. Dato’ Dr. Ansary Ahmed",
   },
   {
     src: "assets/tan-sri-abd-rahman-mamat-speaker.png",
@@ -138,14 +138,14 @@ test("shows the confirmed keynote speakers with photos", () => {
       href: "programme.html#keynote-session-1",
     },
     {
-      name: "Dato’ Professor Dr. Nik Maheran Nik Muhammad",
+      name: "Dato’ Prof. Dr. Nik Maheran Nik Muhammad",
       session: "Welcome Address",
       date: "2 Dec 26 (Wed) · 9.00 a.m.–9.10 a.m.",
       title: "Welcome Address by the Conference Chair",
       href: "programme.html#welcome-address-conference-chair",
     },
     {
-      name: "Prof Dato’ Dr. Ansary Ahmed",
+      name: "Prof. Dato’ Dr. Ansary Ahmed",
       session: "Keynote Session 2",
       date: "2 Dec 26 (Wed) · 2.00 p.m.–3.15 p.m.",
       title: "The New Global Leadership Imperative: Entrepreneurship, Diplomacy and Collaboration in an AI-Driven Era",
