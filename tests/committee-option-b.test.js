@@ -63,13 +63,13 @@ test("uses the Option B uniform directory structure", () => {
   assert.equal((html.match(/class="committee-profile-grid"/g) || []).length, 7);
 });
 
-test("places Kamarul Hisham Baginda in the third Committee Members card", () => {
+test("places Dr. Kamarul Hisham Baginda, FCMI in the third Committee Members card", () => {
   const group = html.match(/<section class="committee-group" aria-labelledby="committee-members-heading">([\s\S]*?)<\/section>/)?.[1] || "";
   const cards = [...group.matchAll(/<article class="committee-profile-card">([\s\S]*?)<\/article>/g)].map((match) => match[1]);
 
   assert.equal(cards.length, 8);
   assert.match(cards[2], /assets\/Committee\/Kamarul Hisham Baginda\.png/);
-  assert.match(cards[2], /<strong>Kamarul Hisham Baginda<\/strong>/);
+  assert.match(cards[2], /<strong>Dr\. Kamarul Hisham Baginda, FCMI<\/strong>/);
   assert.match(cards[2], /<p>Adjunct\. Professor of Asia e University &amp; Fellow of Chartered Management Institute, UK<\/p>/);
   assert.ok(fs.existsSync(path.join(root, "assets", "Committee", "Kamarul Hisham Baginda.png")));
 });

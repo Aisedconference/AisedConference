@@ -66,7 +66,7 @@ const portraits = [
   },
   {
     src: "assets/Committee/Kamarul Hisham Baginda.png",
-    alt: "Kamarul Hisham Baginda",
+    alt: "Dr. Kamarul Hisham Baginda, FCMI",
   },
   {
     src: "assets/noor-azizi-ismail-speaker.png",
@@ -209,7 +209,7 @@ test("groups each visible forum moderator and panellist in the same speaker row"
       title: "Entrepreneurship",
       date: "Forum 3 - 3rd Dec 26 (Thu)",
       time: "Time: 9.45 a.m.–11.00 a.m.",
-      moderator: "Kamarul Hisham Baginda",
+      moderator: "Dr. Kamarul Hisham Baginda, FCMI",
       panellists: ["YBhg. Prof. Dato’ Dr. Noor Azizi bin Ismail"],
     },
     {
