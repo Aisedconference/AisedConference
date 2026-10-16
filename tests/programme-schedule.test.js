@@ -112,7 +112,7 @@ test("removes speaker columns and person lists from the programme timetable", ()
   assert.doesNotMatch(html, /<strong>Moderator:/);
   assert.doesNotMatch(html, /Sam Majid, Former CEO, National AI Office/);
   assert.doesNotMatch(html, /Kamarul Hisham Baginda FCMI/);
-  assert.doesNotMatch(html, /Dr Janeth Emanuel Kigobe/);
+  assert.doesNotMatch(html, /Dr. Janeth Emanuel Kigobe/);
   assert.doesNotMatch(html, />Speakers \/ Remarks</);
   assert.doesNotMatch(html, />Remarks</);
   assert.doesNotMatch(html, /Proposed/);

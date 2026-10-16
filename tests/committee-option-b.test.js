@@ -89,7 +89,7 @@ test("preserves the current committee roster", () => {
   for (const name of [
     "Dato’ Steve Cheah",
     "Pn Sharliza Shamsuddin",
-    "Assoc Prof Dr Hartini Ahmad",
+    "Assoc Prof Dr. Hartini Ahmad",
     "Priscilla Selvaraju",
     "Juliana Shaharudin",
     "Mohd Fadzil Khairuddin",
@@ -111,8 +111,8 @@ test("uses singular Deputy Chairperson heading", () => {
 });
 
 test("uses full Asia e University wording without changing existing role titles", () => {
-  assert.match(html, /<strong>Prof Dato' Dr Ansary Ahmed<\/strong><p>Founder President, Asia e University<\/p>/);
-  assert.match(html, /<strong>Prof Dr Noor Raihan Ab Hamid<\/strong><p>Vice Chancellor, Asia e University<\/p>/);
+  assert.match(html, /<strong>Prof Dato' Dr. Ansary Ahmed<\/strong><p>Founder President, Asia e University<\/p>/);
+  assert.match(html, /<strong>Prof Dr. Noor Raihan Ab Hamid<\/strong><p>Vice Chancellor, Asia e University<\/p>/);
   assert.match(
     html,
     /<strong>Philip Lim<\/strong><p>Head, School of Professional and Executive Education Development, Asia e University \(AeU-SPEED\)\.<\/p>/
@@ -131,7 +131,7 @@ test("uses full Asia e University wording without changing existing role titles"
   );
   assert.match(
     html,
-    /<strong>Assoc Prof Dr Hartini Ahmad<\/strong><p>Head of Research Innovation Management Unit, Asia e University<\/p>/
+    /<strong>Assoc Prof Dr. Hartini Ahmad<\/strong><p>Head of Research Innovation Management Unit, Asia e University<\/p>/
   );
   assert.doesNotMatch(html, /, AeU<\/p>/);
 });
@@ -139,12 +139,12 @@ test("uses full Asia e University wording without changing existing role titles"
 test("adds Swa Lee Lee and Sanura Jaya to the academic committee", () => {
   const expectedMembers = [
     {
-      name: "Assoc Prof Dr Swa Lee Lee",
+      name: "Assoc Prof Dr. Swa Lee Lee",
       role: "Director, School of Graduate Studies, Asia e University",
       filename: "Assoc Prof Dr Swa Lee Lee.png",
     },
     {
-      name: "Dr Sanura Jaya",
+      name: "Dr. Sanura Jaya",
       role: "Visiting Assoc. Professor, Asia e University",
       filename: "Dr Sanura Jaya.png",
     },
@@ -163,8 +163,8 @@ test("adds Swa Lee Lee and Sanura Jaya to the academic committee", () => {
   }
 });
 
-test("adds Prof Dr Eugene Aw Cheng Xi to the academic committee", () => {
-  const name = "Prof Dr Eugene Aw Cheng Xi";
+test("adds Prof Dr. Eugene Aw Cheng Xi to the academic committee", () => {
+  const name = "Prof Dr. Eugene Aw Cheng Xi";
   const role = "Associate Dean, Research and Postgraduate Studies, UCSI Graduate Business School, UCSI University";
   const filename = "Prof Dr Eugene Aw Cheng Xi.png";
 
@@ -186,17 +186,17 @@ test("adds the International Academic Advisory Committee members with matched po
 
   const expectedMembers = [
     {
-      name: "Professor Dr Benny Lim Kok Wai",
+      name: "Professor Dr. Benny Lim Kok Wai",
       role: "Professor of Practice in Cultural Management, Chinese University of Hong Kong",
       filename: "Professor Dr Benny Lim Kok Wai.png",
     },
     {
-      name: "Dr Janeth Emanuel Kigobe",
+      name: "Dr. Janeth Emanuel Kigobe",
       role: "Dean, Faculty of Education &amp; Co-Chair, UNESCO Chair on Teacher &amp; Curriculum, The Open University Tanzania",
       filename: "Dr Janeth Emanuel Kigobe.png",
     },
     {
-      name: "Prof. Dr Paisal Halim, M.Hum",
+      name: "Prof. Dr. Paisal Halim, M.Hum",
       role: "Universitas Nasional, Jakarta, Indonesia &amp; International Director, GAINE Academy Indonesia",
       filename: "Prof. Dr Paisal Halim, M.Hum .png",
     },
@@ -298,7 +298,7 @@ test("fills every filename-matched committee portrait", () => {
   );
   assert.match(
     html,
-    /<img[^>]+src="assets\/Committee\/Assoc Prof Dr Noorshella Che Nawi\.png"[^>]+alt="Portrait of Assoc Prof Dr Noorshella Che Nawi"/
+    /<img[^>]+src="assets\/Committee\/Assoc Prof Dr Noorshella Che Nawi\.png"[^>]+alt="Portrait of Assoc Prof Dr\. Noorshella Che Nawi"/
   );
 });
 

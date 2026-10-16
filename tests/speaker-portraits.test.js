@@ -18,11 +18,11 @@ const portraits = [
   },
   {
     src: "assets/Committee/Dato’ Professor Dr Nik Maheran Nik Muhammad.png",
-    alt: "Dato’ Professor Dr Nik Maheran Nik Muhammad",
+    alt: "Dato’ Professor Dr. Nik Maheran Nik Muhammad",
   },
   {
     src: "assets/Committee/Prof Dato' Dr Ansary Ahmed.png",
-    alt: "Prof Dato’ Dr Ansary Ahmed",
+    alt: "Prof Dato’ Dr. Ansary Ahmed",
   },
   {
     src: "assets/tan-sri-abd-rahman-mamat-speaker.png",
@@ -54,11 +54,11 @@ const portraits = [
   },
   {
     src: "assets/Committee/Adj. Prof. Dr. Behrang (Hani) Parhizkar.png",
-    alt: "Adj. Prof. Dr Behrang “Hani” Parhizkar",
+    alt: "Adj. Prof. Dr. Behrang “Hani” Parhizkar",
   },
   {
     src: "assets/pietro-borsano-speaker.png",
-    alt: "Dr Pietro Borsano",
+    alt: "Dr. Pietro Borsano",
   },
   {
     src: "assets/jonathan-chong-speaker.png",
@@ -74,7 +74,7 @@ const portraits = [
   },
   {
     src: "assets/Committee/Dr Janeth Emanuel Kigobe.png",
-    alt: "Dr Janeth Emanuel Kigobe",
+    alt: "Dr. Janeth Emanuel Kigobe",
   },
   {
     src: "assets/ts-zehan-teoh-speaker.png",
@@ -138,14 +138,14 @@ test("shows the confirmed keynote speakers with photos", () => {
       href: "programme.html#keynote-session-1",
     },
     {
-      name: "Dato’ Professor Dr Nik Maheran Nik Muhammad",
+      name: "Dato’ Professor Dr. Nik Maheran Nik Muhammad",
       session: "Welcome Address",
       date: "2 Dec 26 (Wed) · 9.00 a.m.–9.10 a.m.",
       title: "Welcome Address by the Conference Chair",
       href: "programme.html#welcome-address-conference-chair",
     },
     {
-      name: "Prof Dato’ Dr Ansary Ahmed",
+      name: "Prof Dato’ Dr. Ansary Ahmed",
       session: "Keynote Session 2",
       date: "2 Dec 26 (Wed) · 2.00 p.m.–3.15 p.m.",
       title: "The New Global Leadership Imperative: Entrepreneurship, Diplomacy and Collaboration in an AI-Driven Era",
@@ -178,7 +178,7 @@ test("temporarily hides proposed speaker profiles without photos", () => {
   for (const hiddenName of [
     "Tengku Datuk Seri Utama Zafrul Tengku Abdul Aziz",
     "Tan Sri Tony Fernandes",
-    "Datuk Wira Dr Asyraf Wajdi Dusuki",
+    "Datuk Wira Dr. Asyraf Wajdi Dusuki",
     "Datuk Jojie Samuel",
   ]) {
     assert.ok(!html.includes(hiddenName), `Expected ${hiddenName} to be hidden until a photo is available`);
@@ -203,7 +203,7 @@ test("groups each visible forum moderator and panellist in the same speaker row"
       date: "Forum 2 - 2nd Dec 26 (Wed)",
       time: "Time: 3.45 p.m.–5.00 p.m.",
       moderator: "Badzlan Bakar",
-      panellists: ["Sam Majid", "Adj. Prof. Dr Behrang “Hani” Parhizkar", "Dr Pietro Borsano", "Jonathan Chong"],
+      panellists: ["Sam Majid", "Adj. Prof. Dr. Behrang “Hani” Parhizkar", "Dr. Pietro Borsano", "Jonathan Chong"],
     },
     {
       title: "Entrepreneurship",
@@ -216,7 +216,7 @@ test("groups each visible forum moderator and panellist in the same speaker row"
       title: "Sustainable Entrepreneurship",
       date: "Forum 4 - 4th Dec 26 (Fri)",
       time: "Time: 9.45 a.m.–11.00 a.m.",
-      moderator: "Dr Janeth Emanuel Kigobe",
+      moderator: "Dr. Janeth Emanuel Kigobe",
       panellists: ["Ts. Zehan Teoh", "Ivan Sandjaja"],
     },
   ];
