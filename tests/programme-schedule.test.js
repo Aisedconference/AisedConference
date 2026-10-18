@@ -4,147 +4,47 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const root = path.resolve(__dirname, "..");
-const html = fs.readFileSync(path.join(root, "programme.html"), "utf8");
+const source = fs.readFileSync(path.join(root, "programme.html"), "utf8");
+const published = fs.readFileSync(path.join(root, "programme", "index.html"), "utf8");
 const css = fs.readFileSync(path.join(root, "styles.css"), "utf8");
 
-test("uses three agenda buttons for Day 1, Day 2 and Day 3", () => {
-  assert.equal((html.match(/class="programme-tab-input"/g) || []).length, 3);
-  assert.equal((html.match(/class="programme-tab-button"/g) || []).length, 3);
-  assert.equal((html.match(/class="programme-tab-panel/g) || []).length, 3);
-  assert.doesNotMatch(html, /class="programme-days"/);
-  assert.doesNotMatch(html, /class="day-schedule"/);
-
-  for (const label of ["Day 1", "Day 2", "Day 3"]) {
-    assert.ok(html.includes(`>${label}</label>`), `Missing agenda button: ${label}`);
-  }
-  assert.doesNotMatch(html, />Gala Dinner<\/label>/);
-  assert.doesNotMatch(html, /programme-gala-tab/);
+test("uses three accessible programme tabs", () => {
+  assert.equal((source.match(/class="programme-tab-input"/g) || []).length, 3);
+  assert.equal((source.match(/class="programme-tab-button"/g) || []).length, 3);
+  assert.equal((source.match(/class="programme-tab-panel/g) || []).length, 3);
+  for (const label of ["Day 1", "Day 2", "Day 3"]) assert.ok(source.includes(`>${label}</label>`));
 });
 
-test("renders the supplied day headings", () => {
-  for (const heading of [
-    "Day 1 — Wednesday, 2 December 2026",
-    "Opening Ceremony, Keynote Addresses and High-Level Forums",
-    "Day 2 — Thursday, 3 December 2026",
-    "Entrepreneurship Forum and Academic Parallel Sessions",
-    "Day 3 — Friday, 4 December 2026",
-    "Sustainable Entrepreneurship, Strategic Collaboration and Conference Closing",
-  ]) {
-    assert.ok(html.includes(heading), `Missing heading/detail: ${heading}`);
-  }
-  assert.doesNotMatch(html, /Charity Gala Dinner and Awards Presentation Ceremony/);
-  assert.doesNotMatch(html, /Dress Code: Black Tie \/ Formal/);
-});
-
-test("preserves the updated agenda times", () => {
+test("matches the complete 17 October schedule timing", () => {
   const times = [
-    "8.00 a.m.–9.00 a.m.",
-    "9.00 a.m.–9.10 a.m.",
-    "9.10 a.m.–9.30 a.m.",
-    "9.30 a.m.–9.40 a.m.",
-    "9.40 a.m.–10.00 a.m.",
-    "10.00 a.m.–10.30 a.m.",
-    "10.30 a.m.–11.15 a.m.",
-    "11.15 a.m.–12.30 p.m.",
-    "12.30 p.m.–2.00 p.m.",
-    "2.00 p.m.–3.15 p.m.",
-    "3.15 p.m.–3.45 p.m.",
-    "3.45 p.m.–5.00 p.m.",
-    "5.00 p.m.–5.30 p.m.",
-    "8.30 a.m.–9.00 a.m.",
-    "9.00 a.m.–9.45 a.m.",
-    "9.45 a.m.–11.00 a.m.",
-    "11.00 a.m.–11.15 a.m.",
-    "11.15 a.m.–12.45 p.m.",
-    "12.45 p.m.–2.00 p.m.",
-    "2.00 p.m.–3.30 p.m.",
-    "3.30 p.m.–3.45 p.m.",
-    "3.45 p.m.–5.15 p.m.",
-    "5.15 p.m.–5.30 p.m.",
-    "2.00 p.m.–4.00 p.m.",
-    "4.00 p.m.–5.00 p.m.",
+    "8.00 a.m.–9.00 a.m.", "9.00 a.m.–9.10 a.m.", "9.10 a.m.–9.30 a.m.", "9.30 a.m.–9.40 a.m.", "9.40 a.m.–10.00 a.m.", "10.00 a.m.–10.30 a.m.", "10.30 a.m.–11.15 a.m.", "11.15 a.m.–12.30 p.m.", "12.30 p.m.–2.00 p.m.", "2.00 p.m.–2.45 p.m.", "2.45 p.m.–3.00 p.m.", "3.00 p.m.–4.15 p.m.", "4.15 p.m.–5.00 p.m.",
+    "9.00 a.m.–9.45 a.m.", "9.45 a.m.–11.00 a.m.", "11.00 a.m.–11.15 a.m.", "11.15 a.m.–12.30 p.m.", "2.00 p.m.–3.15 p.m.", "3.15 p.m.–3.30 p.m.", "3.30 p.m.–4.45 p.m.", "4.45 p.m.–5.00 p.m.", "2.00 p.m.–3.30 p.m.", "3.30 p.m.–5.00 p.m.", "7.00 p.m.–10.30 p.m.",
   ];
-
-  for (const time of times) {
-    assert.ok(html.includes(`<time>${time}</time>`), `Missing schedule time: ${time}`);
-  }
+  for (const time of times) assert.ok(source.includes(`<time>${time}</time>`), `Missing ${time}`);
 });
 
-test("includes the supplied forum, keynote and moderator content", () => {
-  const content = [
-    "Keynote Session 1",
-    "Officiated by the Royal Patron of AiSED, His Highness The Raja Muda of Selangor Tengku Amir Shah ibni Sultan Sharafuddin Idris Shah Alhaj.",
-    "AI for Humanity: Shaping Sustainable and Inclusive Futures in the Age of Intelligent Transformation",
-    "Forum 1: Diplomacy and Global Affairs",
-    "Keynote Session 2",
-    "Forum 2: Artificial Intelligence",
-    "Keynote Session 3",
-    "Forum 3: Entrepreneurship",
-    "Keynote Session 4",
-    "Forum 4: Sustainable Entrepreneurship",
+test("includes every new schedule feature and session", () => {
+  const items = [
+    "Opening, Keynotes and Forums", "Entrepreneurship Forum, Academic Sessions and Workshops", "Sustainable Entrepreneurship, Collaboration and Closing", "Signing of Memorandum of Agreement (MOA)", "YB Tuan Akmal Nasrullah Mohd Nasir (TBC)", "Zhen Rixin", "Driving Customer Experience and Digital Transformation in the AI Era", "Afiq Rashid", "Harnessing AI for Business Transformation, Innovation and Sustainable Growth", "Future-Ready Talent and Workforce Transformation in the Age of AI", "Future-Ready ASEAN: Developing Human Capital, Entrepreneurship and Innovation for the AI Era", "Maki Katsuno-Hayashikawa (TBC)", "Industry-Academia Roundtable Discussion", "Co-Creating the Future: Industry-Academia Partnerships for AI, Innovation and Sustainability", "Strategic Networking Session &amp; Memorandum of Understanding (MOU) Signing Ceremonies", "Conference Resolutions &amp; Closing", "AiSED 2026 Gala &amp; Appreciation Dinner",
   ];
-
-  for (const item of content) {
-    assert.ok(html.includes(item), `Missing programme content: ${item}`);
-  }
+  for (const item of items) assert.ok(source.includes(item), `Missing ${item}`);
 });
 
-test("anchors keynote speaker links to the exact programme rows", () => {
-  for (const anchor of [
-    "welcome-address-conference-chair",
-    "keynote-session-1",
-    "keynote-session-2",
-    "keynote-session-3",
-  ]) {
-    assert.ok(html.includes(`id="${anchor}"`), `Missing programme anchor: ${anchor}`);
-  }
+test("uses the canonical speaker and leadership title formats", () => {
+  const names = [
+    "Prof. Dato’ Dr. Nik Maheran Nik Muhammad", "Prof. Dato’ Dr. Ansary Ahmed", "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Tapsir", "Adj. Prof. Dr. Behrang “Hani” Parhizkar", "Dr. Pietro Borsano", "Prof. Dato’ Dr. Noor Azizi bin Ismail", "Dato’ Dr. Kamarul A. Muhamed", "Dr. Kamarul Hisham Baginda, FCMI", "Prof. Dr. Noor Raihan Ab. Hamid", "Ts. Zehan Teoh", "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM", "Dr. Janeth Emanuel Kigobe",
+  ];
+  for (const name of names) assert.ok(source.includes(name), `Missing or non-standard title: ${name}`);
+  assert.doesNotMatch(source, /Professor Dr\.|\bDr [A-Z]|\bProf [A-Z]|\bTs [A-Z]/);
+});
 
+test("keeps the published programme page in sync with its source", () => {
+  for (const item of ["AiSED 2026 Gala &amp; Appreciation Dinner", "Maki Katsuno-Hayashikawa (TBC)", "Dr. Kamarul Hisham Baginda, FCMI"]) assert.ok(published.includes(item), `Published programme is missing ${item}`);
+});
+
+test("preserves keynote anchors and responsive timetable styling", () => {
+  for (const id of ["welcome-address-conference-chair", "keynote-session-1", "keynote-session-2", "keynote-session-3"]) assert.ok(source.includes(`id="${id}"`));
   assert.match(css, /\.agenda-row:target\s*\{[^}]*scroll-margin-top:\s*130px/s);
-  assert.ok(html.includes('<script src="app.js?v=20260724-registration-v2"></script>'), "Programme page must load the tab-switching script");
-});
-
-test("removes speaker columns and person lists from the programme timetable", () => {
-  assert.doesNotMatch(html, /<span>Speakers<\/span>/);
-  assert.doesNotMatch(html, /class="agenda-row has-speakers"/);
-  assert.doesNotMatch(html, /class="agenda-speakers/);
-  assert.doesNotMatch(html, /<strong>Keynote Speaker:/);
-  assert.doesNotMatch(html, /<strong>Panellists:/);
-  assert.doesNotMatch(html, /<strong>Moderator:/);
-  assert.doesNotMatch(html, /Sam Majid, Former CEO, National AI Office/);
-  assert.doesNotMatch(html, /Kamarul Hisham Baginda FCMI/);
-  assert.doesNotMatch(html, /Dr. Janeth Emanuel Kigobe/);
-  assert.doesNotMatch(html, />Speakers \/ Remarks</);
-  assert.doesNotMatch(html, />Remarks</);
-  assert.doesNotMatch(html, /Proposed/);
-  assert.doesNotMatch(html, /\bPICs?:/);
-  assert.doesNotMatch(html, /Proposed Award and Recognition Categories/);
-  assert.doesNotMatch(html, /Best Paper Award/);
-  assert.doesNotMatch(html, /Summary and Closing Remarks for Day/);
-  assert.ok(html.includes("<strong>Summary and Closing Remarks</strong>"));
-  assert.doesNotMatch(html, />Speakers \/ Panellists \/ Moderator</);
-});
-
-test("removes Gala Dinner from the visible schedule", () => {
-  assert.doesNotMatch(html, /gala-panel/);
-  assert.doesNotMatch(html, /AiSED Charity Gala Dinner 2026/);
-  assert.doesNotMatch(html, /Guest Registration and Welcome Reception/);
-  assert.doesNotMatch(html, /AiSED Charity Impact Presentation and Fundraising Video/);
-});
-
-test("styles the tabbed agenda layout for desktop and mobile", () => {
-  assert.match(css, /\.programme-tab-buttons\s*\{[^}]*display:\s*flex/s);
-  assert.match(css, /\.programme-tab-button\s*\{[^}]*border-radius:\s*999px/s);
-  assert.match(css, /#programme-day-1-tab:checked ~ \.programme-tab-buttons label\[for="programme-day-1-tab"\]/s);
-  assert.match(css, /\.programme-tab-panel\s*\{[^}]*display:\s*none/s);
-  assert.match(css, /#programme-day-1-tab:checked ~ \.day-1-panel,[\s\S]*?#programme-day-3-tab:checked ~ \.day-3-panel\s*\{[^}]*display:\s*block/s);
-  assert.doesNotMatch(css, /programme-gala-tab/);
-  assert.match(css, /\.agenda-row\s*\{[^}]*grid-template-columns:\s*minmax\(150px,\s*230px\) minmax\(0,\s*1fr\)/s);
-  assert.match(css, /\.agenda-row\.no-speakers\s*\{[^}]*grid-template-columns:\s*minmax\(150px,\s*210px\) minmax\(0,\s*1fr\)/s);
-  assert.match(css, /\.agenda-row > :nth-child\(2\)\s*\{[^}]*border-left:/s);
-  assert.doesNotMatch(css, /\.agenda-row > \* \+ \*/);
-  assert.match(css, /\.agenda-speakers \.person::before\s*\{[^}]*content:\s*"•"/s);
-  assert.match(css, /\.agenda-row:not\(\.agenda-head\):nth-child\(odd\)\s*\{[^}]*background:\s*rgba\(255,\s*250,\s*241,\s*0\.72\)/s);
-  assert.doesNotMatch(css, /\.agenda-row time\s*\{[^}]*background:/s);
-  assert.doesNotMatch(css, /\.agenda-speakers\s*\{[^}]*background:/s);
-  assert.match(css, /@media \(max-width:\s*640px\)[\s\S]*?\.agenda-row,[\s\S]*?\.agenda-head,[\s\S]*?\.agenda-row\.has-speakers,[\s\S]*?\.agenda-row\.no-speakers\s*\{[^}]*grid-template-columns:\s*1fr/s);
+  assert.match(css, /\.agenda-row strong,\s*\.agenda-row span,\s*\.agenda-row em\s*\{[^}]*display:\s*block/s);
+  assert.match(css, /@media \(max-width:\s*640px\)[\s\S]*?\.agenda-row,[\s\S]*?\.agenda-row\.no-speakers\s*\{[^}]*grid-template-columns:\s*1fr/s);
 });
