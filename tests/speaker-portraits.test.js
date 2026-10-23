@@ -49,8 +49,8 @@ const portraits = [
     alt: "Sam Majid",
   },
   {
-    src: "assets/badzlan-bakar-speaker.png",
-    alt: "Badzlan Bakar",
+    src: "assets/suwanchai-lohawatanakul-speaker.png",
+    alt: "Suwanchai Lohawatanakul",
   },
   {
     src: "assets/Committee/Adj. Prof. Dr. Behrang (Hani) Parhizkar.png",
@@ -202,7 +202,7 @@ test("groups each visible forum moderator and panellist in the same speaker row"
       title: "Artificial Intelligence",
       date: "Forum 2 - 2nd Dec 26 (Wed)",
       time: "Time: 3.45 p.m.–5.00 p.m.",
-      moderator: "Badzlan Bakar",
+      moderator: "Suwanchai Lohawatanakul",
       panellists: ["Sam Majid", "Adj. Prof. Dr. Behrang “Hani” Parhizkar", "Dr. Pietro Borsano", "Jonathan Chong"],
     },
     {
