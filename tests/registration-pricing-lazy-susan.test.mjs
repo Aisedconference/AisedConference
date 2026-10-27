@@ -23,7 +23,7 @@ test('the /home route separates the HRD Claimable and General Admission passes',
   assert.match(homeSection, /General Admission Pass<\/span>[\s\S]*?<strong>RM1,800<\/strong>/);
   assert.match(homeSection, /<span>Academic Conference Pass<\/span>[\s\S]*?<strong>RM700<\/strong>[\s\S]*?<\/div>\s*<\/article>/);
   assert.match(homeSection, /Paper Presentation &amp; Publication Pass<\/span>[\s\S]*?RM1,000[\s\S]*?RM850[\s\S]*?Academics \/ Postgraduate Students/);
-  assert.match(homeHtml, /hrdc:\s*\[\s*'Flexible Attendance Arrangement',\s*'2 Days Conference Access',\s*'Attendance is flexible over the three-day conference\.',\s*'Day 1 – 2 December 2026: Mandatory attendance\.',\s*'Day 2 or Day 3 – 3 or 4 December 2026: Participants may choose either day to attend\.',\s*'Participants are encouraged to attend on 3 December 2026 to facilitate planning and coordination\.'\s*\]/);
+  assert.match(homeHtml, /hrdc:\s*\[\s*'Flexible Attendance Arrangement',\s*'Day 1 – 2 December 2026: Mandatory attendance\.',\s*'Day 2 or Day 3 – 3 or 4 December 2026: Participants may choose either day to attend\.',\s*'Participants are encouraged to attend on 3 December 2026 to facilitate planning and coordination\.'\s*\]/);
   assert.match(homeHtml, /Opening ceremony and full access to all parallel sessions/);
   assert.match(homeHtml, /Inclusive Lunch/);
 });
