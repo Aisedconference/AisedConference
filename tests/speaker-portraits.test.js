@@ -20,7 +20,7 @@ test("adds the two agenda-listed keynote speakers with supplied local portraits"
       role: "Minister of Economy, Malaysia",
     },
     {
-      asset: "assets/maki-katsuno-hayashikawa.jpeg",
+      asset: "assets/maki-katsuno-hayashikawa.png",
       name: "Maki Katsuno-Hayashikawa",
       date: "4 Dec 26 (Fri) · 9.00 a.m.–9.45 a.m.",
       session: "Keynote Session 4",
