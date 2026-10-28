@@ -81,6 +81,18 @@ test("uses the standardised title punctuation across agenda-linked speaker names
   assert.doesNotMatch(displayedNames, /Professor Dr\.|\bDr [A-Z]|\bProf [A-Z]|\bTs [A-Z]/);
 });
 
+test("provides a concise professional background for Dr. Kamarul Hisham Baginda in the speaker modal", () => {
+  const biography = [
+    "Malaysian strategist, institutional adviser and author",
+    "Prime Minister’s Department, PETRONAS, Huawei Technologies Malaysia, PEMANDU, InvestKL, Invest Selangor and Caterpillar Indonesia",
+    "founder of the Cooperative Leadership Doctrine",
+  ];
+
+  for (const page of [direct, published]) {
+    for (const statement of biography) assert.ok(page.includes(statement), `Missing Kamarul biography statement: ${statement}`);
+  }
+});
+
 test("keeps the responsive speaker-directory layout", () => {
   assert.match(css, /\.keynote-grid\s*\{[^}]*grid-template-columns:\s*repeat\(auto-fit,\s*minmax\(320px,\s*1fr\)\)/s);
   assert.match(css, /\.forum-speaker-row\s*\{[^}]*grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/s);
