@@ -373,6 +373,104 @@
       const role = document.getElementById('speaker-modal-role');
       const name = document.getElementById('speaker-modal-name');
       const details = document.getElementById('speaker-modal-details');
+      const speakerBios = {
+        "Dato’ Steve Cheah": [
+          "Dato’ Steve Cheah is an entrepreneur and regional education advocate focused on entrepreneurship, sustainability and cross-border collaboration.",
+          "As Founder and Chairman of AiSED, he supports initiatives that connect academia, industry and emerging leaders across Asia."
+        ],
+        "Prof. Dato’ Dr. Ansary Ahmed": [
+          "Prof. Dato’ Dr. Ansary Ahmed is an academic entrepreneur and higher-education leader with extensive experience in online learning, international education and university development.",
+          "He founded Asia e University and has contributed to regional initiatives in flexible learning, digital education and academic collaboration."
+        ],
+        "Prof. Dato’ Dr. Nik Maheran Nik Muhammad": [
+          "Prof. Dato’ Dr. Nik Maheran Nik Muhammad is a senior academic and conference leader with expertise in education, entrepreneurship and business development.",
+          "She leads the conference’s academic and organisational direction while supporting regional collaboration in lifelong learning."
+        ],
+        "Y.B. Tuan Akmal Nasrullah Mohd Nasir": [
+          "Y.B. Tuan Akmal Nasrullah Mohd Nasir is a Malaysian public leader contributing to national economic development and policy.",
+          "His keynote addresses inclusive and sustainable futures in the age of intelligent transformation."
+        ],
+        "Zhen Rixin": [
+          "Zhen Rixin is a senior technology and business leader with experience in intelligent technology, digital transformation and innovation.",
+          "His work focuses on how technology-enabled collaboration can support future-ready leadership, enterprise growth and sustainable development."
+        ],
+        "Maki Katsuno-Hayashikawa": [
+          "Maki Katsuno-Hayashikawa leads UNESCO’s Regional Office in Jakarta, serving Brunei Darussalam, Indonesia, Malaysia, the Philippines and Timor-Leste.",
+          "Her work advances education, inclusion, human development and regional cooperation, including engagement with ASEAN."
+        ],
+        "Ambassador Dato’ Aminahtun Karim": [
+          "Ambassador Dato’ Aminahtun Karim is a former Malaysian career diplomat with more than three decades of public-service experience.",
+          "She brings insight from international relations, diplomacy, leadership and cross-cultural engagement."
+        ],
+        "H.E. SHIKATA Noriyuki": [
+          "H.E. SHIKATA Noriyuki is Japan’s Ambassador to Malaysia.",
+          "His work supports Malaysia–Japan cooperation in diplomacy, trade, investment, technology and people-to-people exchange."
+        ],
+        "H.E. Jodi Robinson": [
+          "H.E. Jodi Robinson is Canada’s High Commissioner to Malaysia.",
+          "Her diplomatic work supports Canada–Malaysia engagement in trade, education, sustainability, innovation and regional cooperation."
+        ],
+        "H.E. Dr. KAROMIDIN GADOEV": [
+          "H.E. Dr. KAROMIDIN GADOEV contributes perspectives on diplomacy, international partnership and cooperation between Central and Southeast Asia.",
+          "His work supports engagement between Uzbekistan and Malaysia in education, innovation and economic collaboration."
+        ],
+        "Suwanchai Lohawatanakul": [
+          "Suwanchai Lohawatanakul is a Thai enterprise-development and policy leader with more than 25 years of experience in SME development, international partnerships and organisational leadership.",
+          "He is the former Director General of Thailand’s Office of SMEs Promotion and serves as Chapter President for Digital Liveable Cities at the ASEAN CIO Association."
+        ],
+        "Sam Majid": [
+          "Sam Majid is an AI, digital transformation and public-sector innovation leader.",
+          "His work focuses on responsible AI, national capability-building and the development of Malaysia’s digital economy."
+        ],
+        "Adj. Prof. Dr. Behrang “Hani” Parhizkar": [
+          "Adj. Prof. Dr. Behrang “Hani” Parhizkar is a technology and digital-transformation leader.",
+          "His work focuses on innovation, technology-enabled business growth and developing future-ready organisations."
+        ],
+        "Dr. Pietro Borsano": [
+          "Dr. Pietro Borsano is an entrepreneurship educator and Associate Professor at Xi’an Jiaotong-Liverpool University.",
+          "His work explores innovation, entrepreneurship education and the skills needed to prepare graduates for a changing global economy."
+        ],
+        "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Tapsir": [
+          "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Tapsir is an academic and technology leader with experience in higher education, research, innovation and national talent development.",
+          "As President and Vice-Chancellor of UCSI University, she supports education that connects research, industry and future skills."
+        ],
+        "Prof. Dato’ Dr. Noor Azizi bin Ismail": [
+          "Prof. Dato’ Dr. Noor Azizi bin Ismail is an academic leader with experience in entrepreneurship, business education and university governance.",
+          "His work has contributed to the development of higher education and entrepreneurial capability in Malaysia."
+        ],
+        "Dato’ Dr. Kamarul A. Muhamed": [
+          "Dato’ Dr. Kamarul A. Muhamed is the Founder and Group CEO of Aerodyne Group, a Malaysian-founded technology company specialising in drone-based solutions and digital transformation.",
+          "He is recognised for advancing innovation, AI, drones and technology entrepreneurship."
+        ],
+        "Norman Matthieu Vanhaecke": [
+          "Norman Matthieu Vanhaecke leads Cradle Fund, Malaysia’s startup-focused agency.",
+          "His work supports founders and technology businesses through funding, ecosystem development, market access and innovation partnerships."
+        ],
+        "Jonathan Chong": [
+          "Jonathan Chong is Co-Founder and Director of the Social Impact Investment Foundation.",
+          "His work focuses on social innovation, impact investment and entrepreneurship initiatives that create sustainable community outcomes."
+        ],
+        "Dr. Janeth Emanuel Kigobe": [
+          "Dr. Janeth Emanuel Kigobe is an education leader and academic from Tanzania.",
+          "Her work includes education, teacher development, curriculum and international collaboration through the UNESCO Chair on Teacher and Curriculum."
+        ],
+        "Ts. Zehan Teoh": [
+          "Ts. Zehan Teoh is a strategic innovation and transformation leader with experience spanning public policy, venture building, technology and entrepreneurship.",
+          "His work focuses on building innovation ecosystems and enabling organisations to adapt to change."
+        ],
+        "Ivan Sandjaja": [
+          "Ivan Sandjaja is Managing Director of Global Entrepreneurship Network Indonesia and a Technical Advisor at Ciputra Group.",
+          "He supports entrepreneurship ecosystems, founder development and cross-sector innovation in Indonesia and the region."
+        ],
+        "Prof. Dr. Noor Raihan Ab. Hamid": [
+          "Prof. Dr. Noor Raihan Ab. Hamid is Vice Chancellor of Asia e University.",
+          "Her work focuses on higher-education leadership, governance, integrity, research and accessible learning opportunities."
+        ],
+        "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM": [
+          "Prof. Ts. Dr. Visweswara Rao Pasupuleti is an academic leader with experience in higher education, research, technology and international educational collaboration.",
+          "As Group Director and Provost, he supports academic quality, institutional development and innovation-led learning."
+        ]
+      };
       let lastFocused;
 
       const closeModal = () => {
@@ -391,9 +489,10 @@
         photo.alt = image?.alt || '';
         role.textContent = cardRole?.textContent.trim() || 'Speaker';
         name.textContent = cardName?.textContent.trim() || 'Speaker details';
-        details.replaceChildren(...[...cardDetails].map((item) => {
+        const modalDetails = [...cardDetails, ...(speakerBios[name.textContent.trim()] || [])];
+        details.replaceChildren(...modalDetails.map((item) => {
           const copy = document.createElement('p');
-          copy.textContent = item.textContent.trim();
+          copy.textContent = typeof item === 'string' ? item : item.textContent.trim();
           return copy;
         }));
         modal.hidden = false;

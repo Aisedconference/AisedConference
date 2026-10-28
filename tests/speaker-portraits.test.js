@@ -93,6 +93,26 @@ test("provides a concise professional background for Dr. Kamarul Hisham Baginda 
   }
 });
 
+test("provides concise background summaries for every other non-Royal speaker", () => {
+  const speakers = [
+    "Dato’ Steve Cheah", "Prof. Dato’ Dr. Ansary Ahmed", "Prof. Dato’ Dr. Nik Maheran Nik Muhammad",
+    "Y.B. Tuan Akmal Nasrullah Mohd Nasir", "Zhen Rixin", "Maki Katsuno-Hayashikawa",
+    "Ambassador Dato’ Aminahtun Karim", "H.E. SHIKATA Noriyuki", "H.E. Jodi Robinson",
+    "H.E. Dr. KAROMIDIN GADOEV", "Suwanchai Lohawatanakul", "Sam Majid",
+    "Adj. Prof. Dr. Behrang “Hani” Parhizkar", "Dr. Pietro Borsano",
+    "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Tapsir", "Prof. Dato’ Dr. Noor Azizi bin Ismail",
+    "Dato’ Dr. Kamarul A. Muhamed", "Norman Matthieu Vanhaecke", "Jonathan Chong",
+    "Dr. Janeth Emanuel Kigobe", "Ts. Zehan Teoh", "Ivan Sandjaja",
+    "Prof. Dr. Noor Raihan Ab. Hamid", "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM",
+  ];
+
+  for (const page of [direct, published]) {
+    for (const speaker of speakers) {
+      assert.ok(page.includes(`"${speaker}": [`), `Missing modal biography for ${speaker}`);
+    }
+  }
+});
+
 test("keeps the responsive speaker-directory layout", () => {
   assert.match(css, /\.keynote-grid\s*\{[^}]*grid-template-columns:\s*repeat\(auto-fit,\s*minmax\(320px,\s*1fr\)\)/s);
   assert.match(css, /\.forum-speaker-row\s*\{[^}]*grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/s);
