@@ -56,6 +56,14 @@ test("keeps the clean homepage hero free of action buttons and event-meta labels
   assert.doesNotMatch(hero, /Selangor International Trade Centre \(SITC\)/);
 });
 
+test("summarises the 27 October source-of-truth programme in the homepage highlights", () => {
+  const highlights = homeHtml.match(/<aside class="conference-highlights"[\s\S]*?<\/aside>/)?.[0] || "";
+
+  assert.match(highlights, /Official Opening Luncheon, keynote sessions and forums on diplomacy and artificial intelligence\./);
+  assert.match(highlights, /Industry-Academia Roundtable, MoU signing ceremonies, conference resolutions and closing\./);
+  assert.doesNotMatch(highlights, /Gala|project-matching|Official Opening Ceremony/);
+});
+
 test("removes excess full-viewport hero height", () => {
   assert.match(
     css,
