@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exhibitors & Floor Plan | AiSED International Conference 2026</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    :root { --exhibitor-green: #164b35; --exhibitor-gold: #d6ab36; --exhibitor-ink: #23322e; --exhibitor-muted: #68736d; --exhibitor-paper: #fbf7ee; --exhibitor-line: #e7dbc6; }
+    .exhibitor-page { background: var(--exhibitor-paper); color: var(--exhibitor-ink); }
+    .exhibitor-hero { padding: clamp(56px, 9vw, 116px) max(24px, 7vw) 70px; background-image: linear-gradient(90deg, rgba(7, 45, 29, .96) 0%, rgba(11, 58, 38, .88) 44%, rgba(11, 58, 38, .36) 100%), url("../assets/aised-2026-exhibition-booth-space.jpeg"); background-position: center, center 52%; background-size: cover, cover; color: #fff; }
+    .exhibitor-hero-inner, .exhibitor-section { width: min(1180px, 100%); margin: 0 auto; }
+    .exhibitor-kicker, .exhibitor-section-label { margin: 0; color: var(--exhibitor-gold); font-size: .8rem; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
+    .exhibitor-hero h1 { max-width: 760px; margin: 18px 0; color: #fff; font-size: clamp(3rem, 6.2vw, 6.2rem); line-height: .92; letter-spacing: -.065em; }
+    .exhibitor-hero p:not(.exhibitor-kicker) { max-width: 650px; margin: 0; color: #e3eee6; font-size: clamp(1rem, 1.7vw, 1.25rem); line-height: 1.55; }
+    .exhibitor-summary { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .exhibitor-summary span { display: inline-flex; align-items: center; min-height: 38px; padding: 0 15px; border: 1px solid #f7df91; border-radius: 999px; color: #fff9e3; font-size: .9rem; font-weight: 800; }
+    .exhibitor-section { padding: 72px 24px; }
+    .exhibitor-section-heading { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 28px; }
+    .exhibitor-section h2 { max-width: 700px; margin: 8px 0 0; color: var(--exhibitor-ink); font-size: clamp(2rem, 4vw, 4rem); line-height: .98; letter-spacing: -.055em; }
+    .exhibitor-section-copy { max-width: 390px; margin: 0; color: var(--exhibitor-muted); line-height: 1.55; }
+    .exhibitor-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .exhibitor-card { display: grid; grid-template-columns: 86px 1fr; gap: 18px; align-items: center; min-height: 154px; padding: 24px; border: 1px solid var(--exhibitor-line); border-radius: 18px; background: #fff; box-shadow: 0 12px 30px rgba(38, 49, 44, .06); }
+    .exhibitor-card--main { grid-column: span 2; border: 2px solid var(--exhibitor-gold); background: linear-gradient(135deg, #fffdf7, #f7edcc); }
+    .exhibitor-logo, .exhibitor-monogram { display: grid; width: 86px; height: 86px; place-items: center; overflow: hidden; border-radius: 16px; background: #f6f4ef; }
+    .exhibitor-logo img { width: 100%; height: 100%; object-fit: contain; padding: 8px; mix-blend-mode: multiply; }
+    .exhibitor-monogram { color: var(--exhibitor-green); font-size: 1.3rem; font-weight: 950; letter-spacing: -.05em; }
+    .exhibitor-card h3 { margin: 0 0 7px; color: var(--exhibitor-green); font-size: 1.2rem; line-height: 1.15; }
+    .exhibitor-card p { margin: 0; color: var(--exhibitor-muted); font-size: .94rem; line-height: 1.45; }
+    .exhibitor-badge { display: inline-block; margin-bottom: 9px; color: #a56809; font-size: .7rem; font-weight: 950; letter-spacing: .12em; text-transform: uppercase; }
+    .floor-section { background: linear-gradient(180deg, #f0e8d9 0%, #e9dec9 100%); }
+    .exhibition-guide { padding-top: 56px; }
+    .floor-guide-intro { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr); gap: 34px; align-items: end; margin-bottom: 28px; padding: 30px; border-bottom: 1px solid #d6c5a9; background: rgba(255, 252, 245, .52); }
+    .floor-guide-intro h2 { max-width: 720px; margin: 8px 0 0; color: var(--exhibitor-ink); font-size: clamp(2.25rem, 4.1vw, 4.2rem); line-height: .95; letter-spacing: -.06em; }
+    .floor-guide-intro-copy { margin: 0; color: var(--exhibitor-muted); font-size: 1.05rem; line-height: 1.55; }
+    .floor-facts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .floor-facts span { padding: 8px 11px; border: 1px solid #ddc377; border-radius: 999px; background: #fff8df; color: var(--exhibitor-green); font-size: .78rem; font-weight: 850; }
+    .floor-layout { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(260px, .75fr); gap: 28px; align-items: stretch; }
+    .floor-figure { margin: 0; overflow: hidden; border: 1px solid #d8c8ad; border-radius: 18px; background: #fff; box-shadow: 0 18px 42px rgba(42, 47, 40, .1); }
+    .floor-map-link { position: relative; display: block; width: 100%; padding: 0; border: 0; color: inherit; cursor: zoom-in; }
+    .floor-map-link::after { content: "Click to enlarge floor plan ↗"; position: absolute; right: 14px; bottom: 14px; padding: 9px 12px; border-radius: 999px; background: rgba(22, 75, 53, .94); color: #fff; font-size: .78rem; font-weight: 850; letter-spacing: .02em; opacity: 0; transform: translateY(6px); transition: .2s ease; }
+    .floor-map-link:hover::after, .floor-map-link:focus-visible::after { opacity: 1; transform: translateY(0); }
+    .floor-figure img { display: block; width: 100%; height: auto; }
+    .floor-figure figcaption { padding: 15px 18px; color: var(--exhibitor-muted); font-size: .9rem; line-height: 1.45; }
+    .allocation-card { display: flex; flex-direction: column; height: 100%; padding: 24px 28px; border-radius: 18px; background: linear-gradient(145deg, #0e3c2a, var(--exhibitor-green)); color: #fff; }
+    .allocation-card h3 { margin: 0 0 7px; color: #fff; font-size: 1.42rem; }
+    .allocation-card > p { margin: 0 0 12px; color: #dce9df; font-size: .92rem; line-height: 1.4; }
+    .allocation-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+    .allocation-list li { display: flex; gap: 10px; justify-content: space-between; padding: 8px 0; border-top: 1px solid rgba(255,255,255,.2); color: #fff; font-weight: 750; }
+    .allocation-list span { color: #efd879; text-align: right; font-size: .88rem; }
+    .allocation-note { margin: auto 0 0 !important; padding-top: 12px; color: #dce9df !important; font-size: .78rem !important; line-height: 1.35 !important; }
+    .exhibitor-list-number { min-width: 2.2em; color: #efd879; font-size: .78rem; letter-spacing: .08em; }
+    .exhibitor-list-name { flex: 1; text-align: left !important; color: #fff !important; font-size: .88rem !important; line-height: 1.25; }
+    .floor-legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+    .floor-legend div { padding: 16px; border-left: 4px solid var(--exhibitor-gold); background: #fffaf0; color: var(--exhibitor-muted); font-size: .92rem; line-height: 1.45; }
+    .floor-legend strong { display: block; margin-bottom: 4px; color: var(--exhibitor-green); }
+    .exhibitor-cta { margin: 0 auto 80px; width: min(1132px, calc(100% - 48px)); padding: 32px; border-radius: 18px; background: #fff; border: 1px solid var(--exhibitor-line); display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .exhibitor-cta h2 { margin: 0; color: var(--exhibitor-green); font-size: clamp(1.6rem, 3vw, 2.6rem); }
+    .exhibitor-cta p { margin: 8px 0 0; color: var(--exhibitor-muted); }
+    .booth-visual { display: grid; grid-template-columns: minmax(0, .9fr) minmax(300px, 1.1fr); gap: 30px; align-items: center; margin-top: 46px; padding: 26px; border: 1px solid var(--exhibitor-line); border-radius: 18px; background: #fffaf0; }
+    .booth-visual-copy h3 { margin: 10px 0 14px; color: var(--exhibitor-green); font-size: clamp(1.8rem, 3.5vw, 3.1rem); line-height: .98; letter-spacing: -.05em; }
+    .booth-visual-copy p:not(.exhibitor-section-label) { margin: 0; color: var(--exhibitor-muted); line-height: 1.6; }
+    .booth-visual-image { overflow: hidden; border-radius: 14px; box-shadow: 0 16px 32px rgba(33, 47, 38, .16); }
+    .booth-visual-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .floor-map-modal { width: min(1320px, 94vw); max-width: none; height: min(88vh, 900px); padding: 0; border: 0; border-radius: 18px; background: #fff; box-shadow: 0 30px 90px rgba(0, 0, 0, .42); }
+    .floor-map-modal::backdrop { background: rgba(9, 29, 20, .78); backdrop-filter: blur(4px); }
+    .floor-map-modal-shell { display: grid; grid-template-rows: auto 1fr; height: 100%; }
+    .floor-map-modal-header { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 15px 18px; border-bottom: 1px solid var(--exhibitor-line); background: #fffaf0; }
+    .floor-map-modal-header strong { color: var(--exhibitor-green); }
+    .floor-map-modal-actions { display: flex; gap: 8px; }
+    .floor-map-modal-actions button { min-height: 36px; padding: 0 13px; border: 0; border-radius: 9px; background: var(--exhibitor-green); color: #fff; font: inherit; font-weight: 900; cursor: pointer; }
+    .floor-map-modal-canvas { overflow: auto; padding: 20px; background: #e9e5dc; }
+    .floor-map-modal-canvas img { display: block; width: 100%; min-width: 760px; margin: 0 auto; cursor: zoom-out; transform-origin: top left; }
+    @media (max-width: 800px) { .booth-visual, .floor-guide-intro { grid-template-columns: 1fr; } .floor-map-link::after { opacity: 1; transform: none; } .floor-map-modal { width: 100vw; height: 100vh; max-height: none; border-radius: 0; } .floor-map-modal-header { align-items: flex-start; } .floor-map-modal-header strong { font-size: .88rem; } }
+    @media (max-width: 800px) { .exhibitor-section-heading, .exhibitor-cta { display: grid; } .exhibitor-grid, .floor-layout, .floor-legend { grid-template-columns: 1fr; } .exhibitor-card--main { grid-column: auto; } .exhibitor-section { padding: 54px 18px; } .exhibition-guide { padding-top: 32px; } .floor-guide-intro { padding: 22px; } .exhibitor-hero { padding: 56px 24px; } }
+  </style>
+</head>
+<body class="exhibitor-page">
+  <header class="site-header">
+    <a class="brand" href="../home/" aria-label="AiSED home"><img src="../assets/aised-logo-wide.png" alt="AiSED"></a>
+    <nav aria-label="Main navigation">
+      <a href="../home/">Home</a><a href="../programme/#conference-agenda">Conference Schedule</a><a href="../speakers/#featured-speakers">Speakers</a><a href="../leadership/#conference-leadership">Leadership</a>
+      <div class="nav-group"><button class="nav-parent" type="button" aria-haspopup="true" aria-expanded="false">More Info</button><div class="nav-dropdown" aria-label="More information submenu"><a href="./" aria-current="page">Exhibitors</a><a href="../submission/#submission-guidelines">Paper Submission</a><a href="../registration/#registration-options">Registration</a><a href="../partnership/#partnership-overview">Partnership</a></div></div>
+    </nav>
+  </header>
+  <main>
+    <section class="exhibitor-hero">
+      <div class="exhibitor-hero-inner">
+        <p class="exhibitor-kicker">AiSED International Conference 2026</p>
+        <h1>Meet the exhibitors.</h1>
+        <p>Discover the organisations bringing technology, ideas and experiences to the conference at Selangor International Trade Centre (SITC).</p>
+        <div class="exhibitor-summary"><span>15 exhibitors</span><span>Foyer exhibition zone</span><span>2–4 December 2026</span></div>
+      </div>
+    </section>
+
+    <section class="exhibitor-section" id="exhibitor-list">
+      <div class="exhibitor-section-heading"><div><p class="exhibitor-section-label">Exhibitor list</p><h2>Connect with the organisations on site.</h2></div><p class="exhibitor-section-copy">The exhibition brings together technology, education, entrepreneurship and lifestyle partners. Final booth numbers will be confirmed nearer to the conference.</p></div>
+      <div class="exhibitor-grid">
+        <article class="exhibitor-card exhibitor-card--main"><div class="exhibitor-logo"><img src="../assets/eon-exhibitor-logo.jpg" alt="EON logo"></div><div><span class="exhibitor-badge">Main Exhibitor</span><h3>EON</h3><p>Five booth spaces in the foyer exhibition zone, with an additional outdoor activation space.</p></div></article>
+        <article class="exhibitor-card"><div class="exhibitor-logo"><img src="../assets/tecd-exhibitor-logo.jpg" alt="Tec D Distribution logo"></div><div><h3>Tec D Distribution (M) Sdn. Bhd.</h3><p>Technology distribution and digital solutions.</p></div></article>
+        <article class="exhibitor-card"><div class="exhibitor-logo"><img src="../assets/sas-exhibitor-logo.jpeg" alt="SAS logo"></div><div><h3>SAS</h3><p>Data, analytics and AI software solutions.</p></div></article>
+        <article class="exhibitor-card"><div class="exhibitor-logo"><img src="../assets/aeu-logo.png" alt="Asia e University logo"></div><div><h3>Asia e University</h3><p>Flexible higher education across Asia.</p></div></article>
+        <article class="exhibitor-card"><div class="exhibitor-logo"><img src="../assets/aised-partner-logo.png" alt="AiSED logo"></div><div><h3>AiSED</h3><p>Sustainable entrepreneurship and diplomacy.</p></div></article>
+        <article class="exhibitor-card"><div class="exhibitor-logo"><img src="../assets/gaine-logo.png" alt="GAINE Academy logo"></div><div><h3>GAINE Academy</h3><p>Practical learning and digital-skills programmes.</p></div></article>
+        <article class="exhibitor-card"><div class="exhibitor-logo"><img src="../assets/pesona-craft-logo.jpeg" alt="Pesona Kraft by Dania logo"></div><div><h3>Pesona Craft</h3><p>Exhibitor profile and booth details coming soon.</p></div></article>
+      </div>
+    </section>
+
+    <section class="floor-section">
+      <div class="exhibitor-section exhibition-guide">
+        <div class="floor-guide-intro"><div><p class="exhibitor-section-label">Venue guide</p><h2>Find the exhibition at a glance.</h2><div class="floor-facts"><span>Ground Floor · SITC</span><span>Shah Alam Foyer</span><span>14 indoor booth positions</span></div></div><p class="floor-guide-intro-copy">The exhibition is located in the Shah Alam Foyer, directly beside the conference hall. Use the enlarged plan to orient yourself, then visit the exhibitor zone throughout the conference.</p></div>
+        <div class="floor-layout">
+          <figure class="floor-figure"><button class="floor-map-link" type="button" data-floor-map-open aria-haspopup="dialog" aria-label="Open and zoom the annotated exhibition floor plan"><img src="../assets/aised-2026-exhibition-plan-annotated.png" alt="Annotated ground-floor plan showing the Shah Alam Foyer exhibition booths, participating exhibitor logos and EON outdoor activation"></button><figcaption>Select the map to open a larger, zoomable view of the exhibition layout.</figcaption></figure>
+          <aside class="allocation-card"><h3>Exhibitor list</h3><p>Confirmed exhibitors currently featured in the AiSED 2026 exhibition zone.</p><ul class="allocation-list"><li><strong class="exhibitor-list-number">01</strong><span class="exhibitor-list-name">EON <em>· Main Exhibitor</em></span></li><li><strong class="exhibitor-list-number">02</strong><span class="exhibitor-list-name">Tec D Distribution (M) Sdn. Bhd.</span></li><li><strong class="exhibitor-list-number">03</strong><span class="exhibitor-list-name">SAS</span></li><li><strong class="exhibitor-list-number">04</strong><span class="exhibitor-list-name">Asia e University</span></li><li><strong class="exhibitor-list-number">05</strong><span class="exhibitor-list-name">AiSED</span></li><li><strong class="exhibitor-list-number">06</strong><span class="exhibitor-list-name">GAINE Academy</span></li><li><strong class="exhibitor-list-number">07</strong><span class="exhibitor-list-name">Pesona Craft</span></li></ul><p class="allocation-note">Additional exhibitors and final booth assignments will be announced nearer to the conference.</p></aside>
+        </div>
+        <div class="floor-legend"><div><strong>Shah Alam Hall</strong>Conference stage, VIP seating and delegate seating.</div><div><strong>Shah Alam Foyer</strong>Indoor exhibition zone and visitor circulation.</div><div><strong>Outdoor space</strong>EON main-exhibitor activation area, subject to venue confirmation.</div></div>
+        <article class="booth-visual"><div class="booth-visual-copy"><p class="exhibitor-section-label">Exhibition experience</p><h3>A welcoming space to meet, explore and collaborate.</h3><p>This visual illustrates the intended atmosphere for the foyer exhibition zone: accessible booths, clear visitor circulation and meaningful conversations between delegates, exhibitors and partners.</p></div><div class="booth-visual-image"><img src="../assets/aised-2026-exhibition-booth-space.jpeg" alt="Illustration of a busy exhibition booth space with visitors and exhibitors"></div></article>
+      </div>
+    </section>
+
+    <section class="exhibitor-cta"><div><h2>Explore. Connect. Collaborate.</h2><p>Join the AiSED 2026 exhibition experience at SITC, Shah Alam.</p></div><a class="primary-button" href="../partnership/#partnership-overview">Partnership enquiries</a></section>
+  </main>
+  <footer class="footer"><div class="footer-grid"><div><strong>AiSED International Conference 2026</strong><span>For enquiries, please contact info@aisedconference.org</span></div><div><strong>Conference</strong><a href="../programme/">Programme</a><a href="../speakers/">Speakers</a><a href="../leadership/">Conference Leadership</a></div><div><strong>Participate</strong><a href="../registration/">Registration</a><a href="../submission/">Paper Submission</a><a href="../payment/">Payment Method</a></div><div><strong>Partners</strong><a href="../partnership/">Partnership</a><a href="../venue.html">Venue</a><a href="../hotel.html">Official Hotel</a></div></div></footer>
+  <dialog class="floor-map-modal" id="floor-map-modal" aria-labelledby="floor-map-modal-title"><div class="floor-map-modal-shell"><div class="floor-map-modal-header"><strong id="floor-map-modal-title">AiSED 2026 Exhibition Floor Plan · 150% Zoom</strong><div class="floor-map-modal-actions"><button type="button" data-floor-map-close>Close</button></div></div><div class="floor-map-modal-canvas"><img id="floor-map-modal-image" src="../assets/aised-2026-exhibition-plan-annotated.png" alt="Annotated AiSED 2026 exhibition floor plan. Select the image to return to original size."></div></div></dialog>
+  <script>
+    (() => {
+      const trigger = document.querySelector('[data-floor-map-open]');
+      const modal = document.getElementById('floor-map-modal');
+      const image = document.getElementById('floor-map-modal-image');
+      const title = document.getElementById('floor-map-modal-title');
+      const canvas = modal?.querySelector('.floor-map-modal-canvas');
+      let isZoomed = true;
+      const setZoom = (zoomed) => {
+        isZoomed = zoomed;
+        image.style.width = zoomed ? '150%' : '100%';
+        image.style.cursor = zoomed ? 'zoom-out' : 'zoom-in';
+        title.textContent = zoomed ? 'AiSED 2026 Exhibition Floor Plan · 150% Zoom' : 'AiSED 2026 Exhibition Floor Plan · Original Size';
+        image.alt = zoomed ? 'Annotated AiSED 2026 exhibition floor plan. Select the image to return to original size.' : 'Annotated AiSED 2026 exhibition floor plan. Select the image to zoom to 150 percent.';
+      };
+      const pointFromEvent = (event) => {
+        const bounds = event.currentTarget.getBoundingClientRect();
+        return { x: Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width)), y: Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height)) };
+      };
+      const centreOn = ({ x, y }) => {
+        requestAnimationFrame(() => {
+          canvas.scrollLeft = Math.max(0, (image.clientWidth * x) - (canvas.clientWidth / 2));
+          canvas.scrollTop = Math.max(0, (image.clientHeight * y) - (canvas.clientHeight / 2));
+        });
+      };
+      trigger?.addEventListener('click', (event) => { const point = pointFromEvent(event); setZoom(true); modal.showModal(); centreOn(point); });
+      image?.addEventListener('click', (event) => {
+        if (isZoomed) { setZoom(false); canvas.scrollTo({ left: 0, top: 0, behavior: 'smooth' }); return; }
+        const point = pointFromEvent(event); setZoom(true); centreOn(point);
+      });
+      modal?.querySelector('[data-floor-map-close]')?.addEventListener('click', () => modal.close());
+      modal?.addEventListener('click', (event) => { if (event.target === modal) modal.close(); });
+    })();
+  </script>
+  <script src="../hero-video.js"></script>
+</body>
+</html>
