@@ -6003,3 +6003,51 @@ label {
   width: auto;
   justify-self: stretch;
 }
+
+/* Keep every partner logo on the same visual grid, regardless of category. */
+.partner-panel .logo-wall {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  max-width: none;
+}
+
+.partner-panel .partner-row.exhibitors .logo-wall {
+  max-width: none;
+}
+
+.partner-panel .logo-card {
+  flex: 0 1 202px;
+  width: 202px;
+  min-height: 124px;
+  padding: 16px;
+  justify-items: center;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.partner-panel .logo-card img {
+  display: block;
+  width: 100%;
+  height: 82px;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+}
+
+@media (max-width: 680px) {
+  .partner-panel { padding: 16px; }
+  .partner-panel .logo-wall { gap: 10px; }
+  .partner-panel .logo-card {
+    flex-basis: calc(50% - 5px);
+    width: calc(50% - 5px);
+    min-height: 96px;
+    padding: 10px;
+    justify-items: center;
+  }
+  .partner-panel .logo-card img {
+    height: 64px;
+    object-position: center;
+  }
+}
