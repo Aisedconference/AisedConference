@@ -6008,7 +6008,7 @@ label {
 .partner-panel .logo-wall {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 14px;
   max-width: none;
 }
@@ -6022,7 +6022,7 @@ label {
   width: 202px;
   min-height: 124px;
   padding: 16px;
-  justify-items: center;
+  justify-items: start;
   border-radius: 12px;
   background: #fff;
 }
@@ -6033,7 +6033,7 @@ label {
   height: 82px;
   max-height: none;
   object-fit: contain;
-  object-position: center;
+  object-position: left center;
 }
 
 @media (max-width: 680px) {
@@ -6044,10 +6044,10 @@ label {
     width: calc(50% - 5px);
     min-height: 96px;
     padding: 10px;
-    justify-items: center;
+    justify-items: start;
   }
   .partner-panel .logo-card img {
     height: 64px;
-    object-position: center;
+    object-position: left center;
   }
 }
