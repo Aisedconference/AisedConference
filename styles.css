@@ -6004,9 +6004,9 @@ label {
   justify-self: stretch;
 }
 
-/* Bring this landscape portrait closer without changing the shared card size. */
+/* Fit the full head and upper chest of this landscape portrait in the shared square frame. */
 .speaker-agenda-card .speaker-portrait--shamsuddin {
-  transform: scale(2);
+  transform: translateY(4px) scale(1.55);
 }
 
 /* Keep every partner logo on the same visual grid, regardless of category. */
