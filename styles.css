@@ -6004,6 +6004,11 @@ label {
   justify-self: stretch;
 }
 
+/* Bring this landscape portrait closer without changing the shared card size. */
+.speaker-agenda-card .speaker-portrait--shamsuddin {
+  transform: scale(1.5);
+}
+
 /* Keep every partner logo on the same visual grid, regardless of category. */
 .partner-panel .logo-wall {
   display: flex;
