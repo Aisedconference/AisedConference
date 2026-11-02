@@ -2422,25 +2422,21 @@ h3 {
   font-weight: 800;
 }
 
-.agenda-row .forum-participants {
+.agenda-row .agenda-person-list {
   margin: 4px 0 0;
   padding-left: 1.5em;
   list-style-type: disc;
 }
 
-.agenda-row .forum-moderator {
-  margin: 4px 0 0;
-}
-
-.agenda-row .forum-participants li {
+.agenda-row .agenda-person-list li {
   padding-left: 0.15em;
 }
 
-.agenda-row .forum-participants li + li {
+.agenda-row .agenda-person-list li + li {
   margin-top: 4px;
 }
 
-.agenda-row .forum-participants li::marker {
+.agenda-row .agenda-person-list li::marker {
   color: var(--gold);
   font-weight: 800;
 }

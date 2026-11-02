@@ -70,21 +70,43 @@ test("preserves agenda anchors and responsive timetable styling", () => {
   assert.match(css, /@media \(max-width:\s*640px\)[\s\S]*?\.agenda-row,[\s\S]*?\.agenda-row\.no-speakers\s*\{[^}]*grid-template-columns:\s*1fr/s);
 });
 
-test("shows dot-bulleted panellists and unmarked moderators in every forum", () => {
+test("shows dot-bulleted panellists and moderators in every forum", () => {
   for (const page of [source, published]) {
     const forums = [...page.matchAll(/<strong>Forum [1-4][^<]*<\/strong>[\s\S]*?<\/div><\/div>/g)];
     assert.equal(forums.length, 4, "All four forums must appear on the schedule");
     for (const [index, match] of forums.entries()) {
       const forum = match[0];
-      const panellists = forum.match(/<ul class="forum-participants" aria-label="Panellists">([\s\S]*?)<\/ul>/);
-      const moderator = forum.match(/<span class="forum-list-label">Moderator<\/span><p class="forum-moderator">([^<]+)<\/p>/);
+      const panellists = forum.match(/<ul class="agenda-person-list" aria-label="Panellists">([\s\S]*?)<\/ul>/);
+      const moderator = forum.match(/<span class="forum-list-label">Moderator<\/span><ul class="agenda-person-list" aria-label="Moderator">([\s\S]*?)<\/ul>/);
       assert.ok(panellists, `Forum ${index + 1} must show its panellists as bullet points`);
-      assert.ok(moderator, `Forum ${index + 1} must show its moderator without a list marker`);
+      assert.ok(moderator, `Forum ${index + 1} must show its moderator as a bullet point`);
       assert.equal((panellists[1].match(/<li>/g) || []).length, index === 0 ? 3 : 4);
-      assert.ok(moderator[1].length > 20);
+      assert.equal((moderator[1].match(/<li>/g) || []).length, 1);
     }
     assert.doesNotMatch(page, /\(TBC\)|Datuk Sikh Shamsul Ibrahim Sikh Abdul Majid/);
   }
-  assert.match(css, /\.agenda-row \.forum-participants\s*\{[^}]*list-style-type:\s*disc/s);
-  assert.match(css, /\.agenda-row \.forum-moderator\s*\{[^}]*margin:\s*4px 0 0/s);
+  assert.match(css, /\.agenda-row \.agenda-person-list\s*\{[^}]*list-style-type:\s*disc/s);
+});
+
+test("shows every named agenda participant with a dot and parenthesised role and organisation", () => {
+  const names = [
+    "Prof. Dato’ Dr. Nik Maheran Nik Muhammad", "Prof. Dato’ Dr. Ansary Ahmed", "Dato’ Steve Cheah",
+    "Y.B. Tuan Akmal Nasrullah Mohd Nasir", "H.E. SHIKATA Noriyuki", "H.E. Dr. KAROMIDIN GADOEV",
+    "H.E. Jodi Robinson", "Ambassador Dato’ Aminahtun Karim", "Zhen Rixin",
+    "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Tapsir", "Sam Majid", "Adj. Prof. Dr. Behrang “Hani” Parhizkar",
+    "Dr. Pietro Borsano", "Suwanchai Lohawatanakul", "Prof. Dato’ Dr. Noor Azizi bin Ismail",
+    "Norman Matthieu Vanhaecke", "Dato’ Dr. Kamarul A. Muhamed", "Jonathan Chong",
+    "Dr. Kamarul Hisham Baginda, FCMI", "Afiq Rashid", "Maki Katsuno-Hayashikawa",
+    "Prof. Dr. Noor Raihan Ab. Hamid", "Ts. Zehan Teoh",
+    "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM", "Ivan Sandjaja",
+    "Dr. Janeth Emanuel Kigobe", "Dato’ Seri Rosman Mohamed", "Dato’ Shamsuddin Mohd Mahayidin",
+    "Datuk Lau Wai Cheng", "His Highness The Raja Muda of Selangor Tengku Amir Shah ibni Sultan Sharafuddin Idris Shah Alhaj",
+  ];
+  for (const page of [source, published]) {
+    for (const name of names) {
+      const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      assert.match(page, new RegExp(`<li>${escaped} \\([^<]+, [^<]+\\)<\\/li>`), `Missing bulleted name with role and organisation: ${name}`);
+    }
+    assert.doesNotMatch(page, /<span>Presenter:|<span>Facilitator:|<span>Contributors:/);
+  }
 });
