@@ -70,19 +70,21 @@ test("preserves agenda anchors and responsive timetable styling", () => {
   assert.match(css, /@media \(max-width:\s*640px\)[\s\S]*?\.agenda-row,[\s\S]*?\.agenda-row\.no-speakers\s*\{[^}]*grid-template-columns:\s*1fr/s);
 });
 
-test("numbers every forum panellist and moderator and omits tentative speakers", () => {
+test("shows dot-bulleted panellists and unmarked moderators in every forum", () => {
   for (const page of [source, published]) {
     const forums = [...page.matchAll(/<strong>Forum [1-4][^<]*<\/strong>[\s\S]*?<\/div><\/div>/g)];
     assert.equal(forums.length, 4, "All four forums must appear on the schedule");
     for (const [index, match] of forums.entries()) {
       const forum = match[0];
-      const panellists = forum.match(/<ol class="forum-participants" aria-label="Panellists">([\s\S]*?)<\/ol>/);
-      const moderator = forum.match(/<ol class="forum-participants" aria-label="Moderator">([\s\S]*?)<\/ol>/);
-      assert.ok(panellists, `Forum ${index + 1} must number its panellists`);
-      assert.ok(moderator, `Forum ${index + 1} must number its moderator`);
+      const panellists = forum.match(/<ul class="forum-participants" aria-label="Panellists">([\s\S]*?)<\/ul>/);
+      const moderator = forum.match(/<span class="forum-list-label">Moderator<\/span><p class="forum-moderator">([^<]+)<\/p>/);
+      assert.ok(panellists, `Forum ${index + 1} must show its panellists as bullet points`);
+      assert.ok(moderator, `Forum ${index + 1} must show its moderator without a list marker`);
       assert.equal((panellists[1].match(/<li>/g) || []).length, index === 0 ? 3 : 4);
-      assert.equal((moderator[1].match(/<li>/g) || []).length, 1);
+      assert.ok(moderator[1].length > 20);
     }
     assert.doesNotMatch(page, /\(TBC\)|Datuk Sikh Shamsul Ibrahim Sikh Abdul Majid/);
   }
+  assert.match(css, /\.agenda-row \.forum-participants\s*\{[^}]*list-style-type:\s*disc/s);
+  assert.match(css, /\.agenda-row \.forum-moderator\s*\{[^}]*margin:\s*4px 0 0/s);
 });

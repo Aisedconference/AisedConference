@@ -2425,6 +2425,11 @@ h3 {
 .agenda-row .forum-participants {
   margin: 4px 0 0;
   padding-left: 1.5em;
+  list-style-type: disc;
+}
+
+.agenda-row .forum-moderator {
+  margin: 4px 0 0;
 }
 
 .agenda-row .forum-participants li {
