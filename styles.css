@@ -2416,6 +2416,30 @@ h3 {
   font-style: italic;
 }
 
+.agenda-row .forum-list-label {
+  margin-top: 12px;
+  color: var(--blue-dark);
+  font-weight: 800;
+}
+
+.agenda-row .forum-participants {
+  margin: 4px 0 0;
+  padding-left: 1.5em;
+}
+
+.agenda-row .forum-participants li {
+  padding-left: 0.15em;
+}
+
+.agenda-row .forum-participants li + li {
+  margin-top: 4px;
+}
+
+.agenda-row .forum-participants li::marker {
+  color: var(--gold);
+  font-weight: 800;
+}
+
 .agenda-row span + span,
 .agenda-row strong + span,
 .agenda-row span + strong {
