@@ -24,9 +24,12 @@ test("matches the 27 October source-of-truth Day 1 schedule", () => {
   for (const time of dayOne) assert.ok(published.includes(`<time>${time}</time>`), `Missing Day 1 time ${time}`);
   for (const item of [
     "Keynote Session 1", "Y.B. Tuan Akmal Nasrullah Mohd Nasir", "Tour of Exhibition &amp; Coffee Break",
-    "AiSED 2026 – Official Opening Luncheon", "Royal Opening Address", "Strategic Partnership &amp; Appreciation Ceremony",
+    "AiSED 2026 – Official Opening Luncheon", "Royal Opening Address",
     "Prayer Break", "Keynote Session 2", "Zhen Rixin", "Forum 2",
   ]) assert.ok(published.includes(item), `Missing Day 1 item ${item}`);
+  for (const page of [source, published]) {
+    assert.doesNotMatch(page, /Strategic Partnership &amp; Appreciation Ceremony/);
+  }
   assert.doesNotMatch(published, /9\.30 a\.m\.–9\.40 a\.m\.|9\.40 a\.m\.–10\.00 a\.m\.|10\.00 a\.m\.–10\.30 a\.m\.|10\.30 a\.m\.–11\.15 a\.m\./);
 });
 
