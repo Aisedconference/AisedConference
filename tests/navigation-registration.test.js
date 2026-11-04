@@ -13,12 +13,12 @@ const pages = [
   "partners-executive.html", "payment.html", "hotel.html", "venue.html",
 ];
 
-test("every page keeps Registration in the mobile menu after Conference Schedule", () => {
+test("every page puts Registration after Speakers in the menu bar", () => {
   for (const page of pages) {
     const html = fs.readFileSync(path.join(root, page), "utf8");
     const nav = html.match(/<nav\b[^>]*>([\s\S]*?)<\/nav>/)?.[1];
     assert.ok(nav, `${page}: navigation is missing`);
-    assert.match(nav, /Conference Schedule<\/a>[\s\S]*?<a class="nav-register-cta"[^>]*>Registration<\/a>[\s\S]*?<a [^>]*>Speakers<\/a>/, `${page}: top-level order`);
+    assert.match(nav, /Conference Schedule<\/a>[\s\S]*?<a [^>]*>Speakers<\/a>[\s\S]*?<a class="nav-register-cta"[^>]*>Registration<\/a>[\s\S]*?<div class="nav-group">/, `${page}: top-level order`);
     assert.match(nav, /<div class="nav-dropdown"[^>]*>[\s\S]*?<a [^>]*>Leadership<\/a>[\s\S]*?<\/div>/, `${page}: Leadership submenu`);
     assert.doesNotMatch(nav.split('<div class="nav-group"')[0], />Leadership<\/a>/, `${page}: duplicate top-level Leadership`);
     assert.doesNotMatch(html, /class="mobile-registration-cta"/, `${page}: no standalone mobile registration button`);
