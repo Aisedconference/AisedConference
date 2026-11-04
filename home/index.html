@@ -4,14 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AiSED International Conference 2026</title>
-  <link rel="stylesheet" href="../styles.css?v=nav-20261104">
+  <link rel="stylesheet" href="../styles.css?v=mobile-menu-20261104">
 </head>
 <body>
   <header class="site-header">
     <a class="brand" href="../home/" aria-label="AiSED home">
       <img src="../assets/aised-logo-wide.png" alt="AiSED">
     </a>
-    <a class="mobile-registration-cta" href="../registration/#registration-options">Register Now</a>
     <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="main-navigation">Menu</button>
     <nav id="main-navigation" aria-label="Main navigation">
       <a href="../home/#conference-overview">Home</a>
@@ -433,31 +432,6 @@
     })();
 
     (() => {
-      const toggle = document.querySelector('.mobile-menu-toggle');
-      const nav = document.getElementById('main-navigation');
-      const programme = document.querySelector('.nav-parent');
-      const group = document.querySelector('.nav-group');
-      if (!toggle || !nav || !programme || !group) return;
-      toggle.addEventListener('click', () => {
-        const expanded = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', String(!expanded));
-        nav.classList.toggle('mobile-nav-open', !expanded);
-      });
-      programme.addEventListener('click', () => {
-        group.classList.toggle('mobile-submenu-open');
-        programme.setAttribute('aria-expanded', String(group.classList.contains('mobile-submenu-open')));
-      });
-      nav.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => {
-          nav.classList.remove('mobile-nav-open');
-          toggle.setAttribute('aria-expanded', 'false');
-          group.classList.remove('mobile-submenu-open');
-          programme.setAttribute('aria-expanded', 'false');
-        });
-      });
-    })();
-
-    (() => {
       const countdown = document.querySelector('.conference-countdown');
       if (!countdown) return;
 
@@ -542,5 +516,6 @@
       });
     })();
   </script>
+  <script src="../navigation.js" defer></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Paper Submission | AiSED International Conference 2026</title>
-  <link rel="stylesheet" href="styles.css?v=nav-20261104">
+  <link rel="stylesheet" href="styles.css?v=mobile-menu-20261104">
   <style>
     .submission-hero {
       background-image: linear-gradient(90deg, rgba(4, 18, 15, 0.78) 0%, rgba(8, 31, 24, 0.5) 48%, rgba(8, 31, 24, 0.16) 100%), url("assets/submission-hero-2026.png?v=20260821");
@@ -18,8 +18,8 @@
   <!-- Global site navigation includes Partnership on every page. -->
   <header class="site-header">
     <a class="brand" href="home/" aria-label="AiSED home"><img src="assets/aised-logo-wide.png" alt="AiSED"></a>
-    <a class="mobile-registration-cta" href="registration/#registration-options">Register Now</a>
-    <nav aria-label="Main navigation">
+    <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="main-navigation">Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation">
       <a href="home/#conference-overview">Home</a>
       <a href="programme/#conference-agenda">Conference Schedule</a>
       <a class="nav-register-cta" href="registration/#registration-options">Registration</a>
@@ -191,5 +191,6 @@
   <footer class="footer"><div class="footer-grid"><div><strong>AiSED International Conference 2026</strong><span>For enquiries, please contact info@aisedconference.org</span></div><div><strong>Conference</strong><a href="programme/">Programme</a><a href="speakers/">Speakers</a><a href="leadership/">Conference Leadership</a><a href="faq/">Event Day FAQ</a></div><div><strong>Participate</strong><a href="registration/">Registration</a><a href="submission/">Paper Submission</a><a href="payment/">Payment Method</a></div><div><strong>Partners</strong><a href="partners/">Partnership</a><a href="venue/">Venue</a></div></div></footer>
   <script src="config.js?v=20260617-prospectus"></script>
   <script src="app.js?v=20260617-prospectus"></script>
+  <script src="navigation.js" defer></script>
 </body>
 </html>

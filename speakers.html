@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Speakers | AiSED International Conference 2026</title>
-  <link rel="stylesheet" href="styles.css?v=nav-20261104">
+  <link rel="stylesheet" href="styles.css?v=mobile-menu-20261104">
   <link rel="stylesheet" href="speaker-modal.css">
   <style>
     .page-hero {
@@ -18,8 +18,8 @@
 <body>
   <header class="site-header">
     <a class="brand" href="home/" aria-label="AiSED home"><img src="assets/aised-logo-wide.png" alt="AiSED"></a>
-    <a class="mobile-registration-cta" href="registration/#registration-options">Register Now</a>
-    <nav aria-label="Main navigation">
+    <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="main-navigation">Menu</button>
+    <nav id="main-navigation" aria-label="Main navigation">
       <a href="home/#conference-overview">Home</a>
       <a href="programme/#conference-agenda">Conference Schedule</a>
       <a class="nav-register-cta" href="registration/#registration-options">Registration</a>
@@ -525,5 +525,6 @@
       });
     })();
   </script>
+  <script src="navigation.js" defer></script>
 </body>
 </html>

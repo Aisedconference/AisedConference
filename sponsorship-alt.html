@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sponsorship Proposal | AiSED Conference 2026</title>
-  <link rel="stylesheet" href="styles.css?v=nav-20261104">
+  <link rel="stylesheet" href="styles.css?v=mobile-menu-20261104">
   <style>
     .proposal-hero { padding: 72px 7vw 60px; background: #173d2b; color: #fff; }
     .proposal-hero-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(240px, .7fr); gap: 44px; align-items: end; }
@@ -47,7 +47,6 @@
 <body>
   <header class="site-header">
     <a class="brand" href="index.html" aria-label="AiSED home"><img src="assets/aised-logo-wide.png" alt="AiSED"></a>
-    <a class="mobile-registration-cta" href="registration/#registration-options">Register Now</a>
     <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="main-navigation">Menu</button>
     <nav id="main-navigation" aria-label="Main navigation">
       <a href="home/#conference-overview">Home</a>
@@ -76,8 +75,6 @@
     <section class="proposal-section"><div class="proposal-bottom"><article class="proposal-panel"><p class="eyebrow">Ecosystem Partner</p><h3>From RM5,000 or 5 paid participants</h3><p>Recognition, selected promotional visibility, website presence and networking opportunities for organisations joining the wider conference ecosystem.</p></article><article class="proposal-panel"><p class="eyebrow">Strategic fit</p><h3>Built for organisations with a point of view.</h3><p>Partner around a shared commitment to AI, entrepreneurship, sustainability, education, diplomacy and future-ready communities.</p></article></div><div class="proposal-contact" style="margin-top:18px;"><div><h3>Ready to explore a partnership?</h3><p>info@aisedconference.org</p></div><a class="primary-button" href="mailto:info@aisedconference.org?subject=Sponsorship%20Partnership%20Enquiry">Contact the team</a></div></section>
   </main>
 
-  <script>
-    (() => { const toggle=document.querySelector('.mobile-menu-toggle'),nav=document.querySelector('#main-navigation'),group=document.querySelector('.nav-group'),programme=document.querySelector('.nav-parent'); toggle?.addEventListener('click',()=>{nav.classList.toggle('mobile-nav-open');toggle.setAttribute('aria-expanded',String(nav.classList.contains('mobile-nav-open')))}); programme?.addEventListener('click',()=>{group.classList.toggle('mobile-submenu-open');programme.setAttribute('aria-expanded',String(group.classList.contains('mobile-submenu-open')))}); nav?.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{nav.classList.remove('mobile-nav-open');toggle.setAttribute('aria-expanded','false');group.classList.remove('mobile-submenu-open');programme.setAttribute('aria-expanded','false')})); })();
-  </script>
+  <script src="navigation.js" defer></script>
 </body>
 </html>
