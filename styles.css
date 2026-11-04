@@ -6173,3 +6173,66 @@ label {
     object-position: left center;
   }
 }
+
+/* Consistent registration action in the shared header and schedule hero. */
+.site-header nav a.nav-register-cta {
+  padding: 0 18px;
+  color: #fff;
+  background: var(--green);
+  box-shadow: 0 8px 18px rgba(19, 61, 43, 0.17);
+}
+
+.site-header nav a.nav-register-cta:hover,
+.site-header nav a.nav-register-cta:focus-visible {
+  color: #fff;
+  background: var(--blue-dark);
+}
+
+.mobile-registration-cta {
+  display: none;
+  text-decoration: none;
+}
+
+.programme-register-cta {
+  margin-top: 22px;
+}
+
+@media (max-width: 680px) {
+  .site-header {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+
+  .site-header .brand img {
+    width: min(43vw, 200px);
+  }
+
+  .mobile-registration-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 13px;
+    border-radius: 999px;
+    color: #fff;
+    background: var(--green);
+    font-size: 0.82rem;
+    font-weight: 900;
+    white-space: nowrap;
+  }
+
+  .mobile-registration-cta:hover,
+  .mobile-registration-cta:focus-visible {
+    color: #fff;
+    background: var(--blue-dark);
+  }
+
+  .site-header nav:not(#main-navigation) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .site-header nav:not(#main-navigation) .nav-group:focus-within .nav-dropdown {
+    display: grid;
+  }
+}
