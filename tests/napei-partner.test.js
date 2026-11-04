@@ -18,3 +18,18 @@ test('NAPEI appears as a strategic partner with its logo and supplied profile', 
   }
   assert.ok(fs.existsSync(path.join(root, 'assets/napei-partner-logo.jpg')), 'NAPEI logo file exists');
 });
+
+test('strategic partner logos follow the requested sequence', () => {
+  const home = fs.readFileSync(path.join(root, 'home/index.html'), 'utf8');
+  const strategic = home.split('class="partner-row strategic"')[1]?.split('class="partner-row exhibitors"')[0];
+  assert.ok(strategic, 'strategic partner section exists');
+  const names = [...strategic.matchAll(/data-partner-name="([^"]+)"/g)].map((match) => match[1]);
+  assert.deepEqual(names, [
+    'UNESCO EE-Net Southeast Asia',
+    'EON Berhad',
+    'Malaysia SME',
+    'NAPEI',
+    'Selangor International Trade Centre (SITC) (Previously known as SACC)',
+    'Mardhiyyah Hotel &amp; Suites',
+  ]);
+});
