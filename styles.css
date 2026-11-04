@@ -6158,6 +6158,11 @@ label {
   object-position: left center;
 }
 
+.partner-panel .logo-card img.napei-logo {
+  object-fit: cover;
+  object-position: center;
+}
+
 @media (max-width: 680px) {
   .partner-panel { padding: 16px; }
   .partner-panel .logo-wall { gap: 10px; }
