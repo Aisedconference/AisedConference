@@ -33,3 +33,22 @@ test('strategic partner logos follow the requested sequence', () => {
     'Mardhiyyah Hotel &amp; Suites',
   ]);
 });
+
+test('homepage exhibitor logos include the confirmed organisations in the requested order', () => {
+  const home = fs.readFileSync(path.join(root, 'home/index.html'), 'utf8');
+  const exhibitors = home.split('class="partner-row exhibitors"')[1]?.split('class="partner-row supported-by"')[0];
+  assert.ok(exhibitors, 'exhibitor section exists');
+  const cards = [...exhibitors.matchAll(/<article[^>]*data-partner-name="([^"]+)"[^>]*><img src="([^"]+)"[^>]*><\/article>/g)];
+  assert.deepEqual(cards.map((match) => match[1]), [
+    'AiSED',
+    'Asia e University',
+    'GAINE Academy',
+    'EON Berhad',
+    'SAS',
+    'Tec D Distribution (M) Sdn. Bhd.',
+    'Pesona Kraft by Dania',
+  ]);
+  for (const [, , image] of cards) {
+    assert.ok(fs.existsSync(path.join(root, 'home', image.split('?')[0])), `${image} is available`);
+  }
+});
