@@ -6142,9 +6142,11 @@ label {
 .partner-panel .logo-card {
   flex: 0 1 202px;
   width: 202px;
+  height: 124px;
   min-height: 124px;
+  min-width: 0;
   padding: 16px;
-  justify-items: start;
+  justify-items: center;
   border-radius: 12px;
   background: #fff;
 }
@@ -6155,11 +6157,11 @@ label {
   height: 82px;
   max-height: none;
   object-fit: contain;
-  object-position: left center;
+  object-position: center;
 }
 
 .partner-panel .logo-card img.napei-logo {
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
 }
 
@@ -6169,13 +6171,14 @@ label {
   .partner-panel .logo-card {
     flex-basis: calc(50% - 5px);
     width: calc(50% - 5px);
+    height: 96px;
     min-height: 96px;
     padding: 10px;
-    justify-items: start;
+    justify-items: center;
   }
   .partner-panel .logo-card img {
     height: 64px;
-    object-position: left center;
+    object-position: center;
   }
 }
 
