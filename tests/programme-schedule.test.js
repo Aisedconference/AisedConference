@@ -97,7 +97,7 @@ test("shows every named agenda participant with a dot and parenthesised role and
     "Y.B. Tuan Akmal Nasrullah Mohd Nasir", "H.E. SHIKATA Noriyuki", "H.E. Dr. KAROMIDIN GADOEV",
     "H.E. Jodi Robinson", "Ambassador Dato’ Aminahtun Karim", "Maki Katsuno-Hayashikawa",
     "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Tapsir", "Sam Majid", "Adj. Prof. Dr. Behrang “Hani” Parhizkar",
-    "Dr. Pietro Borsano", "Suwanchai Lohawatanakul", "Prof. Dato’ Dr. Noor Azizi bin Ismail",
+    "Dr. Pietro Borsano", "Dato' Satinah Syed Saleh FCMI", "Prof. Dato’ Dr. Noor Azizi bin Ismail",
     "Norman Matthieu Vanhaecke", "Dato’ Dr. Kamarul A. Muhamed", "Jonathan Chong",
     "Dr. Kamarul Hisham Baginda, FCMI", "Afiq Rashid", "Andrew Khoo",
     "Prof. Dr. Noor Raihan Ab. Hamid", "Ts. Zehan Teoh",

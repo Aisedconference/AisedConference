@@ -68,7 +68,7 @@ test("aligns forum directory timings and names with the current agenda", () => {
     assert.match(page, /<strong>H\.E\. Dr\. KAROMIDIN GADOEV<\/strong>/);
     assert.match(page, /<strong>H\.E\. Jodi Robinson<\/strong>/);
     assert.match(page, /<strong>Ambassador Dato’ Aminahtun Karim<\/strong>/);
-    assert.match(page, /<strong>Suwanchai Lohawatanakul<\/strong>/);
+    assert.match(page, /<strong>Dato' Satinah Syed Saleh FCMI<\/strong>/);
   }
 });
 
@@ -107,7 +107,7 @@ test("provides concise background summaries for every other non-Royal speaker", 
     "Dato’ Steve Cheah", "Prof. Dato’ Dr. Ansary Ahmed", "Prof. Dato’ Dr. Nik Maheran Nik Muhammad",
     "Y.B. Tuan Akmal Nasrullah Mohd Nasir", "Maki Katsuno-Hayashikawa", "Andrew Khoo",
     "Ambassador Dato’ Aminahtun Karim", "H.E. SHIKATA Noriyuki", "H.E. Jodi Robinson",
-    "H.E. Dr. KAROMIDIN GADOEV", "Suwanchai Lohawatanakul", "Sam Majid",
+    "H.E. Dr. KAROMIDIN GADOEV", "Dato' Satinah Syed Saleh FCMI", "Sam Majid",
     "Adj. Prof. Dr. Behrang “Hani” Parhizkar", "Dr. Pietro Borsano",
     "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Tapsir", "Prof. Dato’ Dr. Noor Azizi bin Ismail",
     "Dato’ Dr. Kamarul A. Muhamed", "Norman Matthieu Vanhaecke", "Jonathan Chong",
