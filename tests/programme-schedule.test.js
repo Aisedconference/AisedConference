@@ -25,7 +25,7 @@ test("matches the 27 October source-of-truth Day 1 schedule", () => {
   for (const item of [
     "Keynote Session 1", "Y.B. Tuan Akmal Nasrullah Mohd Nasir", "Tour of Exhibition &amp; Coffee Break",
     "AiSED 2026 – Official Opening Luncheon", "Royal Opening Address",
-    "Prayer Break", "Keynote Session 2", "Zhen Rixin", "Forum 2",
+    "Prayer Break", "Keynote Session 2", "Maki Katsuno-Hayashikawa", "Forum 2",
   ]) assert.ok(published.includes(item), `Missing Day 1 item ${item}`);
   for (const page of [source, published]) {
     assert.doesNotMatch(page, /Strategic Partnership &amp; Appreciation Ceremony/);
@@ -38,7 +38,7 @@ test("matches the 27 October source-of-truth Day 2 and Day 3 schedule", () => {
     "From Disruption to Transformation: Building Resilient Innovation Ecosystems in the AI Economy",
     "Entrepreneurship 5.0: Building Future-Ready Ventures in the AI Economy",
     "Future-Ready ASEAN: Developing Human Capital, Entrepreneurship and Innovation for the AI Era",
-    "Maki Katsuno-Hayashikawa", "Industry-Academia Roundtable Discussion",
+    "Andrew Khoo", "Industry-Academia Roundtable Discussion",
     "Co-Creating the Future: Industry-Academia Partnerships for AI, Innovation and Sustainability",
     "Strategic Networking Session &amp; Memorandum of Understanding (MOU) Signing Ceremonies",
     "Conference Resolutions &amp; Closing",
@@ -95,11 +95,11 @@ test("shows every named agenda participant with a dot and parenthesised role and
   const names = [
     "Prof. Dato’ Dr. Nik Maheran Nik Muhammad", "Prof. Dato’ Dr. Ansary Ahmed", "Dato’ Steve Cheah",
     "Y.B. Tuan Akmal Nasrullah Mohd Nasir", "H.E. SHIKATA Noriyuki", "H.E. Dr. KAROMIDIN GADOEV",
-    "H.E. Jodi Robinson", "Ambassador Dato’ Aminahtun Karim", "Zhen Rixin",
+    "H.E. Jodi Robinson", "Ambassador Dato’ Aminahtun Karim", "Maki Katsuno-Hayashikawa",
     "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Tapsir", "Sam Majid", "Adj. Prof. Dr. Behrang “Hani” Parhizkar",
     "Dr. Pietro Borsano", "Suwanchai Lohawatanakul", "Prof. Dato’ Dr. Noor Azizi bin Ismail",
     "Norman Matthieu Vanhaecke", "Dato’ Dr. Kamarul A. Muhamed", "Jonathan Chong",
-    "Dr. Kamarul Hisham Baginda, FCMI", "Afiq Rashid", "Maki Katsuno-Hayashikawa",
+    "Dr. Kamarul Hisham Baginda, FCMI", "Afiq Rashid", "Andrew Khoo",
     "Prof. Dr. Noor Raihan Ab. Hamid", "Ts. Zehan Teoh",
     "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM", "Ivan Sandjaja",
     "Dr. Janeth Emanuel Kigobe", "Dato’ Seri Rosman Mohamed", "Dato’ Shamsuddin Mohd Mahayidin",

@@ -22,11 +22,20 @@ test("adds the two agenda-listed keynote speakers with supplied local portraits"
     {
       asset: "assets/maki-katsuno-hayashikawa.png",
       name: "Maki Katsuno-Hayashikawa",
-      date: "4 Dec 26 (Fri) · 9.00 a.m.–9.45 a.m.",
-      session: "Keynote Session 4",
-      anchor: "keynote-session-4",
+      date: "2 Dec 26 (Wed) · 2.30 p.m.–3.15 p.m.",
+      session: "Keynote Session 2",
+      anchor: "keynote-session-2",
       title: "Future-Ready ASEAN: Developing Human Capital, Entrepreneurship and Innovation for the AI Era",
       role: "Director of UNESCO Multisectoral Regional Office in Jakarta / UNESCO Representative to Indonesia, Brunei, Malaysia, The Philippines and Timor Leste",
+    },
+    {
+      asset: "assets/andrew-khoo-speaker.jpg",
+      name: "Andrew Khoo",
+      date: "3 Dec 26 (Thu) · 9.00 a.m.–9.45 a.m.",
+      session: "Keynote Session 3",
+      anchor: "keynote-session-3",
+      title: "From Disruption to Transformation: Building Resilient Innovation Ecosystems in the AI Economy",
+      role: "Chairman &amp; CEO, The MUI Group",
     },
   ];
 
@@ -96,7 +105,7 @@ test("provides a concise professional background for Dr. Kamarul Hisham Baginda 
 test("provides concise background summaries for every other non-Royal speaker", () => {
   const speakers = [
     "Dato’ Steve Cheah", "Prof. Dato’ Dr. Ansary Ahmed", "Prof. Dato’ Dr. Nik Maheran Nik Muhammad",
-    "Y.B. Tuan Akmal Nasrullah Mohd Nasir", "Zhen Rixin", "Maki Katsuno-Hayashikawa",
+    "Y.B. Tuan Akmal Nasrullah Mohd Nasir", "Maki Katsuno-Hayashikawa", "Andrew Khoo",
     "Ambassador Dato’ Aminahtun Karim", "H.E. SHIKATA Noriyuki", "H.E. Jodi Robinson",
     "H.E. Dr. KAROMIDIN GADOEV", "Suwanchai Lohawatanakul", "Sam Majid",
     "Adj. Prof. Dr. Behrang “Hani” Parhizkar", "Dr. Pietro Borsano",
