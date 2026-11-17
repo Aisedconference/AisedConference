@@ -15,7 +15,7 @@ test("uses three accessible programme tabs", () => {
   for (const label of ["Day 1", "Day 2", "Day 3"]) assert.ok(published.includes(`>${label}</label>`));
 });
 
-test("matches the 27 October source-of-truth Day 1 schedule", () => {
+test("matches the 17 November Day 1 schedule", () => {
   const dayOne = [
     "8.00 a.m.–9.00 a.m.", "9.00 a.m.–9.10 a.m.", "9.10 a.m.–9.30 a.m.", "9.30 a.m.–10.15 a.m.",
     "10.15 a.m.–10.45 a.m.", "10.45 a.m.–12.00 p.m.", "12.00 p.m.–2.00 p.m.", "2.00 p.m.–2.30 p.m.",
@@ -24,23 +24,23 @@ test("matches the 27 October source-of-truth Day 1 schedule", () => {
   for (const time of dayOne) assert.ok(published.includes(`<time>${time}</time>`), `Missing Day 1 time ${time}`);
   for (const item of [
     "Keynote Session 1", "Y.B. Tuan Akmal Nasrullah Mohd Nasir", "Tour of Exhibition &amp; Coffee Break",
-    "AiSED 2026 – Official Opening Luncheon", "Royal Opening Address",
+    "Royal Opening Ceremony and Official Luncheon", "Royal Opening Address",
     "Prayer Break", "Keynote Session 2", "Maki Katsuno-Hayashikawa", "Forum 2",
   ]) assert.ok(published.includes(item), `Missing Day 1 item ${item}`);
   for (const page of [source, published]) {
-    assert.doesNotMatch(page, /Strategic Partnership &amp; Appreciation Ceremony/);
+    assert.match(page, /Strategic Partnership &amp; Appreciation Ceremony/);
   }
   assert.doesNotMatch(published, /9\.30 a\.m\.–9\.40 a\.m\.|9\.40 a\.m\.–10\.00 a\.m\.|10\.00 a\.m\.–10\.30 a\.m\.|10\.30 a\.m\.–11\.15 a\.m\./);
 });
 
-test("matches the 27 October source-of-truth Day 2 and Day 3 schedule", () => {
+test("matches the 17 November Day 2 and Day 3 schedule", () => {
   for (const item of [
     "From Disruption to Transformation: Building Resilient Innovation Ecosystems in the AI Economy",
     "Entrepreneurship 5.0: Building Future-Ready Ventures in the AI Economy",
     "Future-Ready ASEAN: Developing Human Capital, Entrepreneurship and Innovation for the AI Era",
-    "Andrew Khoo", "Industry-Academia Roundtable Discussion",
-    "Co-Creating the Future: Industry-Academia Partnerships for AI, Innovation and Sustainability",
-    "Strategic Networking Session &amp; Memorandum of Understanding (MOU) Signing Ceremonies",
+    "Andrew Khoo", "Entrepreneurship Education in Action: UNESCO EE-NET Initiatives",
+    "Integrity &amp; Governance: Building Trust for a Sustainable and AI-Driven Future",
+    "Strategic Networking &amp; Partnership Ceremony",
     "Conference Resolutions &amp; Closing",
   ]) assert.ok(published.includes(item), `Missing schedule item ${item}`);
   assert.doesNotMatch(published, /AiSED 2026 Gala &amp; Appreciation Dinner/);
@@ -50,7 +50,7 @@ test("uses the canonical speaker and leadership title formats", () => {
   const names = [
     "Prof. Dato’ Dr. Nik Maheran Nik Muhammad", "Prof. Dato’ Dr. Ansary Ahmed", "Y.B. Tuan Akmal Nasrullah Mohd Nasir",
     "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Tapsir", "Adj. Prof. Dr. Behrang “Hani” Parhizkar",
-    "Dr. Pietro Borsano", "Prof. Dato’ Dr. Noor Azizi bin Ismail", "Dato’ Dr. Kamarul A. Muhamed",
+    "Dr. Pietro Borsano", "Prof. Dato’ Dr. Noor Azizi Ismail", "Dato’ Dr. Kamarul A. Muhamed",
     "Dr. Kamarul Hisham Baginda, FCMI", "Prof. Dr. Noor Raihan Ab. Hamid", "Ts. Zehan Teoh",
     "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM", "Dr. Janeth Emanuel Kigobe",
   ];
@@ -59,7 +59,7 @@ test("uses the canonical speaker and leadership title formats", () => {
 });
 
 test("keeps the direct and directory programme routes in sync", () => {
-  for (const item of ["Y.B. Tuan Akmal Nasrullah Mohd Nasir", "Maki Katsuno-Hayashikawa", "AiSED 2026 – Official Opening Luncheon"]) {
+  for (const item of ["Y.B. Tuan Akmal Nasrullah Mohd Nasir", "Maki Katsuno-Hayashikawa", "Royal Opening Ceremony and Official Luncheon"]) {
     assert.ok(source.includes(item), `Direct programme route is missing ${item}`);
     assert.ok(published.includes(item), `Directory programme route is missing ${item}`);
   }
@@ -67,7 +67,7 @@ test("keeps the direct and directory programme routes in sync", () => {
 });
 
 test("preserves agenda anchors and responsive timetable styling", () => {
-  for (const id of ["welcome-address-conference-chair", "keynote-session-1", "keynote-session-2", "keynote-session-3", "keynote-session-4"]) assert.ok(published.includes(`id="${id}"`));
+  for (const id of ["welcome-address-conference-chair", "keynote-session-1", "keynote-session-2", "keynote-session-3"]) assert.ok(published.includes(`id="${id}"`));
   assert.match(css, /\.agenda-row:target\s*\{[^}]*scroll-margin-top:\s*130px/s);
   assert.match(css, /\.agenda-row strong,\s*\.agenda-row span,\s*\.agenda-row em\s*\{[^}]*display:\s*block/s);
   assert.match(css, /@media \(max-width:\s*640px\)[\s\S]*?\.agenda-row,[\s\S]*?\.agenda-row\.no-speakers\s*\{[^}]*grid-template-columns:\s*1fr/s);
@@ -97,13 +97,13 @@ test("shows every named agenda participant with a dot and parenthesised role and
     "Y.B. Tuan Akmal Nasrullah Mohd Nasir", "H.E. SHIKATA Noriyuki", "H.E. Dr. KAROMIDIN GADOEV",
     "H.E. Jodi Robinson", "Ambassador Dato’ Aminahtun Karim", "Maki Katsuno-Hayashikawa",
     "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Tapsir", "Sam Majid", "Adj. Prof. Dr. Behrang “Hani” Parhizkar",
-    "Dr. Pietro Borsano", "Dato' Satinah Syed Saleh FCMI", "Prof. Dato’ Dr. Noor Azizi bin Ismail",
+    "Dr. Pietro Borsano", "Dato’ Satinah Syed Saleh FCMI", "Prof. Dato’ Dr. Noor Azizi Ismail",
     "Norman Matthieu Vanhaecke", "Dato’ Dr. Kamarul A. Muhamed", "Jonathan Chong",
     "Dr. Kamarul Hisham Baginda, FCMI", "Afiq Rashid", "Andrew Khoo",
     "Prof. Dr. Noor Raihan Ab. Hamid", "Ts. Zehan Teoh",
     "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM", "Ivan Sandjaja",
     "Dr. Janeth Emanuel Kigobe", "Dato’ Seri Rosman Mohamed", "Dato’ Shamsuddin Mohd Mahayidin",
-    "Datuk Lau Wai Cheng", "His Highness The Raja Muda of Selangor Tengku Amir Shah ibni Sultan Sharafuddin Idris Shah Alhaj",
+    "Dato’ Lau Wai Cheng", "Dato’ Mohd Zamri Bin Zainul Abidin", "His Highness The Raja Muda of Selangor Tengku Amir Shah ibni Sultan Sharafuddin Idris Shah Alhaj",
   ];
   for (const page of [source, published]) {
     for (const name of names) {
