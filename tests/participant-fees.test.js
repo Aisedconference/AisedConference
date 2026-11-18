@@ -40,6 +40,6 @@ test("country field is included where required and excluded for HRDC and Governm
 });
 
 test("registration pages load the RM700 academic fee logic with a fresh asset version", () => {
-  assert.match(registrationHtml, /app\.js\?v=20261014-academic700/);
-  assert.match(registrationIndexHtml, /\.\.\/app\.js\?v=20261014-academic700/);
+  assert.match(registrationHtml, /app\.js\?v=20261118-no-scopus/);
+  assert.match(registrationIndexHtml, /\.\.\/app\.js\?v=20261118-no-scopus/);
 });

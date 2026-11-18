@@ -159,10 +159,9 @@ function buildRadioGroup(name, legend, options, required = true) {
 function getCallPaperFeeBreakdown(form) {
   const subsection = form.querySelector("[name='registration_subsection']")?.value || registrationState.subsection;
   const type = "Presenter";
-  const submitToScopus = form.querySelector("[name='submit_to_scopus']:checked")?.value || "";
-  const scopusMode = form.querySelector("[name='scopus_presentation_mode']")?.value || "";
+  const presentationMode = form.querySelector("[name='scopus_presentation_mode']")?.value || "";
   const baseFee = callPaperFees[subsection] || 0;
-  const onlinePresentationDiscount = scopusMode === "Online Presentation"
+  const onlinePresentationDiscount = presentationMode === "Online Presentation"
     ? Math.round(baseFee * 0.3)
     : 0;
   const total = baseFee - onlinePresentationDiscount;
@@ -170,8 +169,7 @@ function getCallPaperFeeBreakdown(form) {
   return {
     subsection,
     type,
-    submitToScopus,
-    scopusMode,
+    presentationMode,
     baseFee,
     onlinePresentationDiscount,
     total
@@ -209,13 +207,11 @@ function updateCallPaperEstimate(form) {
   if (!form) return;
 
   const estimateContainer = form.querySelector("[data-payable-estimate]");
-  const scopusModeSelect = form.querySelector("[name='scopus_presentation_mode']");
+  const presentationModeSelect = form.querySelector("[name='scopus_presentation_mode']");
   const amountInput = form.querySelector("[name='estimated_payable_amount']");
   const breakdownInput = form.querySelector("[name='estimated_fee_breakdown']");
   const estimateAmount = form.querySelector("[data-estimate-amount]");
   const estimateBreakdown = form.querySelector("[data-estimate-breakdown]");
-  const scopusSurchargeNotice = form.querySelector("[data-scopus-surcharge]");
-  const scopusRemark = form.querySelector("[data-scopus-remark]");
   const paymentNote = form.querySelector("[data-payment-note]");
 
   if (
@@ -233,8 +229,6 @@ function updateCallPaperEstimate(form) {
   }
 
   if (registrationState.category === "participants") {
-    if (scopusSurchargeNotice) scopusSurchargeNotice.hidden = true;
-    if (scopusRemark) scopusRemark.hidden = true;
     updateParticipantEstimate(form, estimateContainer, amountInput, breakdownInput, estimateAmount, estimateBreakdown);
     return;
   }
@@ -242,7 +236,6 @@ function updateCallPaperEstimate(form) {
   const {
     subsection,
     type,
-    submitToScopus,
     baseFee,
     onlinePresentationDiscount,
     total
@@ -250,7 +243,7 @@ function updateCallPaperEstimate(form) {
 
   if (estimateContainer) estimateContainer.hidden = false;
 
-  if (scopusModeSelect) scopusModeSelect.required = true;
+  if (presentationModeSelect) presentationModeSelect.required = true;
 
   const baseText = baseFee
     ? `${subsection} ${type}: RM${baseFee.toLocaleString("en-MY")}`
@@ -263,8 +256,6 @@ function updateCallPaperEstimate(form) {
     : "";
 
   if (estimateAmount) estimateAmount.textContent = totalText;
-  if (scopusSurchargeNotice) scopusSurchargeNotice.hidden = submitToScopus !== "Yes";
-    if (scopusRemark) scopusRemark.hidden = submitToScopus.toUpperCase() !== "YES";
   if (estimateBreakdown) estimateBreakdown.textContent = breakdownText;
   if (amountInput) amountInput.value = total ? String(total) : "";
   if (breakdownInput) breakdownInput.value = breakdownText;
@@ -411,7 +402,7 @@ function renderRegistrationFields() {
     routeFields = `
       ${buildField("paper_title", "Paper title", "text", true, `placeholder="e.g, AI for Sustainable Entrepreneurship in ASEAN"`)}
       <label>Abstract<textarea name="abstract" rows="4" required placeholder="e.g, 250-300 word abstract summary"></textarea></label>
-      <div class="scopus-presentation-choice">
+      <div class="presentation-mode-choice">
         <label>Presentation Mode
           <select name="scopus_presentation_mode" required>
             <option value="">Please select</option>
@@ -421,8 +412,6 @@ function renderRegistrationFields() {
           </select>
         </label>
       </div>
-      ${buildRadioGroup("submit_to_scopus", "SCOPUS Publication", ["YES", "NO"])}
-      <p class="scopus-fee-note" data-scopus-remark hidden>Remark: Opt in for SCOPUS publication— Publication fees (~USD 599 upto USD 2,000) will be charged directly by SCOPUS, and the conference will not collect any upfront payment for this option.</p>
       <label>Abstract / Full paper submission<input name="paper_attachment" type="file" accept=".pdf,.doc,.docx" required></label>
     `;
   }
@@ -717,7 +706,7 @@ function initRegistrationWizard() {
 
     if (
       registrationState.category === "call-papers" &&
-      (event.target.name === "submit_to_scopus" || event.target.name === "scopus_presentation_mode")
+      event.target.name === "scopus_presentation_mode"
     ) {
       updateCallPaperEstimate(form);
     }
