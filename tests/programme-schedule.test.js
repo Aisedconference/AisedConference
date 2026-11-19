@@ -49,8 +49,8 @@ test("matches the 17 November Day 2 and Day 3 schedule", () => {
 test("uses the canonical speaker and leadership title formats", () => {
   const names = [
     "Prof. Dato’ Dr. Nik Maheran Nik Muhammad", "Prof. Dato’ Dr. Ansary Ahmed", "Y.B. Tuan Akmal Nasrullah Mohd Nasir",
-    "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Tapsir", "Adj. Prof. Dr. Behrang “Hani” Parhizkar",
-    "Dr. Pietro Borsano", "Prof. Dato’ Dr. Noor Azizi Ismail", "Dato’ Dr. Kamarul A. Muhamed",
+    "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Binti Tapsir, FASc", "Adj. Prof. Dr. Behrang “Hani” Parhizkar",
+    "Dr. Pietro Borsano", "Prof. Dato’ Dr. Noor Azizi Ismail", "Dato’ Dr. Kamarul A Muhamed",
     "Dr. Kamarul Hisham Baginda, FCMI", "Prof. Dr. Noor Raihan Ab. Hamid", "Ts. Zehan Teoh",
     "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM", "Dr. Janeth Emanuel Kigobe",
   ];
@@ -96,9 +96,9 @@ test("shows every named agenda participant with a dot and parenthesised role and
     "Prof. Dato’ Dr. Nik Maheran Nik Muhammad", "Prof. Dato’ Dr. Ansary Ahmed", "Dato’ Steve Cheah",
     "Y.B. Tuan Akmal Nasrullah Mohd Nasir", "H.E. SHIKATA Noriyuki", "H.E. Dr. KAROMIDIN GADOEV",
     "H.E. Jodi Robinson", "Ambassador Dato’ Aminahtun Karim", "Maki Katsuno-Hayashikawa",
-    "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Tapsir", "Sam Majid", "Adj. Prof. Dr. Behrang “Hani” Parhizkar",
+    "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Binti Tapsir, FASc", "Sam Majid", "Adj. Prof. Dr. Behrang “Hani” Parhizkar",
     "Dr. Pietro Borsano", "Dato’ Satinah Syed Saleh FCMI", "Prof. Dato’ Dr. Noor Azizi Ismail",
-    "Norman Matthieu Vanhaecke", "Dato’ Dr. Kamarul A. Muhamed", "Jonathan Chong",
+    "Norman Matthieu Vanhaecke", "Dato’ Dr. Kamarul A Muhamed", "Jonathan Chong",
     "Dr. Kamarul Hisham Baginda, FCMI", "Afiq Rashid", "Andrew Khoo",
     "Prof. Dr. Noor Raihan Ab. Hamid", "Ts. Zehan Teoh",
     "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM", "Ivan Sandjaja",
