@@ -51,11 +51,11 @@ test("uses the canonical speaker and leadership title formats", () => {
     "Prof. Dato’ Dr. Nik Maheran Nik Muhammad", "Prof. Dato’ Dr. Ansary Ahmed", "Y.B. Tuan Akmal Nasrullah Mohd Nasir",
     "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Binti Tapsir, FASc", "Adj. Prof. Dr. Behrang “Hani” Parhizkar",
     "Dr. Pietro Borsano", "Prof. Dato’ Dr. Noor Azizi Ismail", "Dato’ Dr. Kamarul A Muhamed",
-    "Dr. Kamarul Hisham Baginda, FCMI", "Prof. Dr. Noor Raihan Ab. Hamid", "Ts. Zehan Teoh",
+    "Adjunct Professor Dr. Kamarul Hisham Baginda, FCMI", "Prof. Dr. Noor Raihan Ab. Hamid", "Ts. Zehan Teoh",
     "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM", "Dr. Janeth Emanuel Kigobe",
   ];
   for (const name of names) assert.ok(published.includes(name), `Missing or non-standard title: ${name}`);
-  assert.doesNotMatch(published, /Professor Dr\.|\bDr [A-Z]|\bProf [A-Z]|\bTs [A-Z]/);
+  assert.doesNotMatch(published, /(?<!Adjunct )Professor Dr\.|\bDr [A-Z]|\bProf [A-Z]|\bTs [A-Z]/);
 });
 
 test("keeps the direct and directory programme routes in sync", () => {
@@ -99,7 +99,7 @@ test("shows every named agenda participant with a dot and parenthesised role and
     "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Binti Tapsir, FASc", "Sam Majid", "Adj. Prof. Dr. Behrang “Hani” Parhizkar",
     "Dr. Pietro Borsano", "Dato’ Satinah Syed Saleh FCMI", "Prof. Dato’ Dr. Noor Azizi Ismail",
     "Norman Matthieu Vanhaecke", "Dato’ Dr. Kamarul A Muhamed", "Jonathan Chong",
-    "Dr. Kamarul Hisham Baginda, FCMI", "Afiq Rashid", "Andrew Khoo",
+    "Adjunct Professor Dr. Kamarul Hisham Baginda, FCMI", "Afiq Rashid", "Andrew Khoo",
     "Prof. Dr. Noor Raihan Ab. Hamid", "Ts. Zehan Teoh",
     "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM", "Ivan Sandjaja",
     "Dr. Janeth Emanuel Kigobe", "Dato’ Seri Rosman Mohamed", "Dato’ Shamsuddin Mohd Mahayidin",

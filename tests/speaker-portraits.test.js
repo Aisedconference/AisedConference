@@ -81,13 +81,13 @@ test("uses the standardised title punctuation across agenda-linked speaker names
     "Dr. Pietro Borsano",
     "Prof. Dato’ Dr. Noor Azizi bin Ismail",
     "Dato’ Dr. Kamarul A Muhamed",
-    "Dr. Kamarul Hisham Baginda, FCMI",
+    "Adjunct Professor Dr. Kamarul Hisham Baginda, FCMI",
     "Prof. Dr. Noor Raihan Ab. Hamid",
     "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM",
     "Dr. Janeth Emanuel Kigobe",
   ]) assert.ok(published.includes(`<strong>${name}</strong>`), `Missing standardised title for ${name}`);
   const displayedNames = [...published.matchAll(/<strong>([^<]+)<\/strong>/g)].map((match) => match[1]).join("\n");
-  assert.doesNotMatch(displayedNames, /Professor Dr\.|\bDr [A-Z]|\bProf [A-Z]|\bTs [A-Z]/);
+  assert.doesNotMatch(displayedNames, /(?<!Adjunct )Professor Dr\.|\bDr [A-Z]|\bProf [A-Z]|\bTs [A-Z]/);
 });
 
 test("provides a concise professional background for Dr. Kamarul Hisham Baginda in the speaker modal", () => {
