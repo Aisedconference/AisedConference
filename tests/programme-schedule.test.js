@@ -102,7 +102,7 @@ test("shows every named agenda participant with a dot and parenthesised role and
     "Norman Matthieu Vanhaecke", "Dato’ Dr. Kamarul A Muhamed", "Jonathan Chong",
     "Adjunct Professor Dr. Kamarul Hisham Baginda, FCMI", "Afiq Rashid", "Andrew Khoo",
     "Prof. Dr. Noor Raihan Ab. Hamid", "Ts. Zehan Teoh",
-    "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM", "Ivan Sandjaja",
+    "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM", "Dr. Dessy Aliandrina",
     "Dr. Janeth Emanuel Kigobe", "Dato’ Seri Rosman Mohamed", "Dato’ Shamsuddin Mohd Mahayidin",
     "Dato’ Lau Wai Cheng", "Dato’ Mohd Zamri Bin Zainul Abidin", "His Highness The Raja Muda of Selangor Tengku Amir Shah ibni Sultan Sharafuddin Idris Shah Alhaj",
   ];

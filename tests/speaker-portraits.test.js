@@ -111,7 +111,7 @@ test("provides concise background summaries for every other non-Royal speaker", 
     "Adj. Prof. Dr. Behrang “Hani” Parhizkar", "Dr. Pietro Borsano",
     "Prof. Emeritus Datuk Ts. Ir. Dr. Siti Hamisah Binti Tapsir, FASc", "Prof. Dato’ Dr. Noor Azizi bin Ismail",
     "Dato’ Dr. Kamarul A Muhamed", "Norman Matthieu Vanhaecke", "Jonathan Chong",
-    "Dr. Janeth Emanuel Kigobe", "Ts. Zehan Teoh", "Ivan Sandjaja",
+    "Dr. Janeth Emanuel Kigobe", "Ts. Zehan Teoh", "Dr. Dessy Aliandrina",
     "Prof. Dr. Noor Raihan Ab. Hamid", "Prof. Ts. Dr. Visweswara Rao Pasupuleti, FAPAS, FMSA, FIAAM",
   ];
 
