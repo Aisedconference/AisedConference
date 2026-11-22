@@ -2112,9 +2112,24 @@ h3 {
 }
 
 .committee-profile-card.speaker-agenda-card .committee-profile-copy {
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  overflow-wrap: anywhere;
   justify-items: start;
   padding: 0;
   text-align: left;
+}
+
+@media (max-width: 640px) {
+  .committee-profile-card.speaker-agenda-card:not(.featured-speaker) {
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .committee-profile-card.speaker-agenda-card:not(.featured-speaker) .committee-portrait {
+    width: 76px;
+    height: 76px;
+  }
 }
 
 .committee-profile-card.speaker-agenda-card .committee-profile-copy strong {
