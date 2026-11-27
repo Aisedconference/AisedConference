@@ -34,12 +34,38 @@ button{border:1px solid #254b3e;border-radius:5px;padding:7px 10px;background:#f
 .circuit i:before{content:"";position:absolute;left:0;top:-.7cqw;width:1.15cqw;height:1.15cqw;border-radius:50%;background:#e9bb68}
 .digital .hero{margin-top:12cqw}.digital .award{font:900 11.7cqw/.91 Arial,sans-serif;letter-spacing:-.58cqw;text-transform:uppercase}
 .digital .category,.digital .presented{color:#f1cf89}.digital .winner{font-family:Arial,sans-serif}.digital .footer{border-top-color:#7ba995}
+
+.laurel{background:#f1eee3;color:#173d31}
+.laurel .canvas{padding:6.3cqw 8cqw}
+.laurel .mast{background:none;padding:0}
+.laurel .hero{margin-top:12cqw}
+.laurel .hero::before{content:"";display:block;width:43cqw;height:22cqw;margin:-6cqw auto -9cqw;border:1px solid #b89958;border-bottom:0;border-radius:23cqw 23cqw 0 0;opacity:.7}
+.laurel .award{color:#173d31;font-weight:400}
+.laurel .category,.laurel .presented{color:#805514}
+.laurel .footer{border-top-color:#a68c58}
+.ribbon{background:#092d25;color:#fff9e5}
+.ribbon .canvas{align-items:flex-start;text-align:left;padding:8cqw}
+.ribbon .canvas::before{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(135deg,#cdab62,#9b722d 66%,#ead298);clip-path:polygon(77% 0,100% 0,100% 87%,78% 100%,65% 100%,91% 85%,91% 20%)}
+.ribbon .hero{margin-top:13cqw}.ribbon .award{font-size:12.2cqw}
+.ribbon .category,.ribbon .presented{color:#f8d58c}
+.ribbon .recipient,.ribbon .footer{width:84%}
+.ribbon .footer{border-top-color:#c9a35e}
+.horizon{background:#edf1e7;color:#17382e}
+.horizon .canvas{align-items:flex-start;text-align:left;padding:7.5cqw}
+.horizon .canvas::before{content:"";position:absolute;z-index:-1;inset:0;background:repeating-radial-gradient(ellipse at 96% 2%,transparent 0 3cqw,#206b5640 3cqw calc(3cqw + 1px),transparent calc(3cqw + 1px) 6cqw);mask-image:linear-gradient(222deg,#000 4%,transparent 58%)}
+.horizon .mast{padding:0;background:none}
+.horizon .hero{margin-top:12cqw}
+.horizon .award{font:900 11.7cqw/.94 Arial,sans-serif;letter-spacing:-.65cqw}
+.horizon .category,.horizon .presented{color:#735019}
+.horizon .winner{font-family:Arial,sans-serif}
+.horizon .footer{border-top-color:#839a81}
+
 @media(max-width:820px){.gallery{grid-template-columns:1fr;max-width:530px;margin:auto}.fields{grid-template-columns:1fr}}
 @page{size:200mm 250mm;margin:0}
 @media print{body,main{margin:0;padding:0;background:white}header,.fields,.tools{display:none}.gallery{display:block;max-width:none;margin:0}.poster{width:200mm;height:250mm;print-color-adjust:exact;-webkit-print-color-adjust:exact}section{break-inside:avoid}body[data-print] section:not(.selected){display:none}}
 </style>
 <main>
-<header><h1>AiSED 2026 Student Best Paper Award</h1><p>Compare the three designs, enter the winner details, then print a design or save it as a PDF.</p></header>
+<header><h1>AiSED 2026 Student Best Paper Award</h1><p>Compare the six designs, enter the winner details, then print a design or save it as a PDF.</p></header>
 <div class="fields">
 <label>Student name<input id="winner" maxlength="64" placeholder="Student Name"></label>
 <label>University or institution<input id="institution" maxlength="82" placeholder="University or Institution"></label>
@@ -77,6 +103,45 @@ button{border:1px solid #254b3e;border-radius:5px;padding:7px 10px;background:#f
 <article class="poster digital" aria-label="Connected Futures award poster">
 <div class="canvas">
 <div class="circuit" aria-hidden="true"><i style="--line:18cqw"></i><i style="--line:26cqw"></i><i style="--line:21cqw"></i><i style="--line:33cqw"></i><i style="--line:27cqw"></i></div>
+<div class="mast"><img class="logo" alt="AiSED" src="../assets/aised-logo-wide.png"></div>
+<p class="event">International Conference 2026</p>
+<div class="hero"><p class="category">Student Category</p><h3 class="award">Best Paper<br>Award</h3></div>
+<div class="recipient"><p class="presented">Presented to</p><p class="winner">Student Name</p><p class="institution">University or Institution</p><p class="paper">“Winning Paper Title”</p></div>
+<footer class="footer"><p>Harnessing AI, Empowering Innovation, Advancing Sustainable Futures Through Entrepreneurship and Diplomacy.</p><p class="date">2–4 DECEMBER 2026 · SELANGOR INTERNATIONAL TRADE CENTER (SITC)</p></footer>
+</div>
+</article>
+</section>
+<section>
+<div class="tools"><h2>Classic Arch</h2><button type="button" aria-label="Print Classic Arch or save as PDF">Print / PDF</button></div>
+<article class="poster laurel" aria-label="Classic Arch award poster">
+<div class="canvas">
+
+<div class="mast"><img class="logo" alt="AiSED" src="../assets/aised-logo-wide.png"></div>
+<p class="event">International Conference 2026</p>
+<div class="hero"><p class="category">Student Category</p><h3 class="award">Best Paper<br>Award</h3></div>
+<div class="recipient"><p class="presented">Presented to</p><p class="winner">Student Name</p><p class="institution">University or Institution</p><p class="paper">“Winning Paper Title”</p></div>
+<footer class="footer"><p>Harnessing AI, Empowering Innovation, Advancing Sustainable Futures Through Entrepreneurship and Diplomacy.</p><p class="date">2–4 DECEMBER 2026 · SELANGOR INTERNATIONAL TRADE CENTER (SITC)</p></footer>
+</div>
+</article>
+</section>
+<section>
+<div class="tools"><h2>Gold Ribbon</h2><button type="button" aria-label="Print Gold Ribbon or save as PDF">Print / PDF</button></div>
+<article class="poster ribbon" aria-label="Gold Ribbon award poster">
+<div class="canvas">
+
+<div class="mast"><img class="logo" alt="AiSED" src="../assets/aised-logo-wide.png"></div>
+<p class="event">International Conference 2026</p>
+<div class="hero"><p class="category">Student Category</p><h3 class="award">Best Paper<br>Award</h3></div>
+<div class="recipient"><p class="presented">Presented to</p><p class="winner">Student Name</p><p class="institution">University or Institution</p><p class="paper">“Winning Paper Title”</p></div>
+<footer class="footer"><p>Harnessing AI, Empowering Innovation, Advancing Sustainable Futures Through Entrepreneurship and Diplomacy.</p><p class="date">2–4 DECEMBER 2026 · SELANGOR INTERNATIONAL TRADE CENTER (SITC)</p></footer>
+</div>
+</article>
+</section>
+<section>
+<div class="tools"><h2>Green Horizon</h2><button type="button" aria-label="Print Green Horizon or save as PDF">Print / PDF</button></div>
+<article class="poster horizon" aria-label="Green Horizon award poster">
+<div class="canvas">
+
 <div class="mast"><img class="logo" alt="AiSED" src="../assets/aised-logo-wide.png"></div>
 <p class="event">International Conference 2026</p>
 <div class="hero"><p class="category">Student Category</p><h3 class="award">Best Paper<br>Award</h3></div>
